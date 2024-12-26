@@ -32,7 +32,7 @@ function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64, k::In
         
         return v
     else
-        trial[i] += 1
+        trial[i] += 1c
         
         return f
     end
@@ -66,7 +66,7 @@ function employed_bee(population::Population, archive::Archive)
             while true
                 k = rand(RNG, keys(I_a))
                 
-                if I_p[i].genes[j] != I_a[k].genes[j] break end
+            if I_p[i].genes[j] != I_a[k].genes[j] break end
             end
             
             v[i, j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_a[k].genes[j])

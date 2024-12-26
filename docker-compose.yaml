@@ -21,7 +21,7 @@ services:
         limits:
           cpus: 2.0
           memory: 8G
-    command: ["julia", "main.jl", "test"]
+    command: ["bash"]
 
   julia-figure:
     container_name: julia-figure
