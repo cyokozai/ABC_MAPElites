@@ -169,7 +169,7 @@ function map_elites()
     # Print the solutions
     indPrint = if FIT_NOISE
         (ffn, ff) -> begin
-            println("Now best: ", best_solution.genes[1:10])
+            println("Now best: ", best_solution.genes[1:min(10, length(best_solution.genes))])
             println("Now noised best fitness: ", fitness(best_solution.benchmark[1]))
             println("Now corrected best fitness: ", fitness(best_solution.benchmark[2]))
             println("Now best behavior: ", best_solution.behavior)
@@ -179,7 +179,7 @@ function map_elites()
         end
     else
         (ffn, ff) -> begin
-            println("Now best: ", best_solution.genes[1:10])
+            println("Now best: ", best_solution.genes[1:min(10, length(best_solution.genes))])
             println("Now best fitness: ", fitness(best_solution.benchmark[2]))
             println("Now best behavior: ", best_solution.behavior)
             

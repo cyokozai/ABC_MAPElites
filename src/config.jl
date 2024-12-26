@@ -9,7 +9,7 @@ using Dates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Method
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
-OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
+OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "griewank"
 
 # MAP Method: grid, cvt
 MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
@@ -70,6 +70,10 @@ elseif OBJ_F == "schwefel"
     30000
 else
     100000
+end
+
+if length(ARGS) > 0 && ARGS[1] == "test"
+    MAXTIME = 100
 end
 
 #----------------------------------------------------------------------------------------------------#

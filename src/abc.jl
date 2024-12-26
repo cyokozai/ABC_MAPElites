@@ -32,7 +32,7 @@ function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64, k::In
         
         return v
     else
-        trial[i] += 1c
+        trial[i] += 1
         
         return f
     end
