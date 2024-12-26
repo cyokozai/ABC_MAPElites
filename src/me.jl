@@ -164,7 +164,7 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Map Elites algorithm
 function map_elites()
-    global best_solution, vorn
+    global best_solution
 
     # Print the solutions
     indPrint = if FIT_NOISE
