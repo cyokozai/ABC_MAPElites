@@ -14,13 +14,14 @@ using Dates
 path = "./result/testdata/"
 
 LOW, UPP = -5.12, 5.12
-D    = 2
-kmax = 100
+D = 2
+N = 50
+k_max = 100
 cvt_vorn_data_update = 1
 
 seed   = Int(Dates.now().instant.periods.value)
 rng    = StableRNG(seed)
-points = [rand(rng, D) .* (UPP - LOW) .+ LOW for _ in 1:kmax]
+points = [rand(rng, D) .* (UPP - LOW) .+ LOW for _ in 1:k_max - 4]
 
 append!(points, [[UPP, UPP], [UPP, LOW], [LOW, UPP], [LOW, LOW]])
 
@@ -28,70 +29,91 @@ vorn = centroidal_smooth(voronoi(triangulate(points; rng), clip = false); maxite
 Centroidal_point_list = DelaunayTriangulation.get_polygon_points(vorn)
 Centroidal_polygon_list = DelaunayTriangulation.get_generators(vorn)
 
-save("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "voronoi", vorn)
-save("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "point", Centroidal_point_list)
-save("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "polygon", Centroidal_polygon_list)
+print(Centroidal_point_list)
+println()
+println(length(Centroidal_point_list))
+print(Centroidal_polygon_list)
+println()
+println(length(Centroidal_polygon_list))
+
+save("$(path)CVT-test-$(cvt_vorn_data_update)-voronoi.jld2", "voronoi", vorn)
+save("$(path)CVT-test-$(cvt_vorn_data_update)-point.jld2", "point", Centroidal_point_list)
+save("$(path)CVT-test-$(cvt_vorn_data_update)-polygon.jld2", "polygon", Centroidal_polygon_list)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+load_vorn    = load("$(path)CVT-test-$(cvt_vorn_data_update)-voronoi.jld2", "voronoi")
+load_point   = load("$(path)CVT-test-$(cvt_vorn_data_update)-point.jld2", "point")
+load_polygon = load("$(path)CVT-test-$(cvt_vorn_data_update)-polygon.jld2", "polygon")
 
-# ファイルに保存されているキーを確認するコードを追加
-file_keys = JLD2.jldopen("$(path)CVT-test-$(cvt_vorn_data_update).jld2") do file
-    keys(file)
-end
-println("Keys in the file: ", file_keys)
+Data = zeros(Float64, N)
 
-# 正しいキーを使用するように修正
-load_vorn    = load("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "voronoi")
-load_point   = load("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "point")
-load_polygon = load("$(path)CVT-test-$(cvt_vorn_data_update).jld2", "polygon")
+print(load_point)
+println()
+println(length(load_point))
+println(maximum(load_point))
+print(load_polygon)
+println()
+println(length(load_polygon))
+println(maximum(load_polygon))
 
 fig = Figure()
-
+  
 ax = Axis(
     fig[1, 1], 
     limits = ((-3, 3), (-3, 3)), 
     xlabel = L"b_1", 
     ylabel = L"b_2",
-    width = 400, 
+    width  = 400, 
     height = 400
-)
-
-voronoiplot!(
-    ax, 
-    load_vorn, 
-    color = :white, 
-    strokewidth = 1.0, 
-    show_generators = true
 )
 
 resize_to_layout!(fig)
 
-for _ in 1:50
-    instance = rand(rng, D) .* (UPP - LOW) .+ LOW
-    fitness  = sum((instance .- 0) .^ 2)
+cellFitness = Dict{Int, Float64}(Int(key) => 0.0 for key in 1:k_max)
+instances = Dict{Int, Vector{Float64}}()
+colormap = cgrad(:viridis)
+colors   = [colormap[1] for _ in 1:k_max]
+
+for _ in 1:N
+    instance  = rand(rng, D) .* (UPP - LOW) .+ LOW
+    benchmark = sum((instance .- 0) .^ 2)
+    fitness   = benchmark > 0 ? 1.0 / (1.0 + benchmark) : 1.0 + abs(benchmark)
     
-    distances = [norm([instance[1] - centroid[1], instance[2] - centroid[2]], 2) for centroid in Centroidal_point_list]
+    distances = [norm([instance[1] - centroid[1], instance[2] - centroid[2]], 2) for centroid in values(load_polygon)]
     closest_centroid_index = argmin(distances)
-    closest_centroid = load_point[closest_centroid_index]
-    
-    println("The point $(instance) is closest to the centroid at $(closest_centroid), which corresponds to polygon index $(closest_centroid_index).")
-    
-    scatter!(ax, [instance[1]], [instance[2]], markersize = 20, color = :black)
+
+    cellFitness[closest_centroid_index] = fitness
+    instances[closest_centroid_index] = instance
+    colors[closest_centroid_index] = colormap[round(Int, fitness * (length(colormap) - 1) + 1)]
 end
+
+voronoiplot!(
+    ax, 
+    load_vorn,
+    color = colors,
+    strokewidth = 0.01,
+    show_generators = false,
+    clip = (LOW, UPP, LOW, UPP)
+)
 
 Colorbar(
     fig[1, 2],
-    limits = (0, maximum(Data)),
-    ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-    colormap = :heat,
+    limits   = (0.0, 1.0),
+    ticks    = 0:0.25:1.0,
+    colormap = :viridis,
     highclip = :red,
-    lowclip = :white,
-    label = "Update frequency"
+    lowclip  = :white,
+    label    = "Update frequency"
 )
+
+for (index, instance) in instances
+    scatter!(ax, [instance[1]], [instance[2]], color = :black, markersize = 10)
+end
 
 resize_to_layout!(fig)
 
 # PDFに保存するコード
+mkpath("./result/testdata/pdf")
 save("./result/testdata/pdf/output_graph.pdf", fig)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

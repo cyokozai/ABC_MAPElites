@@ -112,7 +112,7 @@ for f in filepath
             end
         end
     end
-end       
+end
 
 fig = Figure()  # Add this line to define fig
 
@@ -121,21 +121,21 @@ ax = [Axis(
     limits = ((LOW, UPP), (LOW, UPP)),
     xlabel = L"b_1",
     ylabel = L"b_2",
-    width=500,
-    height=500
+    width  = 500,
+    height = 500
 ),
 Axis(
     fig[1, 3],
     limits = ((LOW * 0.2, UPP * 0.2), (LOW * 0.2, UPP * 0.2)),
     xlabel = L"b_1",
     ylabel = L"b_2",
-    width=500,
-    height=500
+    width  = 500,
+    height = 500
 )]
 
 if !isempty(Data)
     colormap = cgrad(:heat)
-    colors = [colormap[round(Int, (d - minimum(Data)) / (maximum(Data) - minimum(Data)) * (length(colormap) - 1) + 1)] for d in Data]  # Normalize Data values to colormap indices
+    colors   = [colormap[round(Int, (d - minimum(Data)) / (maximum(Data) - minimum(Data)) * (length(colormap) - 1) + 1)] for d in Data]  # Normalize Data values to colormap indices
 
     Colorbar(
         fig[1, 2],

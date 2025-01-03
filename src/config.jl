@@ -93,7 +93,7 @@ MUTANT_R  = 0.90
 cvt_vorn_data_update_limit = length(ARGS) > 4 ? parse(Int64, ARGS[5]) : 3
 
 # CVT Max iteration | Default: 100
-CVT_MAXIT = 100
+CVT_MAX_ITER = 100
 
 #----------------------------------------------------------------------------------------------------#
 # DE parameter

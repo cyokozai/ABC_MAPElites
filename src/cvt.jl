@@ -34,13 +34,12 @@ cvt_vorn_data_update = 0
 function init_CVT(population::Population)
     global vorn, cvt_vorn_data_update
     
-    points = [rand(RNG, BD) .* (UPP - LOW) .+ LOW for _ in 1:k_max - (N + 4)]
+    points   = [rand(RNG, BD) .* (UPP - LOW) .+ LOW for _ in 1:k_max - (N + 4)]
     behavior = [population.individuals[i].behavior for i in 1:N]
     append!(points, behavior)
     append!(points, [[UPP, UPP], [UPP, LOW], [LOW, UPP], [LOW, LOW]])
-
-    vorn = centroidal_smooth(voronoi(triangulate(points; rng = RNG), clip = false); maxiters = CVT_MAXIT, rng = RNG)
     
+    vorn = centroidal_smooth(voronoi(triangulate(points; rng = RNG), clip = false); maxiters = CVT_MAX_ITER, rng = RNG)
     save("$(output)$(METHOD)/$(OBJ_F)/CVT-$(FILENAME)-$(cvt_vorn_data_update).jld2", "voronoi", vorn)
     
     cvt_vorn_data_update += 1

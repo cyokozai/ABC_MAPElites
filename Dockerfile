@@ -4,7 +4,6 @@ FROM ubuntu:latest AS builder
 SHELL ["/bin/bash", "-c"]
 
 ARG lang="C"
-ARG dir="workdir"
 ARG version="1.10"
 ARG patch="5"
 
@@ -39,4 +38,5 @@ RUN apt -y update && apt -y upgrade &&\
 
 #~~~~~~~~~~~~~~~~~~~~~~ EDIT ~~~~~~~~~~~~~~~~~~~~~~~#
 
-COPY make-plot.jl make-vorn.jl cvt-test.jl src/logger.jl src/config.jl /root/
+WORKDIR /root/
+COPY make-*.jl cvt-test.jl src/*.jl /root/
