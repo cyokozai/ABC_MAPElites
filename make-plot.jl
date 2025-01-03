@@ -35,9 +35,9 @@ function MakeFigure()
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
             xlabelsize=18,
-            xlabel=L"\text{Generation} \quad (\times 10^4)",
+            xlabel=L"\mathrm{Generation\,} (\times 10^4)",
             ylabelsize=18,
-            ylabel=L"\text{Function Value}",
+            ylabel=L"\mathrm{Fitness\,}",
             title="Test data",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
@@ -56,7 +56,7 @@ function MakeFigure()
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
-            ylabel=L"\text{Function Value}",
+            ylabel=L"\text{Fitness}",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
@@ -74,7 +74,7 @@ function MakeFigure()
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
-            ylabel=L"\text{Function Value}",
+            ylabel=L"\text{Fitness}",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
@@ -92,7 +92,7 @@ function MakeFigure()
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
-            ylabel=L"\text{Function Value}",
+            ylabel=L"\text{Fitness}",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
@@ -224,9 +224,9 @@ function ReadData(dir::String)
             end
 
             if m <= 3
-                Data["$(method)-noised"] = data
-            else
                 Data["$(method)"] = data
+            else
+                Data["$(method)-noised"] = data
             end
         end
     end
@@ -268,15 +268,10 @@ function PlotData(Data, fig, axis)
         push!(keys, key)
     end
 
-    legend_keys = ["default", "default-noised", "de", "de-noised", "abc", "abc-noised"]
-    legend_labels = ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"]
-    legend_items = [linedata[key] for key in legend_keys if haskey(linedata, key)]
-    legend_labels = [label for (key, label) in zip(legend_keys, legend_labels) if haskey(linedata, key)]
-
     axislegend(
         axis[1],
-        legend_items,
-        legend_labels,
+        [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+        ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
         position=:cb, fontsize=16, orientation = :horizontal
     )
     

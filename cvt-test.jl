@@ -51,7 +51,7 @@ ax = Axis(
     fig[1, 1], 
     limits = ((-3, 3), (-3, 3)), 
     xlabel = L"b_1", 
-    ylabel = L"b_2", 
+    ylabel = L"b_2",
     width = 400, 
     height = 400
 )
