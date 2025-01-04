@@ -56,7 +56,6 @@ filedate = m !== nothing ? m.captures[1] : ""
 println("Extracted date: ", filedate)
 
 load_vorn = load(loadpath, "voronoi")
-Centroidal_polygon_list = DelaunayTriangulation.get_generators(load_vorn)
 
 filepath = if ARGS[1] == "test"
     dir = "./result/testdata/"
