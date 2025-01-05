@@ -16,8 +16,8 @@ using Printf
 path = "./result/testdata/"
 
 D = 2
-N = 5
-k_max = 5
+N = 10
+k_max = 10
 
 cvt_vorn_data_update = 1
 LOW, UPP = -5.12, 5.12
@@ -50,7 +50,7 @@ ax = Axis(
 
 resize_to_layout!(fig)
 
-cellFitness = Dict{Int, Float64}(Int(key) => 0.0 for key in keys(load_vorn))
+cellFitness = Dict{Int, Float64}(Int(key) => 0.0 for key in keys(load_polygon))
 instances = Dict{Int, Vector{Float64}}()
 colormap = ColorSchemes.viridis
 colors   = [colormap[1] for _ in 1:k_max]
