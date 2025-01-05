@@ -69,7 +69,7 @@ for _ in 1:N
 end
 
 colors = map_fitness_to_color(cellFitness, colormap)
-polygon_colors = [colors[i] for i in 1:k_max]
+polygon_colors = [colors[i] for i in keys(load_polygon)]
 
 voronoiplot!(
     ax, 
