@@ -62,10 +62,10 @@ Colorbar(
     label    = "Evaluation value"
 )
 
-# for (index, instance) in instances
-#     scatter!(ax, [instance[1]], [instance[2]], color = :black, markersize = 10)
-#     text!(ax, [instance[1]], [instance[2]], text = @sprintf("%.4f", cellFitness[index]), align = (:center, :bottom), color = :black)
-# end
+for (index, instance) in instances
+    scatter!(ax, [instance[1]], [instance[2]], color = :black, markersize = 10)
+    text!(ax, [instance[1]], [instance[2]], text = @sprintf("%.4f", cellFitness[index]), align = (:center, :bottom), color = :black)
+end
 
 resize_to_layout!(fig)
 
