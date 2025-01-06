@@ -133,25 +133,21 @@ Axis(
 )]
 
 if !isempty(Data)
-    colormap = cgrad(:heat)
+    colormap = cgrad(:viridis)
     colors   = [colormap[round(Int, (d - minimum(Data)) / (maximum(Data) - minimum(Data)) * (length(colormap) - 1) + 1)] for d in Data]  # Normalize Data values to colormap indices
 
     Colorbar(
         fig[1, 2],
         limits = (0, maximum(Data)),
         ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-        colormap = :heat,
-        highclip = :red,
-        lowclip = :white,
+        colormap = :viridis,
         label = "Update frequency"
     )
     Colorbar(
         fig[1, 4],
         limits = (0, maximum(Data)),
         ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-        colormap = :heat,
-        highclip = :red,
-        lowclip = :white,
+        colormap = :viridis,
         label = "Update frequency"
     )
 
