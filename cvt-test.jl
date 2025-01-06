@@ -14,8 +14,8 @@ using CairoMakie: RGB
 path = "./result/testdata/"
 
 D = 2
-N = 10
-k_max = 10
+N = 4000
+k_max = 25000
 
 cvt_vorn_data_update = 1
 LOW, UPP = -5.12, 5.12
@@ -26,8 +26,8 @@ rng    = StableRNG(seed)
 points = [rand(rng, D) .* (UPP - LOW) .+ LOW for _ in 1:k_max - 4]
 append!(points, [[UPP, UPP], [UPP, LOW], [LOW, UPP], [LOW, LOW]])
 
-# vorn = centroidal_smooth(voronoi(triangulate(points; rng), clip = false); maxiters = 1000, rng = rng)
-# save("$(path)CVT-cvttest-$(cvt_vorn_data_update).jld2", "voronoi", vorn)
+vorn = centroidal_smooth(voronoi(triangulate(points; rng), clip = false); maxiters = 1000, rng = rng)
+save("$(path)CVT-cvttest-$(cvt_vorn_data_update).jld2", "voronoi", vorn)
 
 load_vorn = load("$(path)CVT-cvttest-$(cvt_vorn_data_update).jld2", "voronoi")
 load_centroids = DelaunayTriangulation.get_polygon_points(load_vorn)
@@ -61,19 +61,16 @@ ax = Axis(
 
 resize_to_layout!(fig)
 
-colormap = cgrad(:viridis)
-
-colors = [colormap[round(Int, cellFitness[key] * 255) + 1] for (key, value) in sort(collect(cellFitness), by = x -> x[2], rev = false)]  # Fix color vector length
-
 voronoiplot!(
     ax, 
     load_vorn,
-    color = colors,
+    color = :white,
     strokewidth = 0.01,
     show_generators = false,
     clip = (LOW, UPP, LOW, UPP)
 )
 
+colormap = cgrad(:viridis)
 colors = [colormap[round(Int, cellFitness[key] * 255) + 1] for key in keys(instances)]
 
 scatter!(
@@ -81,17 +78,17 @@ scatter!(
     [instance[1] for instance in values(instances)], 
     [instance[2] for instance in values(instances)], 
     color = colors, 
-    markersize = [10 * cellFitness[key] for key in keys(instances)]
+    markersize = [(9 * (cellFitness[key])^(1/2) + 1) for key in keys(instances)]
 )
 
-text!(
-    ax, 
-    [instance[1] for instance in values(instances)],
-    [instance[2] for instance in values(instances)],
-    text = [@sprintf("%.4f", cellFitness[key]) for key in keys(instances)],
-    align = (:center, :bottom), 
-    color = :black
-)
+# text!(
+#     ax, 
+#     [instance[1] for instance in values(instances)],
+#     [instance[2] for instance in values(instances)],
+#     text = [@sprintf("%.4f", cellFitness[key]) for key in keys(instances)],
+#     align = (:center, :bottom), 
+#     color = :black
+# )
 
 Colorbar(
     fig[1, 2],
