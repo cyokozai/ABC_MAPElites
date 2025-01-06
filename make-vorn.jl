@@ -14,15 +14,17 @@ include("config.jl")
 
 include("benchmark.jl")
 
-include("logger.jl")
+# include("logger.jl")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-println("Usage: julia make-vorn.jl [test|result] [benchmark] [date] [name]")
 
-if length(ARGS) < 4
-    println("Error: Insufficient arguments provided.")
-    exit(1)
-end
+method_name = ARGS[2]
+map_name = ARGS[3]
+function_name = ARGS[4]
+cvtchenge = ARGS[5]
+closeup = 0.2
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 load_path = if ARGS[1] == "test"
     global LOW, UPP = -5.12, 5.12
@@ -33,11 +35,11 @@ load_path = if ARGS[1] == "test"
 
     [path for path in readdir(dir) if occursin("test-", path) && occursin("CVT-", path)]
 else
-    dir = "./result/$(ARGS[4])/$(ARGS[2])/"
+    dir = "./result/$(method_name)/$(function_name)/"
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
-    [path for path in readdir(dir) if occursin("CVT-", path) && occursin("$(ARGS[4])-$(ARGS[3])-$(ARGS[2])-$(ARGS[1])", path)]
+    [path for path in readdir(dir) if occursin("CVT-", path) && occursin("$(method_name)-$(map_name)-$(function_name)-", path)]
 end
 
 if isempty(load_path)
@@ -65,15 +67,15 @@ filepath = if ARGS[1] == "test"
     
     [path for path in readdir(dir) if occursin("test-", path) && occursin("result-", path)]
 else
-    dir = "./result/$(ARGS[4])/$(ARGS[2])/"
+    dir = "./result/$(method_name)/$(function_name)/"
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
 
-    [path for path in readdir(dir) if occursin("result-$(filedate)-$(ARGS[4])-$(ARGS[3])-$(ARGS[2])-$(ARGS[1])", path)]
+    [path for path in readdir(dir) if occursin("result-$(filedate)-$(method_name)-$(map_name)-$(function_name)-$(ARGS[1])", path)]
 end
 
-Data = Vector{Int64}()  # Change the type to Vector{Int64}
+updateCountData = Vector{Int64}()  # Change the type to Vector{Int64}
 BestPoint = Vector{Tuple{Float64, Float64}}()  # Change the type to Vector{Tuple{Float64, Float64}}
 
 for f in filepath
@@ -98,7 +100,7 @@ for f in filepath
                     parsed_value = tryparse(Int64, line)
                     
                     if parsed_value !== nothing && parsed_value >= 0
-                        push!(Data, parsed_value)  # Use push! to add elements to Data
+                        push!(updateCountData, parsed_value)  # Use push! to add elements to Data
                     end
                 elseif occursin("Best behavior:", line)
                     m = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)  # Use regex to extract two floats
@@ -125,36 +127,35 @@ ax = [Axis(
 ),
 Axis(
     fig[1, 3],
-    limits = ((LOW * 0.2, UPP * 0.2), (LOW * 0.2, UPP * 0.2)),
+    limits = ((LOW * closeup, UPP * closeup), (LOW * closeup, UPP * closeup)),
     xlabel = L"b_1",
     ylabel = L"b_2",
     width  = 500,
     height = 500
 )]
 
-if !isempty(Data)
-    colormap = cgrad(:viridis)
-    colors   = [colormap[round(Int, (d - minimum(Data)) / (maximum(Data) - minimum(Data)) * (length(colormap) - 1) + 1)] for d in Data]  # Normalize Data values to colormap indices
-
+if !isempty(updateCountData)
+    colormap = cgrad(:heat)
+    
     Colorbar(
         fig[1, 2],
-        limits = (0, maximum(Data)),
-        ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-        colormap = :viridis,
+        limits = (0, maximum(updateCountData)),
+        ticks=(0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)])),
+        colormap = colormap,
         label = "Update frequency"
     )
     Colorbar(
         fig[1, 4],
-        limits = (0, maximum(Data)),
-        ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-        colormap = :viridis,
+        limits = (0, maximum(updateCountData)),
+        ticks=(0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)])),
+        colormap = colormap,
         label = "Update frequency"
     )
 
     voronoiplot!(
         ax[1],
         load_vorn,
-        color = colors,
+        color = :white,
         strokewidth = 0.01,
         show_generators = false,
         clip = (LOW, UPP, LOW, UPP)
@@ -162,13 +163,13 @@ if !isempty(Data)
     voronoiplot!(
         ax[2],
         load_vorn,
-        color = colors,
+        color = :white,
         strokewidth = 0.06,
         show_generators = false,
-        clip = (LOW * 0.2, UPP * 0.2, LOW * 0.2, UPP * 0.2)
+        clip = (LOW * closeup, UPP * closeup, LOW * closeup, UPP * closeup)
     )
 else
-    println("Data is empty. Skipping color mapping and plotting.")
+    println("updateCountData is empty. Skipping color mapping and plotting.")
 
     exit(1)
 end
@@ -183,12 +184,12 @@ filepath = if ARGS[1] == "test"
     
     [path for path in readdir(dir) if occursin("test-", path) && occursin("behavior-", path)]
 else
-    dir = "./result/$(ARGS[4])/$(ARGS[2])/"
+    dir = "./result/$(method_name)/$(function_name)/"
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
 
-    [path for path in readdir(dir) if occursin("behavior-$(filedate)-$(ARGS[4])-$(ARGS[3])-$(ARGS[2])-$(ARGS[1])", path)]
+    [path for path in readdir(dir) if occursin("behavior-$(filedate)-$(method_name)-$(map_name)-$(function_name)-$(ARGS[1])", path)]
 end
 
 Data = Vector{Tuple{Float64, Float64}}()  # Change the type to Vector{Tuple{Float64, Float64}}
@@ -221,25 +222,40 @@ for (i, f) in enumerate(filepath) # Change this line to iterate over readdir(dir
     end
 end
 
-for d in Data  # Change this line to iterate over Data
-    scatter!(ax[1], [d[1]], [d[2]], marker = :circle, markersize = 7, color = (:blue, 0.6))
-    scatter!(ax[2], [d[1]], [d[2]], marker = :circle, markersize = 14, color = (:blue, 0.6))
-end
 
-scatter!(ax[1], BestPoint, marker = :star5, markersize = 20, color = :green)
-scatter!(ax[2], BestPoint, marker = :star5, markersize = 50, color = :green)
+scatter!(
+    ax[1],
+    [d[1] for d in Data],
+    [d[2] for d in Data],
+    marker = :circle, 
+    markersize =  7, 
+    color = [(colormap[round(Int, (fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)) * (length(colormap) - 1) + 1)], 0.5 * ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)))^(1/2) + 0.4) for fit in updateCountData]
+)
+scatter!(
+    ax[2], 
+    [d[1] for d in Data],
+    [d[2] for d in Data],
+    marker = :circle, 
+    markersize = 14, 
+    color = [(colormap[round(Int, (fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)) * (length(colormap) - 1) + 1)], 0.3 * ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)))^(1/2) + 0.6) for fit in updateCountData]
+)
+
+scatter!(ax[1], BestPoint, marker = :star5, markersize = 20, color = :orange)
+scatter!(ax[2], BestPoint, marker = :star5, markersize = 50, color = :orange)
 
 poly!(
     ax[1], 
-    Rect(-UPP * 0.1, -UPP * 0.1, UPP * 0.2, UPP * 0.2),
-    strokecolor = :white,
-    color = (:white, 0.0),
+    Rect(-UPP * closeup, -UPP * closeup, UPP * 2 * closeup, UPP * 2 * closeup),
+    strokecolor = :blue,
+    color = (:blue, 0.0),
     strokewidth = 1.0
 )
 
 resize_to_layout!(fig)
 
-mkdir("result/$(ARGS[3])")
+if !isdir("result/$(ARGS[3])")
+    mkdir("result/$(ARGS[3])")
+end
 
 if ARGS[1] == "test"
     println("Saved: result/testdata/pdf/cvt-testdata.pdf")

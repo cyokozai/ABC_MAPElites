@@ -9,7 +9,7 @@ using Dates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Method
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
-OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "griewank"
+OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
 
 # MAP Method: grid, cvt
 MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
