@@ -85,7 +85,7 @@ function employed_bee(population::Population, archive::Archive)
             v_g[j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_a[k].genes[j])
         end
         
-        if objective_function(v_l) > objective_function(v_g)
+        if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
             population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
         else
             population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
@@ -128,7 +128,7 @@ function onlooker_bee(population::Population, archive::Archive)
             v_g[j] = u_g[j] + (rand(RNG) * 2.0 - 1.0) * (u_g[j] - I_a[k].genes[j])
         end
 
-        if objective_function(v_l) > objective_function(v_g)
+        if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
             population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
         else
             population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
