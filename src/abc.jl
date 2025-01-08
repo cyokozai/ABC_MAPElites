@@ -110,9 +110,6 @@ function onlooker_bee(population::Population, archive::Archive)
     Σ_fit_g = sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
     cum_p_g = cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_g for i in keys(I_a)])
 
-    println(length(keys(I_p)), " ", length(cum_p_l))
-    println(length(keys(I_a)), " ", length(cum_p_g))
-
     print(".")
     
     for i in 1:FOOD_SOURCE
@@ -120,7 +117,7 @@ function onlooker_bee(population::Population, archive::Archive)
         u_g[i, :] = deepcopy(I_a[roulleteSelection(cum_p_g, I_a)].genes)
         
         for j in 1:D
-            while I_p[i].genes[j] != I_a[k].genes[j] || j == l
+            while I_p[i].genes[j] == I_a[k].genes[j] || j == l
                 k = rand(RNG, keys(I_a))
                 l = rand(RNG, 1:D)
             end
