@@ -68,26 +68,27 @@ end
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
-    v_l, v_g = zeros(Float64, FOOD_SOURCE, D), zeros(Float64, FOOD_SOURCE, D)
-    k, l = rand(RNG, keys(I_a)), rand(RNG, 1:D)
+    v_l, v_g = zeros(Float64, D), zeros(Float64, D)
+    k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
     
     print(".")
-
+    
     for i in 1:FOOD_SOURCE
         for j in 1:D
-            while I_p[i].genes[j] == I_a[k].genes[j] || j == l
-                k = rand(RNG, keys(I_a))
-                l = rand(RNG, 1:D)
+            while true
+                k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+
+                if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
             end
             
-            v_l[i, j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_p[i].genes[l])
-            v_g[i, j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_a[k].genes[j])
+            v_l[j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_p[l].genes[j])
+            v_g[j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_a[k].genes[j])
         end
         
-        if objective_function(v_l[i, :]) > objective_function(v_g[i, :])
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l[i, :], i, k))
+        if objective_function(v_l) > objective_function(v_g)
+            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
         else
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g[i, :], i, k))
+            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
         end
     end
     
@@ -100,8 +101,8 @@ end
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
-    v_l, v_g = zeros(Float64, FOOD_SOURCE, D), zeros(Float64, FOOD_SOURCE, D)
-    u_l, u_g = zeros(Float64, FOOD_SOURCE, D), zeros(Float64, FOOD_SOURCE, D)
+    v_l, v_g = zeros(Float64, D), zeros(Float64, D)
+    u_l, u_g = zeros(Float64, D), zeros(Float64, D)
     k, l = rand(RNG, keys(I_a)), rand(RNG, 1:D)
 
     Σ_fit_l = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE)
@@ -113,23 +114,24 @@ function onlooker_bee(population::Population, archive::Archive)
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_l[i, :] = deepcopy(I_p[roulleteSelection(cum_p_l, I_p)].genes)
-        u_g[i, :] = deepcopy(I_a[roulleteSelection(cum_p_g, I_a)].genes)
+        u_l = deepcopy(I_p[roulleteSelection(cum_p_l, I_p)].genes)
+        u_g = deepcopy(I_a[roulleteSelection(cum_p_g, I_a)].genes)
         
         for j in 1:D
-            while I_p[i].genes[j] == I_a[k].genes[j] || j == l
-                k = rand(RNG, keys(I_a))
-                l = rand(RNG, 1:D)
+            while true
+                k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+
+                if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
             end
             
-            v_l[i, j] = u_l[i, j] + (rand(RNG) * 2.0 - 1.0) * (u_l[i, j] - I_p[i].genes[l])
-            v_g[i, j] = u_g[i, j] + (rand(RNG) * 2.0 - 1.0) * (u_g[i, j] - I_a[k].genes[j])
+            v_l[j] = u_l[j] + (rand(RNG) * 2.0 - 1.0) * (u_l[j] - I_p[l].genes[j])
+            v_g[j] = u_g[j] + (rand(RNG) * 2.0 - 1.0) * (u_g[j] - I_a[k].genes[j])
         end
 
-        if objective_function(v_l[i, :]) > objective_function(v_g[i, :])
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l[i, :], i, k))
+        if objective_function(v_l) > objective_function(v_g)
+            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
         else
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g[i, :], i, k))
+            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
         end
     end
     

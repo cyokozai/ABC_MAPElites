@@ -35,7 +35,7 @@ LOOP        = 2
 CVT_UPDATE = [1, 3, 5]
 
 # Prosess interval
-interbal = 10
+interbal = 30
 
 #------ Edit config ------------------------------#
 
