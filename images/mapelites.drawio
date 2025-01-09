@@ -3708,7 +3708,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="FY-IX9ltzKJqUXLlyyem" name="ページ6">
-    <mxGraphModel dx="445" dy="281" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="569" dy="360" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3735,6 +3735,9 @@
         </mxCell>
         <mxCell id="I6UsrdTuamLlnnZuFVH_-15" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;rotation=-90;" vertex="1" parent="1">
           <mxGeometry x="230" y="190" width="20" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="I6UsrdTuamLlnnZuFVH_-19" value="$$x^{j}_{i,g} + \left( \text{rand}_{j} \cdot 2 r_\text{noise} - r_\text{noise} \right) \cdot \frac{x^{j}_{\text{max}} - x^{j}_{\text{min}}}{2} \quad \text{if } j = j_\text{rand}$$" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="360" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
