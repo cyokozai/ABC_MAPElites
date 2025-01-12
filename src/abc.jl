@@ -22,10 +22,10 @@ trial = zeros(Int, FOOD_SOURCE)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Greedy selection
-function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64, k::Int64)
+function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64)
     global trial
 
-    v_b, f_b = (objective_function(noise(v)), objective_function(v)), (objective_function(noise(f)), objective_function(f))
+    f_b, v_b = (objective_function(noise(f)), objective_function(f)), (objective_function(noise(v)), objective_function(v))
     
     if fitness(v_b[fit_index]) > fitness(f_b[fit_index])
         trial[i] = 0
@@ -65,11 +65,15 @@ function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Uniform distribution
+φ = () -> rand(RNG) * 2.0 - 1.0
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
     v_l, v_g = zeros(Float64, D), zeros(Float64, D)
-    k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
     
     print(".")
     
@@ -81,14 +85,14 @@ function employed_bee(population::Population, archive::Archive)
                 if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
             end
             
-            v_l[j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_p[l].genes[j])
-            v_g[j] = I_p[i].genes[j] + (rand(RNG) * 2.0 - 1.0) * (I_p[i].genes[j] - I_a[k].genes[j])
+            v_l[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
+            v_g[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_a[k].genes[j])
         end
         
-        if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
+        population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
+            deepcopy(greedySelection(I_p[i].genes, v_l, i))
         else
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
+            deepcopy(greedySelection(I_p[i].genes, v_g, i))
         end
     end
     
@@ -103,7 +107,7 @@ function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
     v_l, v_g = zeros(Float64, D), zeros(Float64, D)
     u_l, u_g = zeros(Float64, D), zeros(Float64, D)
-    k, l = rand(RNG, keys(I_a)), rand(RNG, 1:D)
+    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:D)
 
     Σ_fit_l = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE)
     cum_p_l = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_l for i in 1:FOOD_SOURCE])
@@ -114,8 +118,8 @@ function onlooker_bee(population::Population, archive::Archive)
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_l = deepcopy(I_p[roulleteSelection(cum_p_l, I_p)].genes)
-        u_g = deepcopy(I_a[roulleteSelection(cum_p_g, I_a)].genes)
+        u_l = I_p[roulleteSelection(cum_p_l, I_p)].genes
+        u_g = I_a[roulleteSelection(cum_p_g, I_a)].genes
         
         for j in 1:D
             while true
@@ -124,14 +128,14 @@ function onlooker_bee(population::Population, archive::Archive)
                 if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
             end
             
-            v_l[j] = u_l[j] + (rand(RNG) * 2.0 - 1.0) * (u_l[j] - I_p[l].genes[j])
-            v_g[j] = u_g[j] + (rand(RNG) * 2.0 - 1.0) * (u_g[j] - I_a[k].genes[j])
+            v_l[j] = u_l[j] + φ() * (u_l[j] - I_p[l].genes[j])
+            v_g[j] = u_g[j] + φ() * (u_g[j] - I_a[k].genes[j])
         end
 
-        if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
+        population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
+            deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
         else
-            population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
+            deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
         end
     end
     

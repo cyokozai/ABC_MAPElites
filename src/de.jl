@@ -43,7 +43,7 @@ function DE(population::Population, archive::Archive)
         v = clamp.(I_a[r1].genes .+ F .* (I_a[r2].genes .- I_a[r3].genes), LOW, UPP)
         u = crossover(I_p[i].genes, v)
         u_noised = noise(u)
-
+        
         b = (objective_function(u_noised), objective_function(u))
         
         if fitness(b[fit_index]) > fitness(I_a[r1].benchmark[fit_index])
