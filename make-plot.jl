@@ -34,6 +34,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
+            teztsize=18,
             xlabelsize=18,
             xlabel=L"\mathrm{Generation\,} (\times 10^4)",
             ylabelsize=18,
@@ -53,6 +54,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
+            teztsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -71,6 +73,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
+            teztsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -89,6 +92,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
+            teztsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,

@@ -264,16 +264,22 @@ for iter in ["FitnessValue"]
     ax = [Axis(
         fig[1, 1],
         limits = ((LOW, UPP), (LOW, UPP)),
+        teztsize=18,
         xlabel = L"b_1",
+        xlabelsize = 18,
         ylabel = L"b_2",
+        ylabelsize = 18,
         width  = 500,
         height = 500
     ),
     Axis(
         fig[1, 3],
         limits = ((LOW * closeup, UPP * closeup), (LOW * closeup, UPP * closeup)),
+        teztsize=18,
         xlabel = L"b_1",
+        xlabelsize = 18,
         ylabel = L"b_2",
+        ylabelsize = 18,
         width  = 500,
         height = 500
     )]
@@ -299,6 +305,7 @@ for iter in ["FitnessValue"]
 
     scatter!(
         ax[1],
+        teztsize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -311,6 +318,7 @@ for iter in ["FitnessValue"]
     )
     scatter!(
         ax[2], 
+        teztsize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -332,6 +340,7 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
+        teztsize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
@@ -351,6 +360,7 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
+        teztsize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
