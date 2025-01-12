@@ -26,11 +26,11 @@ cvtchange = ARGS[5]
 
 
 closeup = if function_name == "rastrigin"
-    0.2
+    0.25
 elseif function_name == "rosenbrock"
-    0.2
+    0.25
 elseif function_name == "sphere"
-    0.05
+    0.1
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -327,11 +327,15 @@ for iter in ["FitnessValue"]
 
     Colorbar(
         fig[1, 2],
-        limits = (0, maximum(updateCountData)),
+        limits = if iter == "UpdateFrequency"
+            (0, maximum(updateCountData))
+        else
+            (0.0, 1.0)
+        end,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
-            (0:0.25:1.0, string.([0.00, 0.25, 0.50, 0.75, 1.00]))
+            (0:0.25:1.0, string.(["0.00", "0.25", "0.50", "0.75", "1.00"]))
         end,
         colormap = colormap,
         label = if iter == "UpdateFrequency"
@@ -342,11 +346,15 @@ for iter in ["FitnessValue"]
     )
     Colorbar(
         fig[1, 4],
-        limits = (0, maximum(updateCountData)),
+        limits = if iter == "UpdateFrequency"
+            (0, maximum(updateCountData))
+        else
+            (0.0, 1.0)
+        end,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
-            (0:0.25:1.0, string.([0.00, 0.25, 0.50, 0.75, 1.00]))
+            (0:0.25:1.0, string.(["0.00", "0.25", "0.50", "0.75", "1.00"]))
         end,
         colormap = colormap,
         label = if iter == "UpdateFrequency"
