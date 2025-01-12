@@ -133,9 +133,9 @@ function onlooker_bee(population::Population, archive::Archive)
         end
 
         population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
-            deepcopy(greedySelection(I_p[i].genes, v_l, i, k))
+            deepcopy(greedySelection(I_p[i].genes, v_l, i))
         else
-            deepcopy(greedySelection(I_p[i].genes, v_g, i, k))
+            deepcopy(greedySelection(I_p[i].genes, v_g, i))
         end
     end
     
