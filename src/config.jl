@@ -47,7 +47,9 @@ FIT_NOISE = true
 r_noise   = 0.01
 
 # Number of max time | Default: 100000
-MAXTIME   = if OBJ_F == "sphere"
+MAXTIME   = if CONV_FLAG == false
+    100000
+elseif OBJ_F == "sphere"
     # Sphere
     30000
 elseif OBJ_F == "rosenbrock"
@@ -55,7 +57,7 @@ elseif OBJ_F == "rosenbrock"
     60000
 elseif OBJ_F == "rastrigin"
     # Rastrigin
-    30000
+    50000
 elseif OBJ_F == "griewank"
     # Griewank
     30000
