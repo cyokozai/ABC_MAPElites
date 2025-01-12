@@ -1,6 +1,6 @@
 services:
-  julia-run-abc-1-sphere:
-    container_name: "julia-run-abc-1-sphere"
+  julia-run-default-3-sphere:
+    container_name: "julia-run-default-3-sphere"
     tty: true
     build:
       context: .
@@ -13,7 +13,7 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - FUNCTION=sphere
-      - METHOD=abc
+      - METHOD=default
       - D=10 50 100
       - LOOP=1 2
     deploy:
@@ -21,7 +21,122 @@ services:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 1; done; done; done"]
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+  julia-run-default-3-rosenbrock:
+    container_name: "julia-run-default-3-rosenbrock"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    working_dir: /root/src
+    volumes:
+      - ./src:/root/src
+    networks:
+      - default
+    environment:
+      - TZ=Asia/Tokyo
+      - FUNCTION=rosenbrock
+      - METHOD=default
+      - D=10 50 100
+      - LOOP=1 2
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 8G 
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+  julia-run-default-3-rastrigin:
+    container_name: "julia-run-default-3-rastrigin"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    working_dir: /root/src
+    volumes:
+      - ./src:/root/src
+    networks:
+      - default
+    environment:
+      - TZ=Asia/Tokyo
+      - FUNCTION=rastrigin
+      - METHOD=default
+      - D=10 50 100
+      - LOOP=1 2
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 8G 
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+  julia-run-de-3-sphere:
+    container_name: "julia-run-de-3-sphere"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    working_dir: /root/src
+    volumes:
+      - ./src:/root/src
+    networks:
+      - default
+    environment:
+      - TZ=Asia/Tokyo
+      - FUNCTION=sphere
+      - METHOD=de
+      - D=10 50 100
+      - LOOP=1 2
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 8G 
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
+  julia-run-de-3-rosenbrock:
+    container_name: "julia-run-de-3-rosenbrock"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    working_dir: /root/src
+    volumes:
+      - ./src:/root/src
+    networks:
+      - default
+    environment:
+      - TZ=Asia/Tokyo
+      - FUNCTION=rosenbrock
+      - METHOD=de
+      - D=10 50 100
+      - LOOP=1 2
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 8G 
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
+  julia-run-de-3-rastrigin:
+    container_name: "julia-run-de-3-rastrigin"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile.run
+    working_dir: /root/src
+    volumes:
+      - ./src:/root/src
+    networks:
+      - default
+    environment:
+      - TZ=Asia/Tokyo
+      - FUNCTION=rastrigin
+      - METHOD=de
+      - D=10 50 100
+      - LOOP=1 2
+    deploy:
+      resources:
+        limits:
+          cpus: 1.0
+          memory: 8G 
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
   julia-run-abc-3-sphere:
     container_name: "julia-run-abc-3-sphere"
     tty: true
@@ -44,53 +159,7 @@ services:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
-  julia-run-abc-5-sphere:
-    container_name: "julia-run-abc-5-sphere"
-    tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile.run
-    working_dir: /root/src
-    volumes:
-      - ./src:/root/src
-    networks:
-      - default
-    environment:
-      - TZ=Asia/Tokyo
-      - FUNCTION=sphere
-      - METHOD=abc
-      - D=10 50 100
-      - LOOP=1 2
-    deploy:
-      resources:
-        limits:
-          cpus: 1.0
-          memory: 8G 
-    command: ["sh", "-c", "sleep 60; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 5; done; done; done"]
-  julia-run-abc-1-rosenbrock:
-    container_name: "julia-run-abc-1-rosenbrock"
-    tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile.run
-    working_dir: /root/src
-    volumes:
-      - ./src:/root/src
-    networks:
-      - default
-    environment:
-      - TZ=Asia/Tokyo
-      - FUNCTION=rosenbrock
-      - METHOD=abc
-      - D=10 50 100
-      - LOOP=1 2
-    deploy:
-      resources:
-        limits:
-          cpus: 1.0
-          memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 1; done; done; done"]
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
   julia-run-abc-3-rosenbrock:
     container_name: "julia-run-abc-3-rosenbrock"
     tty: true
@@ -113,53 +182,7 @@ services:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
-  julia-run-abc-5-rosenbrock:
-    container_name: "julia-run-abc-5-rosenbrock"
-    tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile.run
-    working_dir: /root/src
-    volumes:
-      - ./src:/root/src
-    networks:
-      - default
-    environment:
-      - TZ=Asia/Tokyo
-      - FUNCTION=rosenbrock
-      - METHOD=abc
-      - D=10 50 100
-      - LOOP=1 2
-    deploy:
-      resources:
-        limits:
-          cpus: 1.0
-          memory: 8G 
-    command: ["sh", "-c", "sleep 60; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 5; done; done; done"]
-  julia-run-abc-1-rastrigin:
-    container_name: "julia-run-abc-1-rastrigin"
-    tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile.run
-    working_dir: /root/src
-    volumes:
-      - ./src:/root/src
-    networks:
-      - default
-    environment:
-      - TZ=Asia/Tokyo
-      - FUNCTION=rastrigin
-      - METHOD=abc
-      - D=10 50 100
-      - LOOP=1 2
-    deploy:
-      resources:
-        limits:
-          cpus: 1.0
-          memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 1; done; done; done"]
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
   julia-run-abc-3-rastrigin:
     container_name: "julia-run-abc-3-rastrigin"
     tty: true
@@ -182,30 +205,7 @@ services:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
-  julia-run-abc-5-rastrigin:
-    container_name: "julia-run-abc-5-rastrigin"
-    tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile.run
-    working_dir: /root/src
-    volumes:
-      - ./src:/root/src
-    networks:
-      - default
-    environment:
-      - TZ=Asia/Tokyo
-      - FUNCTION=rastrigin
-      - METHOD=abc
-      - D=10 50 100
-      - LOOP=1 2
-    deploy:
-      resources:
-        limits:
-          cpus: 1.0
-          memory: 8G 
-    command: ["sh", "-c", "sleep 60; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 5; done; done; done"]
+    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
 
 networks:
   default:

@@ -47,12 +47,12 @@ services:
         limits:
           cpus: 2.0
           memory: 8G
-    # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f; do for m in $$METHOD; for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$f cvt $$m $$cup; done; done; done; done"]
+    command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f && for m in $$METHOD; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
     # command: ["sh", "-c", "for d in $$D; do for m in $$METHOD; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$f cvt $$m $$cup; done; done; done"]
     # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f; done; done"]
     # command: ["julia", "make-table.jl"]
     # command: ["julia", "make-vorn.jl", "10", "abc", "cvt", "sphere", "4"]
-    command: ["sh", "-c", "for f in $$FUNCTION; do for m in $$METHOD; do for d in $$D; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
+    # command: ["sh", "-c", "for f in $$FUNCTION; do for m in $$METHOD; do for d in $$D; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
 
 networks:
   default:

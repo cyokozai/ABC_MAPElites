@@ -283,9 +283,11 @@ end
 function SavePDF(fig)
     if ARGS[1] == "test"
         println("Saved: result/testdata/pdf/testdata.pdf")
+
         save("result/testdata/pdf/fitness-testdata.pdf", fig)
     else
         println("Saved: result/graph/$(ARGS[2])-$(ARGS[1]).pdf")
+        
         save("result/graph/$(ARGS[2])-$(ARGS[1]).pdf", fig)
     end
 end
@@ -295,10 +297,16 @@ end
 function main()
     println("Start the plotting process")
     data = if ARGS[1] == "test"
-        mkpath("./result/testdata/pdf/")
+        if isdir("./result/testdata/")
+            mkpath("./result/testdata/pdf/")
+        end
+
         ReadData("./result/testdata/")
     else
-        mkpath("./result/pdf/")
+        if isdir("./result/pdf/")
+            mkpath("./result/pdf/")
+        end
+
         ReadData("./result/")
     end
     
