@@ -44,7 +44,7 @@ function DE(population::Population, archive::Archive)
         u = crossover(I_p[i].genes, v)
         u_noised = noise(u)
 
-        b = (u_noised, u)
+        b = (objective_function(u_noised), objective_function(u))
         
         if fitness(b[fit_index]) > fitness(I_a[r1].benchmark[fit_index])
             archive.individuals[r1] = Individual(deepcopy(u), b, devide_gene(u))
