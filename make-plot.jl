@@ -34,7 +34,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            fontsize=18,
+            titlesize=18,
             xlabelsize=18,
             xlabel=L"\mathrm{Generation\,} (\times 10^4)",
             ylabelsize=18,
@@ -54,7 +54,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
-            fontsize=18,
+            titlesize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -73,7 +73,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
-            fontsize=18,
+            titlesize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -92,7 +92,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            fontsize=18,
+            titlesize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -290,10 +290,10 @@ function main()
     end
     
     println("Read data")
-    if data == ""
+    if data == nothing
         println("No data to plot. Exiting.")
         
-        return
+        return 1
     end
     
     println("Make figure")
