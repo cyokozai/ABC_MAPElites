@@ -126,6 +126,8 @@
 | `FOOD_SOURCE`                  | ABCの食料源（探索限界トライアル数）                                 | `N`                |                                       |
 | `TC_LIMIT`                     | ABCの探索限界トライアル数                                           | `D * floor(Int, k_max / (10 * FOOD_SOURCE))` | |
 
+---
+
 ## Graphs and plots
 
 ### Make the convergence graphs and vorn plot in PDF
