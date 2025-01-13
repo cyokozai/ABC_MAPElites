@@ -54,8 +54,6 @@
 
 - Open `./src/config.jl`
 
-以下は提供されたコードに基づいてMarkdown形式で作成したパラメータの表です。
-
 ---
 
 ### General Parameters
