@@ -1,4 +1,4 @@
-# CVT ABC MAP-Elites
+# ABC MAP-Elites
 
 ## How to use this program
 

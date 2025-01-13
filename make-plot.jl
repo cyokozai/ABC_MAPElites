@@ -34,7 +34,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            teztsize=18,
+            fontsize=18,
             xlabelsize=18,
             xlabel=L"\mathrm{Generation\,} (\times 10^4)",
             ylabelsize=18,
@@ -54,7 +54,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
-            teztsize=18,
+            fontsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -73,7 +73,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
-            teztsize=18,
+            fontsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -92,7 +92,7 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            teztsize=18,
+            fontsize=18,
             xlabelsize=18,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=18,
@@ -125,7 +125,7 @@ function ReadData(dir::String)
         data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
         if length(filepath) == 0
-            println("No such file: $(ARGS)")
+            println("No such file: $filepath")
             
             return nothing
         else
@@ -149,20 +149,8 @@ function ReadData(dir::String)
                             
                             if reading_data
                                 parsed_value = tryparse(Float64, line)
+                                data[i, j] = parsed_value
 
-                                if parsed_value == 0.0
-                                    data[i, j] = old
-                                else
-                                    o_val = 1.0/parsed_value - 1.0
-
-                                    if o_val < 0.0
-                                        data[i, j] = abs(parsed_value - 1.0)
-                                    else
-                                        data[i, j] = o_val
-                                    end
-                                end
-
-                                old = parsed_value
                                 j += 1
                             end
                         end
@@ -182,7 +170,7 @@ function ReadData(dir::String)
             data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
             if length(filepath) == 0
-                println("No such file: $ARGS")
+                println("No such file: $filepath")
                 
                 return nothing
             else
@@ -204,22 +192,9 @@ function ReadData(dir::String)
                                 
                                 if reading_data
                                     parsed_value = tryparse(Float64, line)
+                                    data[i, j] = parsed_value
 
-                                    if parsed_value !== nothing
-                                        if parsed_value == 0.0
-                                            data[i, j] = 1.0e+2
-                                        else
-                                            o_val = 1.0/parsed_value - 1.0
-
-                                            if o_val < 0.0
-                                                data[i, j] = abs(parsed_value - 1.0)
-                                            else
-                                                data[i, j] = o_val
-                                            end
-                                        end
-
-                                        j += 1
-                                    end
+                                    j += 1
                                 end
                             end
                         end
