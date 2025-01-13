@@ -17,7 +17,7 @@ import sys
 COMPOSEFILE = "docker-compose-run.yaml"
 
 # "sphere", "rosenbrock", "rastrigin", "griewank", "ackley", "schwefel"
-FUNCTION    = ["sphere", "rosenbrock", "rastrigin"]
+FUNCTION    = ["rastrigin"]
 
 # "grep" or "cvt"
 MAP_METHOD  = "cvt"
@@ -29,13 +29,13 @@ METHOD      = ["default", "de", "abc"]
 DIMENSION   = "10 50 100"
 
 # Loop count
-LOOP        = 2
+LOOP        = 3
 
 # Voronoi data update limit
-CVT_UPDATE = [3]
+CVT_UPDATE  = [3]
 
 # Prosess interval
-interbal = 30
+interbal    = 30
 
 #------ Edit config ------------------------------#
 
