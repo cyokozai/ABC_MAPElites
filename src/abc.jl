@@ -82,7 +82,9 @@ function employed_bee(population::Population, archive::Archive)
             while true
                 k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
 
-                if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
+                if I_p[i].genes[j] != I_a[k].genes[j] && i != l 
+                    break 
+                end
             end
             
             v_l[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
@@ -125,7 +127,9 @@ function onlooker_bee(population::Population, archive::Archive)
             while true
                 k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
 
-                if I_p[i].genes[j] != I_a[k].genes[j] && i != l break end
+                if I_p[i].genes[j] != I_a[k].genes[j] && i != l 
+                    break 
+                end
             end
             
             v_l[j] = u_l[j] + φ() * (u_l[j] - I_p[l].genes[j])
