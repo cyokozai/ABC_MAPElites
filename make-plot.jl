@@ -117,7 +117,7 @@ end
 
 function ReadData(dir::String)
     println("Read data: $dir")
-    mlist = ["default", "de", "abc", "default", "de", "abc"]
+    mlist = ["abc", "abc"] # "default", "de", "abc", "default", "de", "abc"
     Data = Dict{String, Array{Float64, 2}}()
 
     if ARGS[1] == "test"
@@ -162,7 +162,7 @@ function ReadData(dir::String)
         Data["test"] = data
     else
         for (m, method) in enumerate(mlist)
-            filepath = if m <= 3
+            filepath = if m <= length(mlist) / 2
                 [path for path in readdir("$(dir)$(method)/$(ARGS[2])/") if occursin("-$(ARGS[1]).", path) && occursin("-$(ARGS[2])-", path) && occursin("fitness-2", path)]
             else
                 [path for path in readdir("$(dir)$(method)/$(ARGS[2])/") if occursin("-$(ARGS[1]).", path) && occursin("-$(ARGS[2])-", path) && occursin("fitness-noise-2", path)]
@@ -202,7 +202,7 @@ function ReadData(dir::String)
                 end
             end
 
-            if m <= 3
+            if m <= length(mlist) / 2
                 Data["$(method)"] = data
             else
                 Data["$(method)-noised"] = data
