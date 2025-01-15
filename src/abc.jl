@@ -102,7 +102,7 @@ end
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
-    v_p, u_a = zeros(Float64, D), zeros(Float64, D)
+    v_p, v_a = zeros(Float64, D), zeros(Float64, D)
     u_p, u_a = zeros(Float64, D), zeros(Float64, D)
     k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
 
@@ -125,13 +125,13 @@ function onlooker_bee(population::Population, archive::Archive)
             end
             
             v_p[j] = u_p[j] + φ() * (u_p[j] - I_p[l].genes[j])
-            u_a[j] = u_a[j] + φ() * (u_a[j] - I_a[k].genes[j])
+            v_a[j] = u_a[j] + φ() * (u_a[j] - I_a[k].genes[j])
         end
         
-        population.individuals[i].genes = if fitness(objective_function(v_p)) > fitness(objective_function(u_a))
+        population.individuals[i].genes = if fitness(objective_function(v_p)) > fitness(objective_function(v_a))
             deepcopy(greedySelection(I_p[i].genes, v_p, i))
         else
-            deepcopy(greedySelection(I_p[i].genes, u_a, i))
+            deepcopy(greedySelection(I_p[i].genes, v_a, i))
         end
     end
     
@@ -143,9 +143,9 @@ end
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
     global trial, cvt_vorn_data_update
-    
-    print(".")
 
+    print(".")
+    
     if maximum(trial) > TC_LIMIT
         for i in 1:FOOD_SOURCE
             if trial[i] > TC_LIMIT
