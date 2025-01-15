@@ -15,7 +15,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=default
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -38,7 +38,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -61,7 +61,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -84,7 +84,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=default
       - D=100 50 10 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -107,7 +107,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=de
       - D=100 50 10 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -130,7 +130,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=abc
       - D=100 50 10 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -153,7 +153,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=default
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -176,7 +176,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
@@ -199,7 +199,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1
     deploy:
       resources:
         limits:
