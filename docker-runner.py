@@ -91,7 +91,7 @@ if __name__ == '__main__':
         print("Generate yaml file.")
         
         # docker compose up
-        # subprocess.run(['docker', 'compose', '-f', COMPOSEFILE, 'up', '-d', '--build'])
+        subprocess.run(['docker', 'compose', '-f', COMPOSEFILE, 'up', '-d', '--build'])
         
         print("")
         print("Docker compose up.")
