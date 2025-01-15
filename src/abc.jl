@@ -72,7 +72,7 @@ end
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
     I_p = population.individuals
-    v_l = zeros(Float64, D)
+    v_p = zeros(Float64, D)
     l   = rand(RNG, 1:FOOD_SOURCE)
     
     print(".")
@@ -87,10 +87,10 @@ function employed_bee(population::Population, archive::Archive)
                 end
             end
             
-            v_l[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
+            v_p[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
         end
         
-        population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i))
+        population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_p, i))
     end
     
     print(".")
@@ -102,18 +102,18 @@ end
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
-    v_l, v_g = zeros(Float64, D), zeros(Float64, D)
-    u_l, u_g = zeros(Float64, D), zeros(Float64, D)
+    v_p, u_a = zeros(Float64, D), zeros(Float64, D)
+    u_p, u_a = zeros(Float64, D), zeros(Float64, D)
     k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
-    
+
     Σ_fit_l, Σ_fit_g = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
     cum_p_l, cum_p_g = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_l for i in 1:FOOD_SOURCE]), cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_g for i in keys(I_a)])
 
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_l = I_p[roulleteSelection(cum_p_l, I_p)].genes
-        u_g = I_a[roulleteSelection(cum_p_g, I_a)].genes
+        u_p = I_p[roulleteSelection(cum_p_l, I_p)].genes
+        u_a = I_a[roulleteSelection(cum_p_g, I_a)].genes
         
         for j in 1:D
             while true
@@ -124,14 +124,14 @@ function onlooker_bee(population::Population, archive::Archive)
                 end
             end
             
-            v_l[j] = u_l[j] + φ() * (u_l[j] - I_p[l].genes[j])
-            v_g[j] = u_g[j] + φ() * (u_g[j] - I_a[k].genes[j])
+            v_p[j] = u_p[j] + φ() * (u_p[j] - I_p[l].genes[j])
+            u_a[j] = u_a[j] + φ() * (u_a[j] - I_a[k].genes[j])
         end
         
-        population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
-            deepcopy(greedySelection(I_p[i].genes, v_l, i))
+        population.individuals[i].genes = if fitness(objective_function(v_p)) > fitness(objective_function(u_a))
+            deepcopy(greedySelection(I_p[i].genes, v_p, i))
         else
-            deepcopy(greedySelection(I_p[i].genes, v_g, i))
+            deepcopy(greedySelection(I_p[i].genes, u_a, i))
         end
     end
     
@@ -143,7 +143,7 @@ end
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
     global trial, cvt_vorn_data_update
-
+    
     print(".")
 
     if maximum(trial) > TC_LIMIT
