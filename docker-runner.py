@@ -26,16 +26,19 @@ MAP_METHOD  = "cvt"
 METHOD      = ["default", "de", "abc"]
 
 # 2 10 50 100 500 1000
-DIMENSION   = "10 50 100"
+DIMENSION   = [10, 50, 100]
 
 # Loop count
-LOOP        = 3
+LOOP        = 1
+
+# Replication
+REPLICATION = 3
 
 # Voronoi data update limit
 CVT_UPDATE  = [3]
 
 # Prosess interval
-interbal    = 30
+INTERBAL    = 30
 
 #------ Edit config ------------------------------#
 
@@ -43,7 +46,7 @@ interbal    = 30
 #       Main                                                                                         #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-def generate_yaml(function, method, map, dimention, loop, cvt_update, interbal):
+def generate_yaml(function, method, map, dimention, loop, cvt_update, interbal, replica):
     # Setting Jinja2
     env = Environment(loader=FileSystemLoader('.'))
     
@@ -52,7 +55,7 @@ def generate_yaml(function, method, map, dimention, loop, cvt_update, interbal):
     loopstr = " ".join(str(i) for i in range(1, loop + 1))
     
     # Render template
-    output = template.render(looprange=loopstr, function=function, method=method, map=map, dimention=dimention, cvt_update=cvt_update, interbal=interbal)
+    output = template.render(looprange=loopstr, function=function, method=method, map=map, dimention=dimention, cvt_update=cvt_update, interbal=interbal, replica=replica)
     
     # Write to file
     with open(COMPOSEFILE, 'w') as file:
@@ -74,20 +77,24 @@ if __name__ == '__main__':
             LOOP = 1
             CVT_UPDATE = [3]
             
-            print(f"COMPOSEFILE: {COMPOSEFILE}")
             print("==================== TEST MODE ====================")
-        else:
-            print(f"COMPOSEFILE: {COMPOSEFILE}")
-            print(f"FUNCTION: {FUNCTION}")
-            print(f"METHOD: {METHOD}")
-            print(f"MAP_METHOD: {MAP_METHOD}")
-            print(f"LOOP: {LOOP}")
+        
+        print(f"COMPOSEFILE: {COMPOSEFILE}")
+        print(f"FUNCTION: {FUNCTION}")
+        print(f"METHOD: {METHOD}")
+        print(f"MAP_METHOD: {MAP_METHOD}")
+        print(f"LOOP: {LOOP}")
 
         # generate yaml
-        generate_yaml(FUNCTION, METHOD, MAP_METHOD, DIMENSION, LOOP, CVT_UPDATE, interbal)
+        generate_yaml(FUNCTION, METHOD, MAP_METHOD, DIMENSION, LOOP, CVT_UPDATE, INTERBAL, REPLICATION)
+        
+        print("Generate yaml file.")
         
         # docker compose up
-        subprocess.run(['docker', 'compose', '-f', COMPOSEFILE, 'up', '-d', '--build'])
+        # subprocess.run(['docker', 'compose', '-f', COMPOSEFILE, 'up', '-d', '--build'])
+        
+        print("")
+        print("Docker compose up.")
     except Exception as e:
         print(e)
         
