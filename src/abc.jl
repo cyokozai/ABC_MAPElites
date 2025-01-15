@@ -21,10 +21,14 @@ include("logger.jl")
 trial = zeros(Int, FOOD_SOURCE)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Uniform distribution
+φ = () -> rand(RNG) * 2.0 - 1.0
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Greedy selection
 function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64)
     global trial
-
+    
     f_b, v_b = (objective_function(noise(f)), objective_function(f)), (objective_function(noise(v)), objective_function(v))
     
     if fitness(v_b[fit_index]) > fitness(f_b[fit_index])
@@ -60,42 +64,33 @@ function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual
             return key
         end
     end
-
+    
     return keys(I)[1]
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Uniform distribution
-φ = () -> rand(RNG) * 2.0 - 1.0
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
-    I_p, I_a = population.individuals, archive.individuals
-    v_l, v_g = zeros(Float64, D), zeros(Float64, D)
-    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+    I_p = population.individuals
+    v_l = zeros(Float64, D)
+    l   = rand(RNG, 1:FOOD_SOURCE)
     
     print(".")
     
     for i in 1:FOOD_SOURCE
         for j in 1:D
             while true
-                k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+                l = rand(RNG, 1:FOOD_SOURCE)
 
-                if I_p[i].genes[j] != I_a[k].genes[j] && i != l 
+                if i != l
                     break 
                 end
             end
             
             v_l[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
-            v_g[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_a[k].genes[j])
         end
         
-        population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
-            deepcopy(greedySelection(I_p[i].genes, v_l, i))
-        else
-            deepcopy(greedySelection(I_p[i].genes, v_g, i))
-        end
+        population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_l, i))
     end
     
     print(".")
@@ -109,13 +104,10 @@ function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
     v_l, v_g = zeros(Float64, D), zeros(Float64, D)
     u_l, u_g = zeros(Float64, D), zeros(Float64, D)
-    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:D)
-
-    Σ_fit_l = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE)
-    cum_p_l = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_l for i in 1:FOOD_SOURCE])
-
-    Σ_fit_g = sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
-    cum_p_g = cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_g for i in keys(I_a)])
+    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+    
+    Σ_fit_l, Σ_fit_g = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
+    cum_p_l, cum_p_g = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_l for i in 1:FOOD_SOURCE]), cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_g for i in keys(I_a)])
 
     print(".")
     
@@ -135,7 +127,7 @@ function onlooker_bee(population::Population, archive::Archive)
             v_l[j] = u_l[j] + φ() * (u_l[j] - I_p[l].genes[j])
             v_g[j] = u_g[j] + φ() * (u_g[j] - I_a[k].genes[j])
         end
-
+        
         population.individuals[i].genes = if fitness(objective_function(v_l)) > fitness(objective_function(v_g))
             deepcopy(greedySelection(I_p[i].genes, v_l, i))
         else
@@ -147,7 +139,6 @@ function onlooker_bee(population::Population, archive::Archive)
 
     return population, archive
 end
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
@@ -160,7 +151,7 @@ function scout_bee(population::Population, archive::Archive)
             if trial[i] > TC_LIMIT
                 gene = rand(Float64, D) .* (UPP - LOW) .+ LOW
                 gene_noised = noise(gene)
-
+                
                 population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
                 trial[i] = 0
                 
@@ -177,7 +168,7 @@ function scout_bee(population::Population, archive::Archive)
             end
         end
     end
-
+    
     print(".")
     
     return population, archive
@@ -190,7 +181,7 @@ function ABC(population::Population, archive::Archive)
     print("Employed bee phase")
     population, archive = employed_bee(population, archive)
     println(". Done")
-
+    
     # Onlooker bee phase
     print("Onlooker bee phase")
     population, archive = onlooker_bee(population, archive)

@@ -23,7 +23,6 @@ services:
           cpus: 2.0
           memory: 8G
     command: ["bash"]
-
   julia-figure:
     container_name: julia-figure
     tty: true
@@ -52,8 +51,6 @@ services:
     # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f; done; done"]
     # command: ["julia", "make-table.jl"]
     # command: ["julia", "make-vorn.jl", "10", "abc", "cvt", "sphere", "4"]
-    # command: ["sh", "-c", "for f in $$FUNCTION; do for m in $$METHOD; do for d in $$D; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
-
 networks:
   default:
     driver: bridge
