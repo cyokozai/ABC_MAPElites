@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile.figure
     working_dir: /root/
     volumes:
-      - ./src/result:/root/result
+      - ./src/result-used:/root/result
       - ./src/log:/root/log
     networks:
       - default
@@ -39,7 +39,7 @@ services:
       - TZ=Asia/Tokyo
       - FUNCTION=rastrigin
       - METHOD=abc
-      - D=10 50 100
+      - D=100
       - CVT_UPDATE=3
     deploy:
       resources:

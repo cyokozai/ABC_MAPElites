@@ -25,7 +25,7 @@ include("config.jl")
 global MAXTIME = 100000
 
 dimension = ARGS[1]
-finction  = ARGS[2]
+function_name  = ARGS[2]
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -37,53 +37,59 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            titlesize=18,
-            xlabelsize=18,
+            titlesize=24,
+            xlabelsize=24,
             xlabel=L"\mathrm{Generation\,} (\times 10^4)",
-            ylabelsize=18,
+            ylabelsize=24,
             ylabel=L"\mathrm{Fitness\,}",
             title="Test data",
+            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
+            yticksize=24,
             yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
             height = 560
         )
         ]
-    elseif finction == "rosenbrock" && dimension == "10"
+    elseif function_name == "rosenbrock" && dimension == "10"
         [
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
-            titlesize=18,
-            xlabelsize=18,
+            titlesize=24,
+            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=18,
+            ylabelsize=24,
             ylabel=L"\text{Fitness}",
+            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
+            yticksize=24,
             yticks=(10.0 .^ (-4.0:2.0:8.0), string.(["1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
             height = 560
         )
         ]
-    elseif finction == "rosenbrock" && dimension != "10"
+    elseif function_name == "rosenbrock" && dimension != "10"
         [
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
-            titlesize=18,
-            xlabelsize=18,
+            titlesize=24,
+            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=18,
+            ylabelsize=24,
             ylabel=L"\text{Fitness}",
+            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
+            yticksize=24,
             yticks=(10.0 .^ (-2.0:2.0:10.0), string.(["1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08", "1.0e+10"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -95,14 +101,16 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            titlesize=18,
-            xlabelsize=18,
+            titlesize=24,
+            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=18,
+            ylabelsize=24,
             ylabel=L"\text{Fitness}",
+            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
+            yticksize=24,
             yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -120,14 +128,14 @@ end
 
 function ReadData(dir::String)
     println("Read data: $dir")
-    mlist = ["default", "de", "abc"] # "default", "de", "abc", "default", "de", "abc"
+    mlist = ["default", "de", "abc", "default", "de", "abc"] # "default", "de", "abc", "default", "de", "abc"
     Data = Dict{String, Array{Float64, 2}}()
 
     if ARGS[1] == "test"
         filepath = [path for path in readdir(dir) if occursin("-$(ARGS[1])-", path) && occursin("fitness", path)]
         data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
-        if filepath === nothing || length(filepath) == 0
+        if length(filepath) == 0
             println("No such file: $filepath")
             
             return nothing
@@ -173,13 +181,13 @@ function ReadData(dir::String)
     else
         for (m, method) in enumerate(mlist)
             filepath = if m <= length(mlist) / 2
-                [path for path in readdir("$(dir)/$(method)/$(finction)/") if occursin("-$(dimension)", path) && occursin("$(finction)", path) && occursin("behavior-", path)]
-            # else
-            #     [path for path in readdir("$(dir)/$(method)/$(finction)/") if occursin("-$(dimension)", path) && occursin("$(finction)", path) && occursin("fitness-noise-", path)]
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-", path)]
+            else
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-noise-", path)]
             end
             data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
-            if filepath === nothing || length(filepath) == 0
+            if length(filepath) == 0
                 println("No such file: $filepath")
                 
                 return nothing
@@ -188,7 +196,7 @@ function ReadData(dir::String)
                     if occursin(".dat", f)
                         j, reading_data = 1, false
                         
-                        open("$(dir)/$(method)/$(finction)/$f", "r") do io # ファイルを開く
+                        open("$(dir)/$(method)/$(function_name)/$f", "r") do io # ファイルを開く
                             for line in eachline(io) # ファイルを1行ずつ読み込む
                                 if occursin("=", line) # ボーダーラインを検出
                                     if !reading_data # データ読み取り開始
@@ -201,18 +209,15 @@ function ReadData(dir::String)
                                 end
                                 
                                 if reading_data
-                                    # parsed_value = tryparse(Float64, line)
-                                    parsed_value = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)
+                                    parsed_value = tryparse(Float64, line)
                                     
                                     if parsed_value !== nothing
-                                        # if parsed_value == 0.0
-                                        #     data[i, j] = 1.0e+2
-                                        # else
-                                        #     data[i, j] = 1.0/parsed_value - 1.0
-                                        # end
-
-                                        data[i, j] = sum(tryparse(Float64, parsed_value[1]), tryparse(Float64, parsed_value[2])) / 2.0
-                                        
+                                        if parsed_value == 0.0
+                                            data[i, j] = 1.0e+2
+                                        else
+                                            data[i, j] = (1.0 - parsed_value) / parsed_value
+                                        end
+    
                                         j += 1
                                     end
                                 end
@@ -224,8 +229,8 @@ function ReadData(dir::String)
 
             if m <= length(mlist) / 2
                 Data["$(method)"] = data
-            # else
-            #     Data["$(method)-noised"] = data
+            else
+                Data["$(method)-noised"] = data
             end
         end
     end
@@ -272,15 +277,15 @@ function PlotData(Data, fig, axis)
     #     axis[1],
     #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
     #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-    #     position=:cb, fontsize=16, orientation=:horizontal
+    #     position=:cb, fontsize=20, orientation=:horizontal
     # )
 
-    Legend(
-        fig[1, 2],
-        [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-        ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-        fontsize=16
-    )
+    # Legend(
+    #     fig[1, 2],
+    #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+    #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
+    #     fontsize=36
+    # )
     
     resize_to_layout!(fig)
 end
@@ -296,8 +301,8 @@ function SavePDF(fig)
             mkpath("result/graph")
         end
 
-        println("Saved: result/graph/$(finction)-$(dimension).pdf")
-        save("result/graph/$(finction)-$(dimension).pdf", fig)
+        println("Saved: result/graph/$(function_name)-$(dimension).pdf")
+        save("result/graph/$(function_name)-$(dimension).pdf", fig)
     end
 end
 
