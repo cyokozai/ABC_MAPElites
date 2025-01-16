@@ -1174,7 +1174,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="ページ3-1" id="wgOK0jD-aXTgWlqnWRgT">
-    <mxGraphModel dx="797" dy="436" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
+    <mxGraphModel dx="1366" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
       <root>
         <mxCell id="NqAgH4YBMIuJkIgrR8WW-0" />
         <mxCell id="NqAgH4YBMIuJkIgrR8WW-1" parent="NqAgH4YBMIuJkIgrR8WW-0" />
@@ -3292,7 +3292,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="GZZLfo--DXFcl-8QEZ0S" name="ページ5">
-    <mxGraphModel dx="1434" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="1" shadow="0">
+    <mxGraphModel dx="1147" dy="628" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3314,10 +3314,10 @@
             <mxPoint x="180" y="100" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-23" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\mathbf{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="TGxeNP7fRF1nqORIxkcZ-1" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-23" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\boldsymbol{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="TGxeNP7fRF1nqORIxkcZ-1" vertex="1">
           <mxGeometry x="160" y="100" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-35" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\mathbf{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="TGxeNP7fRF1nqORIxkcZ-1" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-35" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\boldsymbol{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="TGxeNP7fRF1nqORIxkcZ-1" vertex="1">
           <mxGeometry x="60" width="40" height="30" as="geometry" />
         </mxCell>
         <mxCell id="TGxeNP7fRF1nqORIxkcZ-5" value="" style="group" parent="1" vertex="1" connectable="0">
@@ -3529,10 +3529,10 @@
         <mxCell id="EMMhxbGOaPYnEnIPEt34-10" value="&lt;span style=&quot;text-wrap-mode: nowrap;&quot;&gt;$$n$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;align=center;" parent="1" vertex="1">
           <mxGeometry x="520" y="170" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-11" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\mathbf{x})=\frac{2}{n}\sum$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-11" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\boldsymbol{x})=\frac{2}{n}\sum$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="120" y="270" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-12" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\mathbf{x})=\frac{2}{n}\sum$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-12" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\boldsymbol{x})=\frac{2}{n}\sum$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="380" y="270" width="180" height="30" as="geometry" />
         </mxCell>
         <mxCell id="EMMhxbGOaPYnEnIPEt34-13" value="$$1$$" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
@@ -3559,7 +3559,7 @@
         <mxCell id="EMMhxbGOaPYnEnIPEt34-20" value="&lt;span style=&quot;text-wrap-mode: nowrap;&quot;&gt;$$n$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="480" y="50" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-21" value="&lt;span style=&quot;text-wrap-mode: nowrap;&quot;&gt;$$(b_{1}(\mathbf{x}),&amp;nbsp;b_{2}(\mathbf{x}))$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-21" value="&lt;span style=&quot;text-wrap-mode: nowrap;&quot;&gt;$$(b_{1}(\boldsymbol{x}),&amp;nbsp;b_{2}(\boldsymbol{x}))$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="630" y="120" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="EMMhxbGOaPYnEnIPEt34-36" value="" style="group" parent="1" vertex="1" connectable="0">
@@ -3609,10 +3609,10 @@
             <mxPoint x="180" y="100" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-40" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\mathbf{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="EMMhxbGOaPYnEnIPEt34-36" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-40" value="&lt;span style=&quot;color: rgb(0, 0, 255); text-wrap-mode: nowrap;&quot;&gt;$$b_{1}(\boldsymbol{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="EMMhxbGOaPYnEnIPEt34-36" vertex="1">
           <mxGeometry x="160" y="100" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="EMMhxbGOaPYnEnIPEt34-41" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\mathbf{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="EMMhxbGOaPYnEnIPEt34-36" vertex="1">
+        <mxCell id="EMMhxbGOaPYnEnIPEt34-41" value="&lt;span style=&quot;color: rgb(255, 0, 0); text-wrap-mode: nowrap;&quot;&gt;$$b_{2}(\boldsymbol{x})$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="EMMhxbGOaPYnEnIPEt34-36" vertex="1">
           <mxGeometry x="60" width="40" height="30" as="geometry" />
         </mxCell>
         <mxCell id="EMMhxbGOaPYnEnIPEt34-56" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontColor=#000000;strokeColor=default;fillColor=#000000;" parent="EMMhxbGOaPYnEnIPEt34-36" vertex="1">
