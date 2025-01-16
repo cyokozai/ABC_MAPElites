@@ -2738,7 +2738,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="ehjhuvYU4uyrSUBR0Zmf" name="ページ4">
-    <mxGraphModel dx="667" dy="365" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="956" dy="523" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3885,7 +3885,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="FY-IX9ltzKJqUXLlyyem" name="ページ6">
-    <mxGraphModel dx="574" dy="295" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="422" dy="267" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3895,26 +3895,23 @@
             <mxPoint x="400" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="I6UsrdTuamLlnnZuFVH_-3" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$x_{\text{min}}^j$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="I6UsrdTuamLlnnZuFVH_-3" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$x_{\text{min}}^{d}$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="80" y="280" width="40" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="I6UsrdTuamLlnnZuFVH_-4" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$x_{\text{max}}^j$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="I6UsrdTuamLlnnZuFVH_-4" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$x_{\text{max}}^{d}$$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="360" y="280" width="40" height="40" as="geometry" />
         </mxCell>
         <mxCell id="I6UsrdTuamLlnnZuFVH_-9" value="" style="shape=crossbar;whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
           <mxGeometry x="180" y="270" width="120" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="I6UsrdTuamLlnnZuFVH_-2" value="$$x^j$$" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;" parent="1" vertex="1">
+        <mxCell id="I6UsrdTuamLlnnZuFVH_-2" value="$$x^{d}$$" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=18;" parent="1" vertex="1">
           <mxGeometry x="220" y="260" width="40" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="I6UsrdTuamLlnnZuFVH_-14" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$r_\text{noise} \cdot \left({x^j_{\text{max}} - x^{j}_{\text{min}}} \right) $$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+        <mxCell id="I6UsrdTuamLlnnZuFVH_-14" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;$$r_\text{noise} \cdot \left({x^{d}_{\text{max}} - x^{d}_{\text{min}}} \right) $$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="140" y="200" width="200" height="40" as="geometry" />
         </mxCell>
         <mxCell id="I6UsrdTuamLlnnZuFVH_-15" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;rotation=-90;" parent="1" vertex="1">
           <mxGeometry x="230" y="190" width="20" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="I6UsrdTuamLlnnZuFVH_-19" value="$$x^{j}_{i,g} + \left( 2 \text{rand}_{j} r_{\text{noise}}&amp;nbsp;- r_\text{noise} \right) \cdot \frac{x^{j}_{\text{max}} - x^{j}_{\text{min}}}{2} \quad \text{if } j = j_\text{rand}$$" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="80" y="360" width="360" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
