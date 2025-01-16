@@ -22,7 +22,7 @@ dimention = ARGS[1]
 method_name = ARGS[2]
 map_name = ARGS[3]
 function_name = ARGS[4]
-cvtchange = parse(Int, ARGS[5]) - 1
+cvtchange = ARGS[5]
 
 
 closeup = if function_name == "rastrigin"
@@ -305,6 +305,7 @@ for iter in ["FitnessValue"]
 
     scatter!(
         ax[1],
+        titlesize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -317,6 +318,7 @@ for iter in ["FitnessValue"]
     )
     scatter!(
         ax[2], 
+        titlesize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -338,7 +340,7 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
-        labelsize=18,
+        titlesize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
@@ -358,7 +360,7 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
-        labelsize=18,
+        titlesize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
