@@ -44,7 +44,7 @@ EPS       = 1e-6
 FIT_NOISE = true
 
 # Noise probability | Default: 0.10
-p_noise   = 0.10
+p_noise   = 0.05
 
 # Noise rate | Default: 0.01
 r_noise   = 0.01
