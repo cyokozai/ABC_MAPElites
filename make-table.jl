@@ -7,7 +7,7 @@ METHOD = ["default", "de", "abc"]
 
 MAP = "cvt"
 
-FUNCTION = ["sphere", "rosenbrock", "rastrigin"]
+FUNCTION = ["rastrigin"] # "sphere", "rosenbrock", 
 
 DIMENSION = ["10", "50", "100"]
 

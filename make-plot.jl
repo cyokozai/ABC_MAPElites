@@ -20,11 +20,14 @@ using CairoMakie
 
 include("config.jl")
 
-include("logger.jl")
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 global MAXTIME = 100000
+
+dimension = ARGS[1]
+finction  = ARGS[2]
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 function MakeFigure()
     fig = CairoMakie.Figure()
@@ -49,7 +52,7 @@ function MakeFigure()
             height = 560
         )
         ]
-    elseif ARGS[2] == "rosenbrock" && ARGS[1] == "10"
+    elseif finction == "rosenbrock" && dimension == "10"
         [
         Axis(
             fig[1, 1],
@@ -68,7 +71,7 @@ function MakeFigure()
             height = 560
         )
         ]
-    elseif ARGS[2] == "rosenbrock" && ARGS[1] != "10"
+    elseif finction == "rosenbrock" && dimension != "10"
         [
         Axis(
             fig[1, 1],
@@ -117,14 +120,14 @@ end
 
 function ReadData(dir::String)
     println("Read data: $dir")
-    mlist = ["abc", "abc"] # "default", "de", "abc", "default", "de", "abc"
+    mlist = ["default", "de", "abc"] # "default", "de", "abc", "default", "de", "abc"
     Data = Dict{String, Array{Float64, 2}}()
 
     if ARGS[1] == "test"
         filepath = [path for path in readdir(dir) if occursin("-$(ARGS[1])-", path) && occursin("fitness", path)]
         data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
-        if length(filepath) == 0
+        if filepath === nothing || length(filepath) == 0
             println("No such file: $filepath")
             
             return nothing
@@ -149,9 +152,16 @@ function ReadData(dir::String)
                             
                             if reading_data
                                 parsed_value = tryparse(Float64, line)
-                                data[i, j] = parsed_value
 
-                                j += 1
+                                if parsed_value !== nothing
+                                    if parsed_value == 0.0
+                                        data[i, j] = 1.0e+2
+                                    else
+                                        data[i, j] = 1.0/parsed_value - 1.0
+                                    end
+
+                                    j += 1
+                                end
                             end
                         end
                     end
@@ -163,13 +173,13 @@ function ReadData(dir::String)
     else
         for (m, method) in enumerate(mlist)
             filepath = if m <= length(mlist) / 2
-                [path for path in readdir("$(dir)$(method)/$(ARGS[2])/") if occursin("-$(ARGS[1]).", path) && occursin("-$(ARGS[2])-", path) && occursin("fitness-2", path)]
-            else
-                [path for path in readdir("$(dir)$(method)/$(ARGS[2])/") if occursin("-$(ARGS[1]).", path) && occursin("-$(ARGS[2])-", path) && occursin("fitness-noise-2", path)]
+                [path for path in readdir("$(dir)/$(method)/$(finction)/") if occursin("-$(dimension)", path) && occursin("$(finction)", path) && occursin("behavior-", path)]
+            # else
+            #     [path for path in readdir("$(dir)/$(method)/$(finction)/") if occursin("-$(dimension)", path) && occursin("$(finction)", path) && occursin("fitness-noise-", path)]
             end
             data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
-            if length(filepath) == 0
+            if filepath === nothing || length(filepath) == 0
                 println("No such file: $filepath")
                 
                 return nothing
@@ -178,7 +188,7 @@ function ReadData(dir::String)
                     if occursin(".dat", f)
                         j, reading_data = 1, false
                         
-                        open("$(dir)$(method)/$(ARGS[2])/$f", "r") do io # ファイルを開く
+                        open("$(dir)/$(method)/$(finction)/$f", "r") do io # ファイルを開く
                             for line in eachline(io) # ファイルを1行ずつ読み込む
                                 if occursin("=", line) # ボーダーラインを検出
                                     if !reading_data # データ読み取り開始
@@ -191,10 +201,20 @@ function ReadData(dir::String)
                                 end
                                 
                                 if reading_data
-                                    parsed_value = tryparse(Float64, line)
-                                    data[i, j] = parsed_value
+                                    # parsed_value = tryparse(Float64, line)
+                                    parsed_value = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)
+                                    
+                                    if parsed_value !== nothing
+                                        # if parsed_value == 0.0
+                                        #     data[i, j] = 1.0e+2
+                                        # else
+                                        #     data[i, j] = 1.0/parsed_value - 1.0
+                                        # end
 
-                                    j += 1
+                                        data[i, j] = sum(tryparse(Float64, parsed_value[1]), tryparse(Float64, parsed_value[2])) / 2.0
+                                        
+                                        j += 1
+                                    end
                                 end
                             end
                         end
@@ -204,8 +224,8 @@ function ReadData(dir::String)
 
             if m <= length(mlist) / 2
                 Data["$(method)"] = data
-            else
-                Data["$(method)-noised"] = data
+            # else
+            #     Data["$(method)-noised"] = data
             end
         end
     end
@@ -214,6 +234,7 @@ function ReadData(dir::String)
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
 function PlotData(Data, fig, axis)
     linedata = Dict{String, Any}()
     keys = String[]
@@ -247,11 +268,18 @@ function PlotData(Data, fig, axis)
         push!(keys, key)
     end
 
-    axislegend(
-        axis[1],
+    # axislegend(
+    #     axis[1],
+    #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+    #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
+    #     position=:cb, fontsize=16, orientation=:horizontal
+    # )
+
+    Legend(
+        fig[1, 2],
         [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
         ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-        position=:cb, fontsize=16, orientation = :horizontal
+        fontsize=16
     )
     
     resize_to_layout!(fig)
@@ -261,13 +289,15 @@ end
 
 function SavePDF(fig)
     if ARGS[1] == "test"
-        println("Saved: result/testdata/pdf/testdata.pdf")
-
+        println("Saved: result/testdata/pdf/fitness-testdata.pdf")
         save("result/testdata/pdf/fitness-testdata.pdf", fig)
     else
-        println("Saved: result/graph/$(ARGS[2])-$(ARGS[1]).pdf")
-        
-        save("result/graph/$(ARGS[2])-$(ARGS[1]).pdf", fig)
+        if !isdir("result/graph")
+            mkpath("result/graph")
+        end
+
+        println("Saved: result/graph/$(finction)-$(dimension).pdf")
+        save("result/graph/$(finction)-$(dimension).pdf", fig)
     end
 end
 
@@ -276,26 +306,26 @@ end
 function main()
     println("Start the plotting process")
     data = if ARGS[1] == "test"
-        if isdir("./result/testdata/")
-            mkpath("./result/testdata/pdf/")
+        if isdir("result/testdata")
+            mkpath("result/testdata/pdf")
         end
 
-        ReadData("./result/testdata/")
+        ReadData("result/testdata")
     else
-        if isdir("./result/pdf/")
-            mkpath("./result/pdf/")
+        if isdir("result/pdf")
+            mkpath("result/pdf")
         end
 
-        ReadData("./result/")
+        ReadData("result")
     end
     
     println("Read data")
-    if data == nothing
+    
+    if data === nothing
         println("No data to plot. Exiting.")
-        
         return 1
     end
-    
+
     println("Make figure")
     figure, axis = MakeFigure()
 
