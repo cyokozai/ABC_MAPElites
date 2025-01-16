@@ -41,7 +41,7 @@ CONV_FLAG = false
 EPS       = 1e-6
 
 # Fitness noise | 'true' is available when you want to add the noise to the fitness.
-FIT_NOISE = true
+FIT_NOISE = false
 
 # Noise rate | Default: 0.01
 r_noise   = 0.01

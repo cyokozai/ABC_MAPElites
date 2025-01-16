@@ -73,21 +73,21 @@ end
 function employed_bee(population::Population, archive::Archive)
     I_p = population.individuals
     v_p = zeros(Float64, D)
-    l   = rand(RNG, 1:FOOD_SOURCE)
+    j   = rand(RNG, 1:FOOD_SOURCE)
     
     print(".")
     
     for i in 1:FOOD_SOURCE
-        for j in 1:D
+        for d in 1:D
             while true
-                l = rand(RNG, 1:FOOD_SOURCE)
-
-                if i != l
+                j = rand(RNG, 1:FOOD_SOURCE)
+                
+                if i != j
                     break 
                 end
             end
             
-            v_p[j] = I_p[i].genes[j] + φ() * (I_p[i].genes[j] - I_p[l].genes[j])
+            v_p[d] = I_p[i].genes[d] + φ() * (I_p[i].genes[d] - I_p[j].genes[d])
         end
         
         population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_p, i))
@@ -104,7 +104,7 @@ function onlooker_bee(population::Population, archive::Archive)
     I_p, I_a = population.individuals, archive.individuals
     v_p, v_a = zeros(Float64, D), zeros(Float64, D)
     u_p, u_a = zeros(Float64, D), zeros(Float64, D)
-    k, l     = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
 
     Σ_fit_l, Σ_fit_g = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
     cum_p_l, cum_p_g = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_l for i in 1:FOOD_SOURCE]), cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_g for i in keys(I_a)])
@@ -115,17 +115,17 @@ function onlooker_bee(population::Population, archive::Archive)
         u_p = I_p[roulleteSelection(cum_p_l, I_p)].genes
         u_a = I_a[roulleteSelection(cum_p_g, I_a)].genes
         
-        for j in 1:D
+        for d in 1:D
             while true
-                k, l = rand(RNG, keys(I_a)), rand(RNG, 1:FOOD_SOURCE)
+                j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
 
-                if I_p[i].genes[j] != I_a[k].genes[j] && i != l 
+                if I_p[i].genes[d] != I_a[k].genes[d] && i != j
                     break 
                 end
             end
             
-            v_p[j] = u_p[j] + φ() * (u_p[j] - I_p[l].genes[j])
-            v_a[j] = u_a[j] + φ() * (u_a[j] - I_a[k].genes[j])
+            v_p[d] = u_p[d] + φ() * (u_p[d] - I_p[j].genes[d])
+            v_a[d] = u_a[d] + φ() * (u_a[d] - I_a[k].genes[d])
         end
         
         population.individuals[i].genes = if fitness(objective_function(v_p)) > fitness(objective_function(v_a))
