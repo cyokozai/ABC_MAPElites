@@ -16,13 +16,19 @@ include("config.jl")
 # The index of the fitness value
 fit_index = FIT_NOISE ? 1 : 2
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Fitness function
-fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : abs(1.0 + x)
+# Variance of the noise
+σ = r_noise * (UPP - LOW)
+
+# Normal distribution for the noise
+N_noise = Normal(0.0, σ^(2.0))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Noise function
-noise(gene::Vector{Float64}) = FIT_NOISE ? [rand(RNG) < p_noise ? rand(RNG, Normal(g_μ, r_noise * (UPP - LOW)/2.0)) : g_μ for g_μ in gene] : gene
+# Fitness function
+fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : 1.0 + abs(x)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Noise function with Gaussian function
+noise(gene::Vector{Float64}) = FIT_NOISE ? [x_i + rand(RNG, N_noise) for x_i in gene] : gene
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
