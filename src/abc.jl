@@ -178,17 +178,17 @@ end
 # ABC algorithm
 function ABC(population::Population, archive::Archive)
     # Employee bee phase
-    print("Employed bee phase")
+    print("Employed bee phase ")
     population, archive = employed_bee(population, archive)
     println(". Done")
     
     # Onlooker bee phase
-    print("Onlooker bee phase")
+    print("Onlooker bee phase ")
     population, archive = onlooker_bee(population, archive)
     println(". Done")
 
     # Scout bee phase
-    print("Scout bee phase")
+    print("Scout    bee phase ")
     population, archive = scout_bee(population, archive)
     println(". Done")
     
