@@ -4,6 +4,8 @@
 
 using Random
 
+using Distributions
+
 #----------------------------------------------------------------------------------------------------#
 
 include("benchmark.jl")
@@ -20,7 +22,7 @@ fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : abs(1.0 + x)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Noise function
-noise(gene::Vector{Float64}) = FIT_NOISE ? [rand(Normal(g_μ, r_noise * (UPP - LOW)/2.0)) for g_μ in gene] : gene
+noise(gene::Vector{Float64}) = FIT_NOISE ? [rand(RNG) < p_noise ? rand(RNG, Normal(g_μ, r_noise * (UPP - LOW)/2.0)) : g_μ for g_μ in gene] : gene
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
