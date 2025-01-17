@@ -15,13 +15,13 @@ services:
       - FUNCTION=sphere
       - METHOD=default
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
   julia-run-r0-default-3-rosenbrock:
     container_name: "julia-run-r0-default-3-rosenbrock"
     tty: true
@@ -38,13 +38,13 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=default
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
   julia-run-r0-default-3-rastrigin:
     container_name: "julia-run-r0-default-3-rastrigin"
     tty: true
@@ -61,13 +61,13 @@ services:
       - FUNCTION=rastrigin
       - METHOD=default
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d default cvt $$f 3; done; done; done"]
   julia-run-r0-de-3-sphere:
     container_name: "julia-run-r0-de-3-sphere"
     tty: true
@@ -84,13 +84,13 @@ services:
       - FUNCTION=sphere
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
   julia-run-r0-de-3-rosenbrock:
     container_name: "julia-run-r0-de-3-rosenbrock"
     tty: true
@@ -107,13 +107,13 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
   julia-run-r0-de-3-rastrigin:
     container_name: "julia-run-r0-de-3-rastrigin"
     tty: true
@@ -130,13 +130,13 @@ services:
       - FUNCTION=rastrigin
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d de cvt $$f 3; done; done; done"]
   julia-run-r0-abc-3-sphere:
     container_name: "julia-run-r0-abc-3-sphere"
     tty: true
@@ -153,13 +153,13 @@ services:
       - FUNCTION=sphere
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
   julia-run-r0-abc-3-rosenbrock:
     container_name: "julia-run-r0-abc-3-rosenbrock"
     tty: true
@@ -176,13 +176,13 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
   julia-run-r0-abc-3-rastrigin:
     container_name: "julia-run-r0-abc-3-rastrigin"
     tty: true
@@ -199,13 +199,13 @@ services:
       - FUNCTION=rastrigin
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2
+      - LOOP=1 2 3 4 5 6 7 8 9 10
     deploy:
       resources:
         limits:
           cpus: 1.0
           memory: 8G 
-    command: ["sh", "-c", "sleep 0; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
+    command: ["sh", "-c", "sleep 30; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d abc cvt $$f 3; done; done; done"]
 
 networks:
   default:
