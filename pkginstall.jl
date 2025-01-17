@@ -3,6 +3,7 @@ using Pkg
 Pkg.add("JLD2")
 Pkg.add("FileIO")
 
+Pkg.add("Distributions")
 Pkg.add("StableRNGs")
 Pkg.add("DelaunayTriangulation")
 Pkg.add("CairoMakie")

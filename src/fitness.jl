@@ -16,14 +16,7 @@ fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : abs(1.0 + x)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Noise function
-noise(gene::Vector{Float64}) = FIT_NOISE ? 
-begin
-    j_rand = rand(RNG, 1:D)
-    
-    gene = [i == j_rand ? x + (rand(RNG) * 2 * r_noise - r_noise) * (UPP - LOW)/2.0 : x for (i, x) in enumerate(gene)]
-    
-    return gene
-end : gene
+noise(gene::Vector{Float64}) = FIT_NOISE ? rand(RNG, Normal(gene, r_noise * (UPP - LOW)/2.0)) : gene
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #

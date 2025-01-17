@@ -2,7 +2,7 @@
 #       ABC: Artificial Bee Colony                                                                   #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using Statistics
+using Distributions
 
 using Random
 
@@ -143,7 +143,7 @@ end
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
     global trial, cvt_vorn_data_update
-
+    
     print(".")
     
     if maximum(trial) > TC_LIMIT
