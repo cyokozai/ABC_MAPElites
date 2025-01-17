@@ -20,7 +20,7 @@ services:{% for rep in range(replica) %}{% for m in method %}{% for f in functio
       resources:
         limits:
           cpus: 1.0
-          memory: 8G {% with sleeptime = loop.index * interbal * rep %}
+          memory: 8G {% with sleeptime = loop.index * interbal * (rep + 1) %}
     command: ["sh", "-c", "sleep {{ sleeptime }}; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d {{ m }} {{ map }} $$f {{ cup }}; done; done; done"]{% endwith %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}
 
 networks:
