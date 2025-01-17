@@ -57,6 +57,8 @@ best_solution = init_solution()
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Evaluator: Evaluation of the individual
 function evaluator(individual::Individual)
+    global best_solution
+
     # Objective function
     gene_noised = noise(individual.genes)
     individual.benchmark = (objective_function(gene_noised), objective_function(individual.genes))
@@ -66,7 +68,7 @@ function evaluator(individual::Individual)
 
     # Update the best solution
     if fitness(individual.benchmark[fit_index]) >= fitness(best_solution.benchmark[fit_index])
-        global best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))
+        best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))
     end
     
     return individual
@@ -170,8 +172,8 @@ function map_elites()
             println("Now noised    best fitness: ", fitness(best_solution.benchmark[1]))
             println("Now corrected best fitness: ", fitness(best_solution.benchmark[2]))
             
-            println(ffn, fitness(best_solution.benchmark[1]))
-            println(ff, fitness(best_solution.benchmark[2]))
+            println(ffn, best_solution.benchmark[1])
+            println(ff, best_solution.benchmark[2])
         end
     else
         (ffn, ff) -> begin
