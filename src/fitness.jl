@@ -17,7 +17,7 @@ include("config.jl")
 fit_index = FIT_NOISE ? 1 : 2
 
 # Variance of the noise
-σ = r_noise * (UPP - LOW)
+σ = r_noise * (UPP - LOW)/2.0
 
 # Normal distribution for the noise
 N_noise = Normal(0.0, σ^(2.0))
