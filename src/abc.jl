@@ -105,7 +105,7 @@ function onlooker_bee(population::Population, archive::Archive)
     v_p, v_a = zeros(Float64, D), zeros(Float64, D)
     u_p, u_a = zeros(Float64, D), zeros(Float64, D)
     j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
-
+    
     Σ_fit_p, Σ_fit_a = sum(fitness(I_p[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_a[i].benchmark[fit_index]) for i in keys(I_a))
     cum_p_p, cum_p_a = cumsum([fitness(I_p[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE]), cumsum([fitness(I_a[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_a)])
 
