@@ -2683,7 +2683,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="ehjhuvYU4uyrSUBR0Zmf" name="ページ4">
-    <mxGraphModel dx="1247" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="1434" dy="785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -2765,11 +2765,11 @@
         <mxCell id="UBfA1DTcuMwFpsMfapA8-27" value="$$z_{r_2}$$" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;" parent="1" vertex="1">
           <mxGeometry x="328" y="166" width="90" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="UBfA1DTcuMwFpsMfapA8-28" value="Search Space" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;" parent="1" vertex="1">
-          <mxGeometry x="270" y="340" width="100" height="30" as="geometry" />
+        <mxCell id="UBfA1DTcuMwFpsMfapA8-28" value="Search Space" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="256" y="350" width="130" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="UBfA1DTcuMwFpsMfapA8-30" value="Behavior Space" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;" parent="1" vertex="1">
-          <mxGeometry x="630" y="340" width="100" height="30" as="geometry" />
+        <mxCell id="UBfA1DTcuMwFpsMfapA8-30" value="Behavior Space" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="620" y="350" width="150" height="40" as="geometry" />
         </mxCell>
         <mxCell id="UBfA1DTcuMwFpsMfapA8-33" value="$$z_{r_2} - z_{r_3}$$" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;" parent="1" vertex="1">
           <mxGeometry x="420" y="250" width="140" height="30" as="geometry" />
