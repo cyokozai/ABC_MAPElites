@@ -502,7 +502,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="r557s7dhMcTpEm5P0uZe" name="ページ2">
-    <mxGraphModel dx="1247" dy="683" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
+    <mxGraphModel dx="1103" dy="604" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1221,20 +1221,20 @@
             <mxPoint x="470" y="1020" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="49721lorXHgVXi5MIZpz-67" value="&lt;font face=&quot;Zen Kaku Gothic New&quot;&gt;初期生成 (1回目)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="205" y="1160" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="49721lorXHgVXi5MIZpz-68" value="&lt;font face=&quot;Zen Kaku Gothic New&quot;&gt;5回目&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="595" y="1160" width="50" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="49721lorXHgVXi5MIZpz-69" value="&lt;font face=&quot;Zen Kaku Gothic New&quot;&gt;終了 (10回目)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="935" y="1160" width="90" height="30" as="geometry" />
-        </mxCell>
         <mxCell id="49721lorXHgVXi5MIZpz-70" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="770" y="1019.73" as="sourcePoint" />
             <mxPoint x="830" y="1019.73" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="49721lorXHgVXi5MIZpz-71" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; font-size: 18px; text-wrap-mode: nowrap;&quot;&gt;終了 (10回目)&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="840" y="1160" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="49721lorXHgVXi5MIZpz-72" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; font-size: 18px; text-wrap-mode: nowrap;&quot;&gt;5回目&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1160" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="49721lorXHgVXi5MIZpz-73" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; font-size: 18px; text-wrap-mode: nowrap;&quot;&gt;初期生成 (1回目)&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1160" width="280" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
