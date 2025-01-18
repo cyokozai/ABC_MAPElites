@@ -143,7 +143,7 @@ F_BEHAVIOR = "behavior-$(FILENAME).dat"
 F_LOGFILE  = "log-$(METHOD)-$(OBJ_F)-$(LOGDATE).log"
 
 # EXIT CODE: 0: Success, 1: Failure
-exit_code = 0
+exit_code  = 0
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
