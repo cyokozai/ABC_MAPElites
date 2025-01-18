@@ -3830,7 +3830,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="FY-IX9ltzKJqUXLlyyem" name="ページ6">
-    <mxGraphModel dx="422" dy="231" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+    <mxGraphModel dx="989" dy="541" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3847,10 +3847,10 @@
           <mxGeometry x="360" y="280" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="I6UsrdTuamLlnnZuFVH_-14" value="&lt;span&gt;$$r_\text{noise} \cdot \left({x_{\text{max}} - x_{\text{min}}} \right) $$&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontSize=12;" parent="1" vertex="1">
-          <mxGeometry x="180" y="320" width="120" height="30" as="geometry" />
+          <mxGeometry x="180" y="310" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="I6UsrdTuamLlnnZuFVH_-15" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;rotation=90;" parent="1" vertex="1">
-          <mxGeometry x="230" y="250" width="20" height="120" as="geometry" />
+          <mxGeometry x="235" y="245" width="10" height="120" as="geometry" />
         </mxCell>
         <mxCell id="cfaHoDTMpHWVQu2G0I7L-1" value="" style="curved=1;endArrow=none;html=1;rounded=0;endFill=0;fillColor=#dae8fc;strokeColor=#3333FF;strokeWidth=1;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
