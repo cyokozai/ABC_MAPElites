@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.6" pages="11">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.6" pages="11">
   <diagram name="ページ1-1" id="lprVwwkiubusloyos-D7">
     <mxGraphModel dx="1434" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
       <root>
@@ -722,77 +722,77 @@
     </mxGraphModel>
   </diagram>
   <diagram name="ページ3-1" id="wgOK0jD-aXTgWlqnWRgT">
-    <mxGraphModel dx="2868" dy="1476" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
+    <mxGraphModel dx="1195" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
       <root>
         <mxCell id="NqAgH4YBMIuJkIgrR8WW-0" />
         <mxCell id="NqAgH4YBMIuJkIgrR8WW-1" parent="NqAgH4YBMIuJkIgrR8WW-0" />
         <mxCell id="M3FBCE-nbe-XDYfLfE1m-3" value="" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;fillColor=#f5f5f5;strokeColor=#666666;arcSize=5;fontColor=#333333;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
           <mxGeometry x="350" y="80" width="540" height="500" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--16" value="" style="group;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" connectable="0" parent="NqAgH4YBMIuJkIgrR8WW-1">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--16" value="" style="group;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1" connectable="0">
           <mxGeometry x="400" y="120" width="400" height="400" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--17" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--17" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry width="400" height="400" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--18" value="" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=none;strokeColor=#000000;size=30;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--18" value="" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=none;strokeColor=#000000;size=30;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="100" y="133.33333333333334" width="200" height="133.33333333333334" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--19" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.15;exitY=0.003;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--19" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.15;exitY=0.003;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="133.39999999999995" y="133.06666666666672" as="sourcePoint" />
             <mxPoint y="-1.8947806286936006e-13" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--20" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.849;exitY=0.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--20" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.849;exitY=0.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="250" y="133.33333333333334" as="sourcePoint" />
             <mxPoint x="300" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--21" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryX=0.849;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--21" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryX=0.849;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="300" y="400" as="sourcePoint" />
             <mxPoint x="270" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--22" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0.15;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryPerimeter=0;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--22" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0.15;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryPerimeter=0;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="100" y="400" as="sourcePoint" />
             <mxPoint x="150" y="266.6666666666667" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--23" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--23" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--17" target="APf-FRp1ep0lrSCIoSk--18" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="41.66666666666667" y="366.6666666666667" as="sourcePoint" />
             <mxPoint x="91.66666666666667" y="233.33333333333334" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--24" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--24" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" source="APf-FRp1ep0lrSCIoSk--18" target="APf-FRp1ep0lrSCIoSk--17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="16.666666666666668" y="216.66666666666669" as="sourcePoint" />
             <mxPoint x="116.66666666666667" y="216.66666666666669" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--25" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--25" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="183.33333333333334" y="183.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--26" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--26" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="183.33333333333334" y="316.6666666666667" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--27" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--27" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="183.33333333333334" y="50" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--28" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--28" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="316.6666666666667" y="83.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--29" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--29" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="50" y="83.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--30" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--30" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="316.6666666666667" y="283.33333333333337" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="APf-FRp1ep0lrSCIoSk--31" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="APf-FRp1ep0lrSCIoSk--16">
+        <mxCell id="APf-FRp1ep0lrSCIoSk--31" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="APf-FRp1ep0lrSCIoSk--16" vertex="1">
           <mxGeometry x="50" y="283.33333333333337" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="NrC3jaUIklCUxteOfcUj-0" value="" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;fillColor=#ffe6cc;strokeColor=#d79b00;arcSize=8;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
@@ -923,11 +923,11 @@
         <mxCell id="HxAUtyDxYC8fDI1ZQ_LQ-13" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#000000;fontColor=#000000;fillColor=#ff8000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
           <mxGeometry x="166" y="506" width="28" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="uAMJauWqxKNARU5M835u-0" value="behavioral descriptor 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
-          <mxGeometry x="500" y="530" width="200" height="40" as="geometry" />
+        <mxCell id="uAMJauWqxKNARU5M835u-0" value="Behavioral Descriptor 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
+          <mxGeometry x="495" y="530" width="210" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="uAMJauWqxKNARU5M835u-1" value="behavioral descriptor 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;rotation=-90;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
-          <mxGeometry x="264" y="300" width="200" height="40" as="geometry" />
+        <mxCell id="uAMJauWqxKNARU5M835u-1" value="Behavioral Descriptor 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;rotation=-90;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
+          <mxGeometry x="259" y="300" width="210" height="40" as="geometry" />
         </mxCell>
         <mxCell id="zlhghGIKfckILrh8-6Tq-9" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; text-wrap-mode: nowrap;&quot;&gt;Behavioral function&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; text-wrap-mode: nowrap;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" parent="NqAgH4YBMIuJkIgrR8WW-1" vertex="1">
           <mxGeometry x="60" y="190" width="240" height="60" as="geometry" />
@@ -1044,7 +1044,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="ページ3-2" id="i4jp07u4JzvguDxBOB5w">
-    <mxGraphModel dx="1195" dy="615" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
+    <mxGraphModel dx="1434" dy="785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="1" shadow="0">
       <root>
         <mxCell id="eWBIEM9NTU-jlH7rI9iR-0" />
         <mxCell id="eWBIEM9NTU-jlH7rI9iR-1" parent="eWBIEM9NTU-jlH7rI9iR-0" />
@@ -1057,73 +1057,73 @@
         <mxCell id="0-2DO0rKDjspApT0-RPl-11" value="Fitness 0.7" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
           <mxGeometry x="925" y="409" width="110" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="OTf9fDU9XGip8t8soqV2-0" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; text-wrap-mode: nowrap;&quot;&gt;Selection&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" vertex="1" parent="eWBIEM9NTU-jlH7rI9iR-1">
+        <mxCell id="OTf9fDU9XGip8t8soqV2-0" value="&lt;span style=&quot;font-family: &amp;quot;Zen Kaku Gothic New&amp;quot;; text-wrap-mode: nowrap;&quot;&gt;Selection&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
           <mxGeometry x="930" y="310" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-0" value="" style="group;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" connectable="0" parent="eWBIEM9NTU-jlH7rI9iR-1">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-0" value="" style="group;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1" connectable="0">
           <mxGeometry x="400" y="120" width="400" height="400" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry width="400" height="400" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-2" value="" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=none;strokeColor=#000000;size=30;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-2" value="" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=none;strokeColor=#000000;size=30;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="100" y="133.33333333333334" width="200" height="133.33333333333334" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-3" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.15;exitY=0.003;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-3" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.15;exitY=0.003;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="133.39999999999995" y="133.06666666666672" as="sourcePoint" />
             <mxPoint y="-1.8947806286936006e-13" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-4" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.849;exitY=0.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-4" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.849;exitY=0.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="250" y="133.33333333333334" as="sourcePoint" />
             <mxPoint x="300" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-5" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryX=0.849;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-5" value="" style="endArrow=none;html=1;strokeColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryX=0.849;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="300" y="400" as="sourcePoint" />
             <mxPoint x="270" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-6" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0.15;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryPerimeter=0;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-6" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0.15;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;entryPerimeter=0;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="100" y="400" as="sourcePoint" />
             <mxPoint x="150" y="266.6666666666667" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-7" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-7" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-1" target="fovAGrvtpW2wGRfyBHOw-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="41.66666666666667" y="366.6666666666667" as="sourcePoint" />
             <mxPoint x="91.66666666666667" y="233.33333333333334" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-8" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" edge="1" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-8" value="" style="endArrow=none;html=1;strokeColor=#000000;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" source="fovAGrvtpW2wGRfyBHOw-2" target="fovAGrvtpW2wGRfyBHOw-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="16.666666666666668" y="216.66666666666669" as="sourcePoint" />
             <mxPoint x="116.66666666666667" y="216.66666666666669" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-9" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-9" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="183.33333333333334" y="183.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-10" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-10" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="183.33333333333334" y="316.6666666666667" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-11" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-11" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="183.33333333333334" y="50" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-12" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-12" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="316.6666666666667" y="83.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-13" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-13" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="50" y="83.33333333333334" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-14" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-14" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="316.6666666666667" y="283.33333333333337" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fovAGrvtpW2wGRfyBHOw-15" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" vertex="1" parent="fovAGrvtpW2wGRfyBHOw-0">
+        <mxCell id="fovAGrvtpW2wGRfyBHOw-15" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
           <mxGeometry x="50" y="283.33333333333337" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="W2HI-_VvwDE9HjXDU-Sx-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#000000;fontColor=#000000;fillColor=#0000ff;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="fovAGrvtpW2wGRfyBHOw-0" vertex="1">
@@ -1204,11 +1204,11 @@
         <mxCell id="eWBIEM9NTU-jlH7rI9iR-68" value="4.0" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=16;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
           <mxGeometry x="740" y="520" width="40" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="eWBIEM9NTU-jlH7rI9iR-72" value="behavioral descriptor 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
-          <mxGeometry x="500" y="530" width="200" height="40" as="geometry" />
+        <mxCell id="eWBIEM9NTU-jlH7rI9iR-72" value="Behavioral Descriptor 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
+          <mxGeometry x="495" y="530" width="210" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="eWBIEM9NTU-jlH7rI9iR-73" value="behavioral descriptor 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;rotation=-90;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
-          <mxGeometry x="264" y="300" width="200" height="40" as="geometry" />
+        <mxCell id="eWBIEM9NTU-jlH7rI9iR-73" value="Behavioral Descriptor 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;rotation=-90;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
+          <mxGeometry x="259" y="300" width="210" height="40" as="geometry" />
         </mxCell>
         <mxCell id="0-2DO0rKDjspApT0-RPl-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#000000;fontColor=#000000;fillColor=#0000ff;fontFamily=Zen Kaku Gothic New;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DZen%2BKaku%2BGothic%2BNew;fontSize=18;" parent="eWBIEM9NTU-jlH7rI9iR-1" vertex="1">
           <mxGeometry x="926" y="226" width="28" height="28" as="geometry" />
