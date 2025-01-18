@@ -92,7 +92,7 @@ MUTANT_R  = 0.90
 cvt_vorn_data_update_limit = length(ARGS) > 4 ? parse(Int64, ARGS[5]) : 3
 
 # CVT Max iteration | Default: 100
-CVT_MAX_ITER = 100
+CVT_MAX_ITER               = 100
 
 #----------------------------------------------------------------------------------------------------#
 # DE parameter
@@ -120,11 +120,11 @@ end
 FOOD_SOURCE = N
 
 # Limit number: The number of limit trials that the scout bee can't find the better solution.
-TC_LIMIT = D * floor(Int, k_max / (10 * FOOD_SOURCE))
+TC_LIMIT    = D * floor(Int, k_max / (10 * FOOD_SOURCE))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Result file
-output     = "./result/"
+output = "./result/"
 
 if !isdir(output) || !isdir("$(output)$(METHOD)/$(OBJ_F)/") || !isdir("./log/")
     mkpath(output)
@@ -132,9 +132,11 @@ if !isdir(output) || !isdir("$(output)$(METHOD)/$(OBJ_F)/") || !isdir("./log/")
     mkpath("./log/")
 end
 
-DATE       = Dates.format(now(), "yyyy-mm-dd-HH-MM")
-LOGDATE    = Dates.format(now(), "yyyy-mm-dd")
+# Date
+DATE    = Dates.format(now(), "yyyy-mm-dd-HH-MM")
+LOGDATE = Dates.format(now(), "yyyy-mm-dd")
 
+# File name
 FILENAME   = length(ARGS) > 0 && ARGS[1] == "test" ? "$(DATE)-test" : "$(METHOD)-$(MAP_METHOD)-$(OBJ_F)-$(D)-$(DATE)"
 F_RESULT   = "result-$(FILENAME).dat"
 F_FITNESS  = "fitness-$(FILENAME).dat"
@@ -143,7 +145,7 @@ F_BEHAVIOR = "behavior-$(FILENAME).dat"
 F_LOGFILE  = "log-$(METHOD)-$(OBJ_F)-$(LOGDATE).log"
 
 # EXIT CODE: 0: Success, 1: Failure
-exit_code  = 0
+exit_code = 0
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
