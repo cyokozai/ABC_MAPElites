@@ -18,20 +18,22 @@ const MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
 const METHOD     = length(ARGS) > 1 ? ARGS[2] : "abc"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Parameter
+# Random Number Generator
 # Random seed
-const SEED      = Int(Dates.now().instant.periods.value)
+SEED = Int(Dates.now().instant.periods.value)
 
 # Random number generator
-const RNG       = StableRNG(SEED)
+RNG  = StableRNG(SEED)
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Parameters
 # Number of dimensions
 const D         = length(ARGS) > 0 && ARGS[1] == "test" ? 2 : parse(Int64, ARGS[1])
 
-# Number of population size
+# Number of population size | Default: 64
 const N         = 64
 
-# Dumber of behavior dimensions | No need to change because it isn't available.
+# Dumber of behavior dimensions | Default: 2
 const BD        = 2
 
 # Convergence flag | 'true' is available when you want to check the convergence.
@@ -85,16 +87,16 @@ const GRID_SIZE = 158
 # MAP_METHOD == cvt: Number of max k. | Default: 25000
 const k_max     = 25000
 
-# Number of mutation rate | Default: 0.90
-const MUTANT_R  = 0.90
-
-#----------------------------------------------------------------------------------------------------#
-# Voronoi parameter
 # Voronoi data update limit | Default: 3
 const cvt_vorn_data_update_limit = length(ARGS) > 4 ? parse(Int64, ARGS[5]) : 3
 
 # CVT Max iteration | Default: 100
 const CVT_MAX_ITER               = 100
+
+#----------------------------------------------------------------------------------------------------#
+# MAP-Elites parameter
+# Number of mutation rate | Default: 0.90
+const MUTANT_R  = 0.90
 
 #----------------------------------------------------------------------------------------------------#
 # DE parameter
