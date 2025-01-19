@@ -7,8 +7,7 @@ services:
       dockerfile: Dockerfile
     working_dir: /root/
     volumes:
-      - ./src/result:/root/result
-      - ./src/log:/root/log
+      - ./:/root/
     networks:
       - default
     environment:

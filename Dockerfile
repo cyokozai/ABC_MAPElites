@@ -38,5 +38,4 @@ RUN apt -y update && apt -y upgrade &&\
 
 #~~~~~~~~~~~~~~~~~~~~~~ EDIT ~~~~~~~~~~~~~~~~~~~~~~~#
 
-WORKDIR /root/
-COPY make-*.jl cvt-test.jl src/*.jl /root/
+WORKDIR /root/src

@@ -14,13 +14,13 @@ include("config.jl")
 
 #----------------------------------------------------------------------------------------------------#
 # The index of the fitness value
-fit_index = FIT_NOISE ? 1 : 2
+const fit_index = FIT_NOISE ? 1 : 2
 
 # Variance of the noise
-σ = r_noise * (UPP - LOW)/4.0
+const σ = r_noise/4.0
 
 # Normal distribution for the noise
-N_noise = Normal(0.0, σ^(2.0))
+const N_noise = Normal(0.0, σ^(2.0))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Fitness function

@@ -43,7 +43,7 @@ function greedySelection(f::Vector{Float64}, v::Vector{Float64}, i::Int64)
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Roulette selection
+# Roulette selection | Population
 function roulleteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
     r = rand(RNG)
     
@@ -56,6 +56,8 @@ function roulleteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
     return 1
 end
 
+#----------------------------------------------------------------------------------------------------#
+# Roulette selection | Archive
 function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual})
     r = rand(RNG)
     
@@ -114,10 +116,10 @@ function onlooker_bee(population::Population, archive::Archive)
     for i in 1:FOOD_SOURCE
         u_p = I_p[roulleteSelection(cum_p_p, I_p)].genes
         u_a = I_a[roulleteSelection(cum_p_a, I_a)].genes
-        
+
         for d in 1:D
             while true
-                j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
+                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
 
                 if I_p[i].genes[d] != I_a[k].genes[d] && i != j
                     break 
@@ -149,7 +151,7 @@ function scout_bee(population::Population, archive::Archive)
     if maximum(trial) > TC_LIMIT
         for i in 1:FOOD_SOURCE
             if trial[i] > TC_LIMIT
-                gene = rand(Float64, D) .* (UPP - LOW) .+ LOW
+                gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW
                 gene_noised = noise(gene)
                 
                 population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
@@ -161,7 +163,7 @@ function scout_bee(population::Population, archive::Archive)
                     init_CVT(population)
                     
                     new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
-                    archive = deepcopy(cvt_mapping(population, new_archive))
+                    archive     = deepcopy(cvt_mapping(population, new_archive))
                     
                     logger("INFO", "Recreate Voronoi diagram")
                 end

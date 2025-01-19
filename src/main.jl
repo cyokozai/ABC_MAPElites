@@ -89,28 +89,28 @@ end
 #       Run                                                                                          #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-# try
-#     global exit_code = 0
+try
+    global exit_code = 0
 
-#     logger("INFO", "Start")
-#     println("Start")
+    logger("INFO", "Start")
+    println("Start")
     
-#     main()
+    main()
 
-#     logger("INFO", "Success! :)")
-#     println("Success! :)")
-# catch e
-#     global exit_code = 1
+    logger("INFO", "Success! :)")
+    println("Success! :)")
+catch e
+    global exit_code = 1
 
-#     logger("ERROR", "An error occurred! :(\n$e")
-#     println("An error occurred! :(\n$e")
-# finally
-#     logger("INFO", "Finish")
-#     println("Finish")
+    logger("ERROR", "An error occurred! :(\n$e")
+    println("An error occurred! :(\n$e")
+finally
+    logger("INFO", "Finish")
+    println("Finish")
 
-#     exit(exit_code)
-# end
-main()
+    exit(exit_code)
+end
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

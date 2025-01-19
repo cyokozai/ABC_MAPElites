@@ -188,11 +188,14 @@ function map_elites()
     # Initialize
     logger("INFO", "Initialize")
     
+    initialize_ziggurat_table()
+
     population::Population = Population([evaluator(init_solution()) for _ in 1:N])
     archive::Archive = if MAP_METHOD == "grid"
         Archive(zeros(Int64, GRID_SIZE, GRID_SIZE), zeros(Int64, GRID_SIZE, GRID_SIZE), Dict{Int64, Individual}())
     elseif MAP_METHOD == "cvt"
         init_CVT(population)
+        
         Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
     end
     
