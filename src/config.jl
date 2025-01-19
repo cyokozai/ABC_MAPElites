@@ -43,10 +43,10 @@ const CONV_FLAG = false
 const EPS       = 1e-6
 
 # Number of max time | Default: 100000
-const MAXTIME   = if CONV_FLAG == false
-    100000
-elseif ARGS[1] == "test"
+const MAXTIME   = if ARGS[1] == "test"
     100
+elseif CONV_FLAG == false
+    100000
 elseif OBJ_F == "sphere"
     # Sphere
     30000
