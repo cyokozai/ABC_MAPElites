@@ -7,15 +7,15 @@ using StableRNGs
 using Dates
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Method
-# Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
-const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
+# Method and Objective function
+# Method: Default, abc, de
+const METHOD     = length(ARGS) > 1 ? ARGS[2] : "abc"
 
 # MAP Method: grid, cvt
 const MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
 
-# Method: Default, abc, de
-const METHOD     = length(ARGS) > 1 ? ARGS[2] : "abc"
+# Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
+const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Random Number Generator

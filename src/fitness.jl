@@ -13,13 +13,14 @@ include("benchmark.jl")
 include("config.jl")
 
 #----------------------------------------------------------------------------------------------------#
-# The index of the fitness value
+# Noise setting
+# The flag of the fitness value.
 const fit_index = FIT_NOISE ? 1 : 2
 
-# Variance of the noise
+# Constant of the noise.
 const σ = r_noise / 4.0
 
-# Normal distribution for the noise
+# Normal distribution for the noise.
 const N_noise = Normal(0.0, σ^(2.0))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

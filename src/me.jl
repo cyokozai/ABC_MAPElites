@@ -185,18 +185,24 @@ function map_elites()
         end
     end
     
-    # Initialize
+    #------ Initialize ------------------------------#
     logger("INFO", "Initialize")
-    
-    initialize_ziggurat_table()
 
+    # Initialize the population
     population::Population = Population([evaluator(init_solution()) for _ in 1:N])
+
+    # Initialize the archive
     archive::Archive = if MAP_METHOD == "grid"
         Archive(zeros(Int64, GRID_SIZE, GRID_SIZE), zeros(Int64, GRID_SIZE, GRID_SIZE), Dict{Int64, Individual}())
     elseif MAP_METHOD == "cvt"
         init_CVT(population)
-        
         Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
+    else
+        error("Invalid MAP method")
+
+        logger("ERROR", "Invalid MAP method")
+
+        exit(1)
     end
     
     # Open file
@@ -240,7 +246,7 @@ function map_elites()
     
     logger("INFO", "Time out")
 
-    #------ Main loop ------------------------------#
+    #------ Save data ------------------------------#
 
     # Close file
     close(ffn)
