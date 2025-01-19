@@ -5,9 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /root/
+    working_dir: /root/src
     volumes:
-      - ./:/root/
+      - ./src:/root/src
     networks:
       - default
     environment:

@@ -37,3 +37,5 @@ RUN apt -y update && apt -y upgrade &&\
     rm -rf pkginstall.jl
 
 #~~~~~~~~~~~~~~~~~~~~~~ EDIT ~~~~~~~~~~~~~~~~~~~~~~~#
+
+WORKDIR /root/src

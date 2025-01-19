@@ -33,3 +33,5 @@ src/result*/*
 !src/result/testdata/
 !src/result/testdata/*
 !src/result/testdata/pdf/*.pdf
+
+ .julia/
