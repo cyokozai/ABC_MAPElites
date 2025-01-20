@@ -73,26 +73,28 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
-    I_p = population.individuals
-    v_p = zeros(Float64, D)
-    j   = rand(RNG, 1:FOOD_SOURCE)
+    I_p, I_a = population.individuals, archive.individuals
+    v_p, v_a = zeros(Float64, D), zeros(Float64, D)
+    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
     
     print(".")
     
     for i in 1:FOOD_SOURCE
         for d in 1:D
             while true
-                j = rand(RNG, 1:FOOD_SOURCE)
+                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_a))
                 
-                if i != j
+                if I_p[i].genes[d] != I_a[k].genes[d] && i != j
                     break 
                 end
             end
             
             v_p[d] = I_p[i].genes[d] + φ() * (I_p[i].genes[d] - I_p[j].genes[d])
+            v_a[d] = I_p[i].genes[d] + φ() * (I_p[i].genes[d] - I_a[k].genes[d])
         end
         
-        population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_p, i))
+        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_p, i))
+        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_a, i))
     end
     
     print(".")
@@ -129,13 +131,9 @@ function onlooker_bee(population::Population, archive::Archive)
             v_p[d] = u_p[d] + φ() * (u_p[d] - I_p[j].genes[d])
             v_a[d] = u_a[d] + φ() * (u_a[d] - I_a[k].genes[d])
         end
-        population.individuals[i].genes = deepcopy(greedySelection(I_p[i].genes, v_p, i))
         
-        # population.individuals[i].genes = if fitness(objective_function(v_p)) > fitness(objective_function(v_a))
-        #     deepcopy(greedySelection(I_p[i].genes, v_p, i))
-        # else
-        #     deepcopy(greedySelection(I_p[i].genes, v_a, i))
-        # end
+        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_p, i))
+        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_a, i))
     end
     
     print(".")
@@ -194,6 +192,7 @@ function ABC(population::Population, archive::Archive)
     print("Scout    bee phase ")
     population, archive = scout_bee(population, archive)
     println(". Done")
+    println(maximum(trial))
     
     return population, archive
 end

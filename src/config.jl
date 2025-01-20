@@ -8,14 +8,29 @@ using Dates
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Method and Objective function
-# Method: Default, abc, de
+# Method: me, abc, de
 const METHOD     = length(ARGS) > 1 ? ARGS[2] : "abc"
+if METHOD != "me" && METHOD != "abc" && METHOD != "de"
+    println("Error: The method is not available.")
+
+    exit(1)
+end
 
 # MAP Method: grid, cvt
 const MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
+if MAP_METHOD != "grid" && MAP_METHOD != "cvt"
+    println("Error: The MAP method is not available.")
+
+    exit(1)
+end
 
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
 const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
+if OBJ_F != "sphere" && OBJ_F != "rosenbrock" && OBJ_F != "rastrigin" && OBJ_F != "griewank" && OBJ_F != "ackley" && OBJ_F != "schwefel" && OBJ_F != "michalewicz"
+    println("Error: The objective function is not available.")
+
+    exit(1)
+end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Random Number Generator

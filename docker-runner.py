@@ -22,8 +22,8 @@ FUNCTION    = ["sphere", "rosenbrock", "rastrigin"]
 # "grep" or "cvt"
 MAP_METHOD  = "cvt"
 
-# "default", "de", "abc"
-METHOD      = ["default", "de", "abc"]
+# "me", "de", "abc"
+METHOD      = ["me", "de", "abc"]
 
 # 2 10 50 100 500 1000
 DIMENSION   = [10, 50, 100]
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         if len(args) > 1 and args[1] == "test":
             DIMENSION = "test"
             FUNCTION = "sphere"
-            METHOD = ["default", "de", "abc"]
+            METHOD = ["me", "de", "abc"]
             MAP_METHOD = "cvt"
             LOOP = 1
             CVT_UPDATE = [3]
