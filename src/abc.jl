@@ -135,7 +135,7 @@ function onlooker_bee(population::Population, archive::Archive)
         
         u_CR = crossover(v_P, v_A)
         if objective_function(u_CR) < objective_function(I_P[i].genes)
-            population.individuals[i].genes = deepcopy(u_CR)
+            archive.individuals[rand(RNG, keys(I_A))].genes = deepcopy(u_CR)
         end
 
         population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_P, trial_P, i))
@@ -166,9 +166,9 @@ function scout_bee(population::Population, archive::Archive)
                 logger("INFO", "Scout bee found a new food source")
             end
         end
-    elseif maximum(trial_A) > TC_LIMIT
+    elseif maximum(trial_A) > TC_LIMIT ÷ D
         for key in keys(archive.individuals)
-            if trial_A[key] > TC_LIMIT
+            if trial_A[key] > TC_LIMIT ÷ D
                 gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW
                 gene_noised = noise(gene)
                 
