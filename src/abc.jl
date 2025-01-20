@@ -95,7 +95,7 @@ function employed_bee(population::Population, archive::Archive)
             v_P[d] = I_P[i].genes[d] + φ() * (I_P[i].genes[d] - I_P[j].genes[d])
         end
         
-        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_P, trial_P, i))
+        population.individuals[i].genes = deepcopy(greedySelection(I_P[i].genes, v_P, trial_P, i))
     end
     
     print(".")
@@ -135,12 +135,7 @@ function onlooker_bee(population::Population, archive::Archive)
         
         u_CR = crossover(v_P, v_A)
 
-        if objective_function(u_CR) < objective_function(I_P[i].genes)
-            population.individuals[i].genes = deepcopy(u_CR)
-        else
-            population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_P, trial_P, i))
-            population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_A, trial_A, k))
-        end
+        population.individuals[i].genes = deepcopy(greedySelection(I_P[j].genes, u_CR, trial_P, i))
     end
     
     print(".")
@@ -163,18 +158,6 @@ function scout_bee(population::Population, archive::Archive)
                 
                 population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
                 trial_P[i] = 0
-                
-                logger("INFO", "Scout bee found a new food source")
-            end
-        end
-    elseif maximum(trial_A) > TC_LIMIT
-        for key in keys(archive.individuals)
-            if trial_A[key] > TC_LIMIT
-                gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW
-                gene_noised = noise(gene)
-                
-                archive.individuals[key] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
-                trial_A[key] = 0
                 
                 logger("INFO", "Scout bee found a new food source")
             end
@@ -213,6 +196,7 @@ function ABC(population::Population, archive::Archive)
     print("Scout    bee phase ")
     population, archive = scout_bee(population, archive)
     println(". Done")
+
     println(maximum(trial_P))
     println(maximum(trial_A))
     
