@@ -29,7 +29,7 @@ METHOD      = ["me", "de", "abc"]
 DIMENSION   = [10, 50, 100]
 
 # Loop count
-LOOP        = 2
+LOOP        = 5
 
 # Replication
 REPLICATION = 1

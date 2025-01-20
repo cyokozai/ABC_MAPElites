@@ -186,6 +186,7 @@ function map_elites()
     end
     
     #------ Initialize ------------------------------#
+    
     logger("INFO", "Initialize")
 
     # Initialize the population
