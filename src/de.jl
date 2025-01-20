@@ -39,19 +39,19 @@ function DE(population::Population, archive::Archive)
         
         b = (objective_function(u_noised), objective_function(u))
         
-        if fitness(b[fit_index]) > fitness(I_a[r1].benchmark[fit_index])
+        if b[fit_index] < I_a[r1].benchmark[fit_index]
             archive.individuals[r1] = Individual(deepcopy(u), b, devide_gene(u))
         end
 
-        if fitness(b[fit_index]) > fitness(I_a[r2].benchmark[fit_index])
+        if b[fit_index] < I_a[r2].benchmark[fit_index]
             archive.individuals[r2] = Individual(deepcopy(u), b, devide_gene(u))
         end
         
-        if fitness(b[fit_index]) > fitness(I_a[r3].benchmark[fit_index])
+        if b[fit_index] < I_a[r3].benchmark[fit_index]
             archive.individuals[r3] = Individual(deepcopy(u), b, devide_gene(u))
         end
 
-        if fitness(b[fit_index]) > fitness(I_p[i].benchmark[fit_index])
+        if b[fit_index] < I_p[i].benchmark[fit_index]
             population.individuals[i] = Individual(deepcopy(u), b, devide_gene(u))
         end
     end

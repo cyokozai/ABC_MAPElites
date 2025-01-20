@@ -67,7 +67,7 @@ function evaluator(individual::Individual)
     individual.behavior = deepcopy(devide_gene(gene_noised))
 
     # Update the best solution
-    if fitness(individual.benchmark[fit_index]) >= fitness(best_solution.benchmark[fit_index])
+    if individual.benchmark[fit_index] <= best_solution.benchmark[fit_index]
         best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))
     end
     

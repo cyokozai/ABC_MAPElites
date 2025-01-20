@@ -134,12 +134,13 @@ function onlooker_bee(population::Population, archive::Archive)
         end
         
         u_CR = crossover(v_P, v_A)
-        if objective_function(u_CR) < objective_function(I_P[i].genes)
-            archive.individuals[rand(RNG, keys(I_A))].genes = deepcopy(u_CR)
-        end
 
-        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_P, trial_P, i))
-        population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_A, trial_A, k))
+        if objective_function(u_CR) < objective_function(I_P[i].genes)
+            population.individuals[i].genes = deepcopy(u_CR)
+        else
+            population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_P, trial_P, i))
+            population.individuals[i].genes = deepcopy(greedySelection(population.individuals[i].genes, v_A, trial_A, k))
+        end
     end
     
     print(".")
@@ -150,7 +151,7 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
-    global trial_P, cvt_vorn_data_update
+    global trial_P, trial_A, cvt_vorn_data_update
     
     print(".")
     
@@ -166,9 +167,9 @@ function scout_bee(population::Population, archive::Archive)
                 logger("INFO", "Scout bee found a new food source")
             end
         end
-    elseif maximum(trial_A) > TC_LIMIT ÷ D
+    elseif maximum(trial_A) > TC_LIMIT
         for key in keys(archive.individuals)
-            if trial_A[key] > TC_LIMIT ÷ D
+            if trial_A[key] > TC_LIMIT
                 gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW
                 gene_noised = noise(gene)
                 
@@ -179,11 +180,12 @@ function scout_bee(population::Population, archive::Archive)
             end
         end
 
-        if cvt_vorn_data_update < cvt_vorn_data_update_limit
+        if cvt_vorn_data_update <= cvt_vorn_data_update_limit
             init_CVT(population)
             
             new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
             archive     = deepcopy(cvt_mapping(population, new_archive))
+            trial_A     = zeros(Int, k_max)
             
             logger("INFO", "Recreate Voronoi diagram")
         end
