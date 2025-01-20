@@ -16,10 +16,6 @@ using DelaunayTriangulation
 
 using CairoMakie
 
-#----------------------------------------------------------------------------------------------------#
-
-include("config.jl")
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 global MAXTIME = 100000
@@ -30,24 +26,19 @@ function_name  = ARGS[2]
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 function MakeFigure()
-    fig = CairoMakie.Figure()
+    fig = CairoMakie.Figure(size = (800, 600), fontsize=24, px_per_unit=2)
     
     ax = if ARGS[1] == "test"
         [
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            titlesize=24,
-            xlabelsize=24,
             xlabel=L"\mathrm{Generation\,} (\times 10^4)",
-            ylabelsize=24,
             ylabel=L"\mathrm{Fitness\,}",
             title="Test data",
-            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
-            yticksize=24,
             yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -59,16 +50,11 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
-            titlesize=24,
-            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=24,
             ylabel=L"\text{Fitness}",
-            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
-            yticksize=24,
             yticks=(10.0 .^ (-4.0:2.0:8.0), string.(["1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -80,16 +66,12 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
-            titlesize=24,
-            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=24,
             ylabel=L"\text{Fitness}",
-            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
-            yticksize=24,
             yticks=(10.0 .^ (-2.0:2.0:10.0), string.(["1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08", "1.0e+10"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -101,16 +83,12 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            titlesize=24,
-            xlabelsize=24,
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=24,
             ylabel=L"\text{Fitness}",
-            xticksize=24,
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
-            yticksize=24,
             yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
@@ -181,9 +159,9 @@ function ReadData(dir::String)
     else
         for (m, method) in enumerate(mlist)
             filepath = if m <= length(mlist) / 2
-                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-", path)]
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension).", path) && occursin("$(function_name)", path) && occursin("fitness-", path)]
             else
-                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-noise-", path)]
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension).", path) && occursin("$(function_name)", path) && occursin("fitness-noise-", path)]
             end
             data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
@@ -256,17 +234,17 @@ function PlotData(Data, fig, axis)
         average_data = [abs(x) for x in average_data]
         
         n, ls, cr = if key == "test" || key == "default"
-            1, :solid, :red
+            1, :dash, :red
         elseif key == "de"
-            1, :solid, :blue
+            1, :dash, :blue
         elseif key == "abc"
-            1, :solid, :green
+            1, :dash, :green
         elseif key == "default-noised"
-            2, :dash, :red
+            2, :solid, :red
         elseif key == "de-noised"
-            2, :dash, :blue
+            2, :solid, :blue
         elseif key == "abc-noised"
-            2, :dash, :green
+            2, :solid, :green
         end
         
         linedata[key] = lines!(axis[1], 1:length(average_data), average_data, linestyle=ls,  linewidth=1.2, color=cr)
@@ -284,7 +262,7 @@ function PlotData(Data, fig, axis)
     #     fig[1, 2],
     #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
     #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-    #     fontsize=36
+    #     fontsize=48, markersize=30
     # )
     
     resize_to_layout!(fig)
