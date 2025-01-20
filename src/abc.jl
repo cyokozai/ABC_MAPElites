@@ -53,7 +53,7 @@ function roulleteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
         end
     end
 
-    return 1
+    return rand(RNG, 1:length(I))
 end
 
 #----------------------------------------------------------------------------------------------------#
@@ -67,7 +67,7 @@ function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual
         end
     end
     
-    return keys(I)[1]
+    return keys(I)[rand(RNG, keys(I))]
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
