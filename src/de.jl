@@ -12,19 +12,11 @@ include("config.jl")
 
 include("struct.jl")
 
-include("benchmark.jl")
-
 include("fitness.jl")
 
-include("logger.jl")
+include("crossover.jl")
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Binomial crossover
-function crossover(x::Vector{Float64}, v::Vector{Float64})
-    j_rand = rand(RNG, 1:D)
-    
-    return [rand(RNG) < CR || j == j_rand ? v[j] : x[j] for j in 1:D]
-end
+include("logger.jl")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Differential Evolution algorithm
@@ -42,6 +34,7 @@ function DE(population::Population, archive::Archive)
         
         v = clamp.(I_a[r1].genes .+ F .* (I_a[r2].genes .- I_a[r3].genes), LOW, UPP)
         u = crossover(I_p[i].genes, v)
+
         u_noised = noise(u)
         
         b = (objective_function(u_noised), objective_function(u))
@@ -61,13 +54,9 @@ function DE(population::Population, archive::Archive)
         if fitness(b[fit_index]) > fitness(I_p[i].benchmark[fit_index])
             population.individuals[i] = Individual(deepcopy(u), b, devide_gene(u))
         end
-
-        if i % 10 == 0
-            print(".")
-        end
     end
 
-    println("done")
+    println(" done")
     
     return population, archive
 end
