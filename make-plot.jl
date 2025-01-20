@@ -258,12 +258,12 @@ function PlotData(Data, fig, axis)
     #     position=:cb, fontsize=20, orientation=:horizontal
     # )
 
-    # Legend(
-    #     fig[1, 2],
-    #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-    #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-    #     fontsize=48, markersize=30
-    # )
+    Legend(
+        fig[1, 2],
+        [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+        ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
+        fontsize=48, markersize=30
+    )
     
     resize_to_layout!(fig)
 end
