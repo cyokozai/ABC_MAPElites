@@ -38,7 +38,7 @@ REPLICATION = 1
 CVT_UPDATE  = [3]
 
 # Prosess interval
-INTERBAL    = 30
+INTERBAL    = 60
 
 #------ Edit config ------------------------------#
 
