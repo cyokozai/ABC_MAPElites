@@ -116,7 +116,7 @@ const MUTANT_R  = 0.90
 #----------------------------------------------------------------------------------------------------#
 # DE parameter
 # The crossover probability / The differentiation (mutation) scaling factor | Default: 0.80 / 0.90
-const CR, F = if METHOD == "abc"
+const CR, F = if METHOD != "de"
     [0.50, 0.00]
 elseif OBJ_F == "sphere"
     [0.20, 0.40]

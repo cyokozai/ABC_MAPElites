@@ -128,32 +128,36 @@ mutate(individual::Individual) = rand(RNG) < MUTANT_R ? individual : init_soluti
 select_random_elite = if MAP_METHOD == "grid"
     (population::Population, archive::Archive) -> begin
         while true
-            i, j = rand(RNG, 1:GRID_SIZE, 2)
+            i, j, k = rand(RNG, 1:GRID_SIZE, 3)
             
-            if archive.grid[i, j] > 0
-                return archive.individuals[archive.grid[i, j]]
+            if archive.grid[i, j] > 0 && archive.grid[i, k] > 0 && j != k
+                return archive.individuals[archive.grid[i, j]], archive.individuals[archive.grid[i, k]]
             end
         end
     end
 elseif MAP_METHOD == "cvt"
     (population::Population, archive::Archive) -> begin
-        random_centroid_index = rand(RNG, keys(archive.individuals))
+        random_centroid_index1, random_centroid_index2 = zeros(Int64, 2)
+
+        while random_centroid_index1 == random_centroid_index2
+            random_centroid_index1, random_centroid_index2 = rand(RNG, keys(archive.individuals), 2)
+        end
         
-        return archive.individuals[random_centroid_index]
+        return archive.individuals[random_centroid_index1], archive.individuals[random_centroid_index2]
     end
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Reproduction: Generate new individuals
 Reproduction = if METHOD == "me"
-    (population::Population, archive::Archive) -> (Population([evaluator(mutate(select_random_elite(population, archive))) for _ in 1:N]), archive)
+    (population::Population, archive::Archive) -> (Population([evaluator(mutate(crossover(select_random_elite(population, archive)))) for _ in 1:N]), archive)
 elseif METHOD == "abc"
     (population::Population, archive::Archive) -> ABC(population, archive)
 elseif METHOD == "de"
     (population::Population, archive::Archive) -> DE(population, archive)
 else
     error("Invalid method")
-
+    
     logger("ERROR", "Invalid method")
 
     exit(1)
