@@ -9,8 +9,12 @@ using Random
 include("config.jl")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Uniform crossover
+# Uniform crossover | DE/rand/1/bin
 crossover(x::Vector{Float64}, v::Vector{Float64}) = [rand(RNG) < CR ? v[d] : x[d] for d in 1:D]
+
+#----------------------------------------------------------------------------------------------------#
+# Uniform crossover | MAP-Elites
+crossover(x::Individual, y::Individual) = Individual(crossover(x.genes, y.genes), (0.0, 0.0), zeros(Float64, B))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
