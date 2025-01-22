@@ -33,8 +33,8 @@ function MakeFigure()
         Axis(
             fig[1, 1],
             limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
-            xlabel=L"\mathrm{Generation\,} (\times 10^4)",
-            ylabel=L"\mathrm{Fitness\,}",
+            xlabel=L"\mathrm{Generation} (\times 10^4)",
+            ylabel=L"\mathrm{Function value}",
             title="Test data",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
@@ -45,52 +45,18 @@ function MakeFigure()
             height = 560
         )
         ]
-    elseif function_name == "rosenbrock"
-        [
-        Axis(
-            fig[1, 1],
-            limits = ((0-2000, MAXTIME), (1.0e-2, 1.0e+10)),
-            xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=24,
-            ylabel=L"\text{Fitness}",
-            xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
-            xminorticks = IntervalsBetween(2),
-            yscale=log10,
-            yticks=(10.0 .^ (-2.0:2.0:10.0), string.(["1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08", "1.0e+10"])),
-            yminorticks = IntervalsBetween(5),
-            width = 720,
-            height = 560
-        )
-        ]
-    elseif function_name == "rastringin"
-        [
-        Axis(
-            fig[1, 1],
-            limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+8)),
-            xlabel=L"\text{Generation} \quad (\times 10^4)",
-            ylabelsize=24,
-            ylabel=L"\text{Fitness}",
-            xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
-            xminorticks = IntervalsBetween(2),
-            yscale=log10,
-            yticks=(10.0 .^ (-4.0:2.0:8.0), string.(["1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06", "1.0e+08"])),
-            yminorticks = IntervalsBetween(5),
-            width = 720,
-            height = 560
-        )
-        ]
     else
         [
         Axis(
             fig[1, 1],
-            limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
+            limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+6)),
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=24,
-            ylabel=L"\text{Fitness}",
+            ylabel=L"\text{Function value}",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
             xminorticks = IntervalsBetween(2),
             yscale=log10,
-            yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
+            yticks=(10.0 .^ (-4.0:2.0:6.0), string.(["1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
             yminorticks = IntervalsBetween(5),
             width = 720,
             height = 560
@@ -120,7 +86,7 @@ function ReadData(dir::String)
             return nothing
         else
             for (i, f) in enumerate(filepath)
-                o_val, old, parsed_value = 0.0, 0.0, 0.0
+                parsed_value = 0.0
 
                 if occursin(".dat", f)
                     j, reading_data = 1, false
@@ -251,12 +217,12 @@ function PlotData(Data, fig, axis)
     #     position=:cb, fontsize=20, orientation=:horizontal
     # )
 
-    # Legend(
-    #     fig[1, 2],
-    #     [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-    #     ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
-    #     fontsize=48, markersize=30
-    # )
+    Legend(
+        fig[1, 2],
+        [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+        ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
+        fontsize=48, markersize=30
+    )
     
     resize_to_layout!(fig)
 end
@@ -272,8 +238,8 @@ function SavePDF(fig)
             mkpath("result/graph")
         end
 
-        println("Saved: result/graph/$(function_name)-$(dimension).pdf")
-        save("result/graph/$(function_name)-$(dimension).pdf", fig)
+        println("Saved: result/graph/$(function_name)-$(dimension)-L.pdf")
+        save("result/graph/$(function_name)-$(dimension)-L.pdf", fig)
     end
 end
 
