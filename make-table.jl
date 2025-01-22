@@ -25,8 +25,8 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
     true_fitness = Dict(i => Float64[] for i in 1:10)
 
     # Read all .dat files in the input directory
-    for file in filter(x -> endswith(x, ".dat"), [path for path in readdir(input_dir) if occursin("result-$(method)-$(MAP)-$(func)-$(dim)-", path)]) 
-        filepath = joinpath(input_dir, file)
+    for file in [path for path in readdir("$(input_dir)/$(method)/$(func)") if occursin("result-$(method)-$(MAP)-$(func)-$(dim)-", path)]
+        filepath = joinpath("$(input_dir)/$(method)/$(func)", file)
         println(filepath)
         # Open and read the .dat file
         open(filepath, "r") do io
@@ -37,10 +37,10 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
                 if occursin("Rank", line)
                     current_rank = parse(Int, match(r"Rank (\d+):", line).captures[1])
                 elseif occursin("├── Noisy Fitness: ", line)
-                    noisy_value = parse(Float64, match(r"(\d+).(\d+)", line).captures[1])
+                    noisy_value = parse(Float64, split(line, ": ")[2])
                     push!(noisy_fitness[current_rank], noisy_value)
                 elseif occursin("├── True Fitness:  ", line)
-                    true_value = parse(Float64, match(r"(\d+).(\d+)", line).captures[1])
+                    true_value = parse(Float64, split(line, ":  ")[2])
                     push!(true_fitness[current_rank], true_value)
                 end
             end
@@ -150,6 +150,7 @@ end
 for func in FUNCTION
     for method in METHOD
         for dim in DIMENSION
+            println("Processing $(method) - $(func) - $(dim)")
             process_dat_files("./result", method, func, dim)
         end
     end

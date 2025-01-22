@@ -16,12 +16,12 @@ map_name = ARGS[3]
 function_name = ARGS[4]
 cvtchange = ARGS[5]
 
-closeup = if function_name == "rastrigin"
-    0.25
+closeup, LOW, UPP = if function_name == "rastrigin"
+    0.25, -5.12, 5.12
 elseif function_name == "rosenbrock"
-    0.25
+    0.25, -5.0, 5.0
 elseif function_name == "sphere"
-    0.1
+    0.1, -5.12, 5.12
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -127,6 +127,7 @@ end
 
 if isempty(updateCountData)
     println("updateCountData is empty. Skipping color mapping and plotting.")
+    
     exit(1)
 else
     println("updateCountData: ", length(updateCountData))
@@ -182,6 +183,7 @@ end
 
 if isempty(individualData)
     println("individualData is empty. Skipping color mapping and plotting.")
+
     exit(1)
 else
     println("individualData: ", length(individualData))
@@ -237,6 +239,7 @@ end
 
 if isempty(fitnessData)
     println("fitnessData is empty. Skipping color mapping and plotting.")
+
     exit(1)
 else
     println("fitnessData: ", length(fitnessData))
@@ -250,12 +253,11 @@ for iter in ["FitnessValue"]
         cgrad(:viridis)
     end
 
-    fig = Figure()
+    fig = CairoMakie.Figure(size = (700, 600), fontsize=24, px_per_unit=2)
 
     ax = [Axis(
         fig[1, 1],
         limits = ((LOW, UPP), (LOW, UPP)),
-        titlesize=18,
         xlabel = L"b_1",
         xlabelsize = 18,
         ylabel = L"b_2",
@@ -266,7 +268,6 @@ for iter in ["FitnessValue"]
     Axis(
         fig[1, 3],
         limits = ((LOW * closeup, UPP * closeup), (LOW * closeup, UPP * closeup)),
-        titlesize=18,
         xlabel = L"b_1",
         xlabelsize = 18,
         ylabel = L"b_2",
@@ -296,7 +297,6 @@ for iter in ["FitnessValue"]
 
     scatter!(
         ax[1],
-        titlesize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -309,7 +309,6 @@ for iter in ["FitnessValue"]
     )
     scatter!(
         ax[2], 
-        titlesize=18,
         [d[1] for d in individualData],
         [d[2] for d in individualData],
         marker = :circle, 
@@ -331,7 +330,6 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
-        titlesize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
@@ -351,7 +349,6 @@ for iter in ["FitnessValue"]
         else
             (0.0, 1.0)
         end,
-        titlesize=18,
         ticks = if iter == "UpdateFrequency"
             (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
         else
