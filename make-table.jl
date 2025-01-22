@@ -25,9 +25,9 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
     true_fitness = Dict(i => Float64[] for i in 1:10)
 
     # Read all .dat files in the input directory
-    for file in filter(x -> endswith(x, ".dat"), [path for path in readdir(input_dir) if occursin("result-", path) && occursin("$(method)-$(MAP)-$(func)-$(dim)-", path)]) 
+    for file in filter(x -> endswith(x, ".dat"), [path for path in readdir(input_dir) if occursin("result-$(method)-$(MAP)-$(func)-$(dim)-", path)]) 
         filepath = joinpath(input_dir, file)
-        
+        println(filepath)
         # Open and read the .dat file
         open(filepath, "r") do io
             current_rank = 0

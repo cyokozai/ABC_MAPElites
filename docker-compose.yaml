@@ -8,6 +8,7 @@ services:
     working_dir: /root/src
     volumes:
       - ./src:/root/src
+      - ./:/root
     networks:
       - default
     environment:
