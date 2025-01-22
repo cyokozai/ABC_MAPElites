@@ -9,7 +9,7 @@ using Dates
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Method and Objective function
 # Method: me, abc, de
-const METHOD     = length(ARGS) > 1 ? ARGS[2] : "abc"
+const METHOD     = length(ARGS) > 1 ? ARGS[2] : "me"
 if METHOD != "me" && METHOD != "abc" && METHOD != "de"
     println("Error: The method is not available.")
 
