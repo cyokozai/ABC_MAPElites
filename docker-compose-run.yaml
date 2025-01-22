@@ -15,7 +15,7 @@ services:
       - FUNCTION=sphere
       - METHOD=me
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -38,7 +38,7 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=me
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -61,7 +61,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=me
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -84,7 +84,7 @@ services:
       - FUNCTION=sphere
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -107,7 +107,7 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -130,7 +130,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=de
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -153,7 +153,7 @@ services:
       - FUNCTION=sphere
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -176,7 +176,7 @@ services:
       - FUNCTION=rosenbrock
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
@@ -199,7 +199,7 @@ services:
       - FUNCTION=rastrigin
       - METHOD=abc
       - D=10 50 100 
-      - LOOP=1 2 3 4 5
+      - LOOP=1 2
     deploy:
       resources:
         limits:
