@@ -43,7 +43,7 @@ RNG  = StableRNG(SEED)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Parameters
 # Number of dimensions
-const D         = length(ARGS) > 0 && ARGS[1] == "test" ? 2 : parse(Int64, ARGS[1])
+const D         = length(ARGS) > 0 && ARGS[1] == "test" ? 10 : parse(Int64, ARGS[1])
 
 # Number of population size | Default: 64
 const N         = 64
@@ -59,7 +59,7 @@ const EPS       = 1e-6
 
 # Number of max time | Default: 100000
 const MAXTIME   = if ARGS[1] == "test"
-    100
+    1000
 elseif CONV_FLAG == false
     100000
 elseif OBJ_F == "sphere"
@@ -95,7 +95,7 @@ const FIT_NOISE = true
 const r_noise   = 0.01
 
 # The number of mean gene | Default: 3
-const MEAN_GENE = FIT_NOISE ? 3 : 1
+const MEAN_GENE = FIT_NOISE ? 5 : 1
 
 #----------------------------------------------------------------------------------------------------#
 # Map parameter
