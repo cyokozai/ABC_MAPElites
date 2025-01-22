@@ -8,9 +8,9 @@ include("logger.jl")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Objective function
-objective_function = if OBJ_F == "sphere"
+ObjFunction = if OBJ_F == "sphere"
     # Sphere
-    x::Vector{Float64} -> sum((x .- 0) .^ 2)
+    x::Vector{Float64} -> sum(x .^ 2)
 elseif OBJ_F == "rosenbrock"
     # Rosenbrock
     x::Vector{Float64} -> sum(100 .* (x[2:end] .- x[1:end-1].^2).^2 + (1 .- x[1:end-1]).^2)
@@ -31,6 +31,8 @@ else
 
     exit(1)
 end
+
+objective_function(x::Vector{Float64}) = sum(ObjFunction(x) for _ in 1:MEAN_GENE) / MEAN_GENE
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Number of solution and bounds

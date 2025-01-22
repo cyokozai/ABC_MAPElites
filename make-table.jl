@@ -36,11 +36,11 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
                 
                 if occursin("Rank", line)
                     current_rank = parse(Int, match(r"Rank (\d+):", line).captures[1])
-                elseif occursin("├── Noisy Fitness: ", line) && current_rank > 0
-                    noisy_value = parse(Float64, split(line, ": ")[2])
+                elseif occursin("├── Noisy Fitness: ", line)
+                    noisy_value = parse(Float64, match(r"(\d+).(\d+)", line).captures[1])
                     push!(noisy_fitness[current_rank], noisy_value)
-                elseif occursin("├── True Fitness:  ", line) && current_rank > 0
-                    true_value = parse(Float64, split(line, ":  ")[2])
+                elseif occursin("├── True Fitness:  ", line)
+                    true_value = parse(Float64, match(r"(\d+).(\d+)", line).captures[1])
                     push!(true_fitness[current_rank], true_value)
                 end
             end

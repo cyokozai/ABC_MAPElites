@@ -99,7 +99,7 @@ function employed_bee(population::Population, archive::Archive)
     end
     
     print(".")
-
+    
     return population, archive
 end
 
@@ -196,9 +196,6 @@ function ABC(population::Population, archive::Archive)
     print("Scout    bee phase ")
     population, archive = scout_bee(population, archive)
     println(". Done")
-
-    println(maximum(trial_P))
-    println(maximum(trial_A))
     
     return population, archive
 end

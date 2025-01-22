@@ -25,7 +25,7 @@ if MAP_METHOD != "grid" && MAP_METHOD != "cvt"
 end
 
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
-const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
+const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "rastrigin"
 if OBJ_F != "sphere" && OBJ_F != "rosenbrock" && OBJ_F != "rastrigin" && OBJ_F != "griewank" && OBJ_F != "ackley" && OBJ_F != "schwefel" && OBJ_F != "michalewicz"
     println("Error: The objective function is not available.")
 
@@ -93,6 +93,9 @@ const FIT_NOISE = true
 
 # Noise rate | Default: 0.01
 const r_noise   = 0.01
+
+# The number of mean gene | Default: 3
+const MEAN_GENE = FIT_NOISE ? 3 : 1
 
 #----------------------------------------------------------------------------------------------------#
 # Map parameter
