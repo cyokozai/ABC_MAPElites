@@ -14,7 +14,7 @@ crossover(x::Vector{Float64}, v::Vector{Float64}) = [rand(RNG) < CR ? v[d] : x[d
 
 #----------------------------------------------------------------------------------------------------#
 # Uniform crossover | MAP-Elites
-crossover(ind::Tuple{Individual, Individual}) = Individual(crossover(ind[1].genes, ind[2].genes), (0.0, 0.0), zeros(Float64, B))
+crossover(ind::Tuple{Individual, Individual}) = Individual(crossover(ind[1].genes, ind[2].genes), (0.0, 0.0), zeros(Float64, BD))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
