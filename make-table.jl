@@ -3,11 +3,11 @@ using DataFrames
 using Statistics
 using Printf
 
-METHOD = ["default", "de", "abc"]
+METHOD = ["me", "de", "abc"]
 
 MAP = "cvt"
 
-FUNCTION = ["rastrigin"] # "sphere", "rosenbrock", 
+FUNCTION = ["sphere", "rosenbrock", "rastrigin"] # "sphere", "rosenbrock", "rastrigin"
 
 DIMENSION = ["10", "50", "100"]
 
@@ -64,7 +64,7 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
 end
 
 function convert_method(method::String)
-    if method == "default"
+    if method == "me"
         return "ME"
     elseif method == "de"
         return "DME"

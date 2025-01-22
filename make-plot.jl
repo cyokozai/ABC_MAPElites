@@ -106,7 +106,7 @@ end
 
 function ReadData(dir::String)
     println("Read data: $dir")
-    mlist = ["default", "de", "abc", "default", "de", "abc"] # "default", "de", "abc", "default", "de", "abc"
+    mlist = ["me", "de", "abc", "me", "de", "abc"] # "me", "de", "abc", "me", "de", "abc"
     Data = Dict{String, Array{Float64, 2}}()
 
     if ARGS[1] == "test"
@@ -140,12 +140,8 @@ function ReadData(dir::String)
                                 parsed_value = tryparse(Float64, line)
 
                                 if parsed_value !== nothing
-                                    if parsed_value == 0.0
-                                        data[i, j] = 1.0e+2
-                                    else
-                                        data[i, j] = 1.0/parsed_value - 1.0
-                                    end
-
+                                    data[i, j] = parsed_value
+                                    
                                     j += 1
                                 end
                             end
@@ -159,9 +155,9 @@ function ReadData(dir::String)
     else
         for (m, method) in enumerate(mlist)
             filepath = if m <= length(mlist) / 2
-                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension).", path) && occursin("$(function_name)", path) && occursin("fitness-", path)]
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-", path)]
             else
-                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension).", path) && occursin("$(function_name)", path) && occursin("fitness-noise-", path)]
+                [path for path in readdir("$(dir)/$(method)/$(function_name)/") if occursin("-$(dimension)-", path) && occursin("$(function_name)", path) && occursin("fitness-noise-", path)]
             end
             data = Array{Float64, 2}(undef, length(filepath), MAXTIME)
 
@@ -190,12 +186,8 @@ function ReadData(dir::String)
                                     parsed_value = tryparse(Float64, line)
                                     
                                     if parsed_value !== nothing
-                                        if parsed_value == 0.0
-                                            data[i, j] = 1.0e+2
-                                        else
-                                            data[i, j] = (1.0 - parsed_value) / parsed_value
-                                        end
-    
+                                        data[i, j] = parsed_value
+                                        
                                         j += 1
                                     end
                                 end
@@ -233,13 +225,13 @@ function PlotData(Data, fig, axis)
         
         average_data = [abs(x) for x in average_data]
         
-        n, ls, cr = if key == "test" || key == "default"
+        n, ls, cr = if key == "test" || key == "me"
             1, :dash, :red
         elseif key == "de"
             1, :dash, :blue
         elseif key == "abc"
             1, :dash, :green
-        elseif key == "default-noised"
+        elseif key == "me-noised"
             2, :solid, :red
         elseif key == "de-noised"
             2, :solid, :blue
@@ -253,14 +245,14 @@ function PlotData(Data, fig, axis)
 
     # axislegend(
     #     axis[1],
-    #     [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+    #     [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
     #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
     #     position=:cb, fontsize=20, orientation=:horizontal
     # )
 
     Legend(
         fig[1, 2],
-        [linedata["default"], linedata["default-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+        [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
         ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
         fontsize=48, markersize=30
     )

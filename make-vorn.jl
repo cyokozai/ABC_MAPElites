@@ -16,7 +16,6 @@ map_name = ARGS[3]
 function_name = ARGS[4]
 cvtchange = ARGS[5]
 
-
 closeup = if function_name == "rastrigin"
     0.25
 elseif function_name == "rosenbrock"

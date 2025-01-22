@@ -150,7 +150,7 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Reproduction: Generate new individuals
 Reproduction = if METHOD == "me"
-    (population::Population, archive::Archive) -> (Population([evaluator(mutate(crossover(select_random_elite(population, archive)))) for _ in 1:N]), archive)
+    (population::Population, archive::Archive) -> (Population([evaluator(mutate(select_random_elite(population, archive))) for _ in 1:N]), archive)
 elseif METHOD == "abc"
     (population::Population, archive::Archive) -> ABC(population, archive)
 elseif METHOD == "de"
