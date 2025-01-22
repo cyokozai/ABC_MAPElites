@@ -21,11 +21,11 @@ end
 
 function process_dat_files(input_dir::String, method::String, func::String, dim::String)
     # Initialize accumulators for storing fitness values for each rank
-    noisy_fitness = Dict(i => [] for i in 1:10)
-    true_fitness = Dict(i => [] for i in 1:10)
+    noisy_fitness = Dict(i => Float64[] for i in 1:10)
+    true_fitness = Dict(i => Float64[] for i in 1:10)
 
     # Read all .dat files in the input directory
-    for file in filter(x -> endswith(x, ".dat"), [path for path in readdir(input_dir) if occursin("result-", path) && occursin("$(method)-$(MAP)-$(func)-$(dim)", path)]) 
+    for file in filter(x -> endswith(x, ".dat"), [path for path in readdir(input_dir) if occursin("result-", path) && occursin("$(method)-$(MAP)-$(func)-$(dim)-", path)]) 
         filepath = joinpath(input_dir, file)
         
         # Open and read the .dat file
@@ -36,11 +36,11 @@ function process_dat_files(input_dir::String, method::String, func::String, dim:
                 
                 if occursin("Rank", line)
                     current_rank = parse(Int, match(r"Rank (\d+):", line).captures[1])
-                elseif occursin("Noisy Fitness", line) && current_rank > 0
-                    noisy_value = parse(Float64, split(line, ":")[2])
+                elseif occursin("├── Noisy Fitness: ", line) && current_rank > 0
+                    noisy_value = parse(Float64, split(line, ": ")[2])
                     push!(noisy_fitness[current_rank], noisy_value)
-                elseif occursin("True Fitness", line) && current_rank > 0
-                    true_value = parse(Float64, split(line, ":")[2])
+                elseif occursin("├── True Fitness:  ", line) && current_rank > 0
+                    true_value = parse(Float64, split(line, ":  ")[2])
                     push!(true_fitness[current_rank], true_value)
                 end
             end
@@ -153,5 +153,6 @@ for func in FUNCTION
             process_dat_files("./result", method, func, dim)
         end
     end
+    
     make_table("./result", "./result/latex/table-$(func).tex", func)
 end
