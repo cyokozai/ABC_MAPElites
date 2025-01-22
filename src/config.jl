@@ -25,7 +25,7 @@ if MAP_METHOD != "grid" && MAP_METHOD != "cvt"
 end
 
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
-const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "rastrigin"
+const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
 if OBJ_F != "sphere" && OBJ_F != "rosenbrock" && OBJ_F != "rastrigin" && OBJ_F != "griewank" && OBJ_F != "ackley" && OBJ_F != "schwefel" && OBJ_F != "michalewicz"
     println("Error: The objective function is not available.")
 
@@ -43,7 +43,7 @@ RNG  = StableRNG(SEED)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Parameters
 # Number of dimensions
-const D         = length(ARGS) > 0 && ARGS[1] == "test" ? 10 : parse(Int64, ARGS[1])
+const D         = length(ARGS) > 0 && ARGS[1] == "test" ? 2 : parse(Int64, ARGS[1])
 
 # Number of population size | Default: 64
 const N         = 64
@@ -95,7 +95,7 @@ const FIT_NOISE = true
 const r_noise   = 0.01
 
 # The number of mean gene | Default: 3
-const MEAN_GENE = FIT_NOISE ? 5 : 1
+const MEAN_GENE = FIT_NOISE ? N : 1
 
 #----------------------------------------------------------------------------------------------------#
 # Map parameter
@@ -105,11 +105,11 @@ const GRID_SIZE = 158
 # MAP_METHOD == cvt: Number of max k. | Default: 25000
 const k_max     = 25000
 
-# Voronoi data update limit | Default: 3
-const cvt_vorn_data_update_limit = length(ARGS) > 4 ? parse(Int64, ARGS[5]) : 3
-
 # CVT Max iteration | Default: 100
 const CVT_MAX_ITER               = 100
+
+# Voronoi data update limit | Default: 3
+const cvt_vorn_data_update_limit = length(ARGS) > 4 ? parse(Int64, ARGS[5]) : 3
 
 #----------------------------------------------------------------------------------------------------#
 # MAP-Elites parameter
