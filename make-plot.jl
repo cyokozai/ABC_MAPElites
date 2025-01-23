@@ -217,12 +217,12 @@ function PlotData(Data, fig, axis)
     #     position=:cb, fontsize=20, orientation=:horizontal
     # )
 
-    Legend(
-        fig[1, 2],
-        [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-        ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
-        fontsize=48, markersize=30
-    )
+    # Legend(
+    #     fig[1, 2],
+    #     [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+    #     ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
+    #     fontsize=48, markersize=30
+    # )
     
     resize_to_layout!(fig)
 end
@@ -238,8 +238,8 @@ function SavePDF(fig)
             mkpath("result/graph")
         end
 
-        println("Saved: result/graph/$(function_name)-$(dimension)-L.pdf")
-        save("result/graph/$(function_name)-$(dimension)-L.pdf", fig)
+        println("Saved: result/graph/$(function_name)-$(dimension).pdf")
+        save("result/graph/$(function_name)-$(dimension).pdf", fig)
     end
 end
 
