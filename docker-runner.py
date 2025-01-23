@@ -16,20 +16,29 @@ import sys
 # docker-compose file name
 COMPOSEFILE = "docker-compose-run.yaml"
 
-# sphere rosenbrock rastrigin griewank schwefel ackley michalewicz
+# "sphere", "rosenbrock", "rastrigin", "griewank", "ackley", "schwefel"
 FUNCTION    = ["sphere", "rosenbrock", "rastrigin"]
 
-# grep or cvt
+# "grep" or "cvt"
 MAP_METHOD  = "cvt"
 
-# default de abc
-METHOD      = ["default" "de" "abc"]
+# "me", "de", "abc"
+METHOD      = ["me", "de", "abc"]
 
 # 2 10 50 100 500 1000
-DIMENSION   = "10 50 100 500"
+DIMENSION   = [10, 50, 100]
 
 # Loop count
-LOOP        = 1
+LOOP        = 10
+
+# Replication
+REPLICATION = 1
+
+# Voronoi data update limit
+CVT_UPDATE  = [3]
+
+# Prosess interval
+INTERBAL    = 60
 
 #------ Edit config ------------------------------#
 
@@ -37,17 +46,16 @@ LOOP        = 1
 #       Main                                                                                         #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-def generate_yaml(function, method, map, dimention, loop):
+def generate_yaml(function, method, map, dimention, loop, cvt_update, interbal, replica):
     # Setting Jinja2
     env = Environment(loader=FileSystemLoader('.'))
     
     # Load template
     template = env.get_template('./template/docker-comp.yaml.temp')
-    
     loopstr = " ".join(str(i) for i in range(1, loop + 1))
     
     # Render template
-    output = template.render(looprange=loopstr, function=function, method=method, map=map, dimention=dimention)
+    output = template.render(looprange=loopstr, function=function, method=method, map=map, dimention=dimention, cvt_update=cvt_update, interbal=interbal, replica=replica)
     
     # Write to file
     with open(COMPOSEFILE, 'w') as file:
@@ -64,24 +72,29 @@ if __name__ == '__main__':
         if len(args) > 1 and args[1] == "test":
             DIMENSION = "test"
             FUNCTION = "sphere"
-            METHOD = ["default", "de", "abc"]
+            METHOD = ["me", "de", "abc"]
             MAP_METHOD = "cvt"
             LOOP = 1
+            CVT_UPDATE = [3]
             
-            print(f"COMPOSEFILE: {COMPOSEFILE}")
             print("==================== TEST MODE ====================")
-        else:
-            print(f"COMPOSEFILE: {COMPOSEFILE}")
-            print(f"FUNCTION: {FUNCTION}")
-            print(f"METHOD: {METHOD}")
-            print(f"MAP_METHOD: {MAP_METHOD}")
-            print(f"LOOP: {LOOP}")
+        
+        print(f"COMPOSEFILE: {COMPOSEFILE}")
+        print(f"FUNCTION: {FUNCTION}")
+        print(f"METHOD: {METHOD}")
+        print(f"MAP_METHOD: {MAP_METHOD}")
+        print(f"LOOP: {LOOP}")
 
         # generate yaml
-        generate_yaml(FUNCTION, METHOD, MAP_METHOD, DIMENSION, LOOP)
+        generate_yaml(FUNCTION, METHOD, MAP_METHOD, DIMENSION, LOOP, CVT_UPDATE, INTERBAL, REPLICATION)
+        
+        print("Generate yaml file.")
         
         # docker compose up
         subprocess.run(['docker', 'compose', '-f', COMPOSEFILE, 'up', '-d', '--build'])
+        
+        print("")
+        print("Docker compose up.")
     except Exception as e:
         print(e)
         

@@ -16,6 +16,8 @@ include("benchmark.jl")
 
 include("fitness.jl")
 
+include("crossover.jl")
+
 include("cvt.jl")
 
 include("abc.jl")
@@ -35,7 +37,7 @@ function devide_gene(gene::Vector{Float64})
         start_idx = (i - 1) * segment_length + 1
         end_idx = i == BD ? g_len : i * segment_length
         
-        push!(behavior, 2.0*sum(gene[start_idx:end_idx])/Float64(g_len))
+        push!(behavior, BD*sum(gene[start_idx:end_idx])/Float64(g_len))
     end
     
     return behavior
@@ -45,10 +47,9 @@ end
 # Initialize the best solution
 function init_solution()
     gene = rand(RNG, D) .* (UPP - LOW) .+ LOW
+    gene_noised = noise(gene)
 
-    y, ε = objective_function(gene), rand(RNG) * 2 * NOIZE_R - NOIZE_R
-
-    return Individual(deepcopy(gene), (y + ε, y), devide_gene(gene))
+    return Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
 end
 
 #----------------------------------------------------------------------------------------------------#
@@ -58,16 +59,18 @@ best_solution = init_solution()
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Evaluator: Evaluation of the individual
 function evaluator(individual::Individual)
+    global best_solution
+
     # Objective function
-    y, ε = objective_function(individual.genes), rand(RNG) * 2 * NOIZE_R - NOIZE_R
-    individual.benchmark = (y + ε, y)
+    gene_noised = noise(individual.genes)
+    individual.benchmark = (objective_function(gene_noised), objective_function(individual.genes))
     
     # Evaluate the behavior
-    individual.behavior = deepcopy(devide_gene(individual.genes))
+    individual.behavior = deepcopy(devide_gene(gene_noised))
 
     # Update the best solution
-    if fitness(individual.benchmark[fit_index]) >= fitness(best_solution.benchmark[fit_index])
-        global best_solution = Individual(deepcopy(individual.genes), individual.benchmark, deepcopy(individual.behavior))
+    if individual.benchmark[fit_index] <= best_solution.benchmark[fit_index]
+        best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))
     end
     
     return individual
@@ -91,13 +94,13 @@ Mapping = if MAP_METHOD == "grid"
                         if archive.grid[i, j] > 0
                             if fitness(ind.benchmark[fit_index]) > fitness(archive.individuals[archive.grid[i, j]].benchmark[fit_index])
                                 archive.grid[i, j] = index
-                                archive.individuals[index] = Individual(deepcopy(ind.genes), ind.benchmark, deepcopy(ind.behavior))
-                                archive.grid_update_counts[index] += 1
+                                archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))
+                                archive.grid_update_counts[i, j] += 1
                             end
                         else
                             archive.grid[i, j] = index
-                            archive.individuals[index] = Individual(deepcopy(ind.genes), ind.benchmark, deepcopy(ind.behavior))
-                            archive.grid_update_counts[index] += 1
+                            archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))
+                            archive.grid_update_counts[i, j] += 1
                         end
                         
                         break
@@ -120,43 +123,43 @@ end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Mutate: Mutation of the individual
-mutate(individual::Individual) = rand() > MUTANT_R ? individual : init_solution()
+mutate(individual::Individual) = rand(RNG) < MUTANT_R ? individual : init_solution()
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Select random elite
 select_random_elite = if MAP_METHOD == "grid"
     (population::Population, archive::Archive) -> begin
         while true
-            i, j = rand(RNG, 1:GRID_SIZE, 2)
+            i, j, k = rand(RNG, 1:GRID_SIZE, 3)
             
-            if archive.grid[i, j] > 0
-                return archive.individuals[archive.grid[i, j]]
+            if archive.grid[i, j] > 0 && archive.grid[i, k] > 0 && j != k
+                return archive.individuals[archive.grid[i, j]], archive.individuals[archive.grid[i, k]]
             end
         end
     end
 elseif MAP_METHOD == "cvt"
     (population::Population, archive::Archive) -> begin
-        while true
-            random_centroid_index = rand(RNG, 1:k_max)
-            
-            if haskey(archive.individuals, random_centroid_index)
-                return archive.individuals[random_centroid_index]
-            end
+        random_centroid_index1, random_centroid_index2 = zeros(Int64, 2)
+
+        while random_centroid_index1 == random_centroid_index2
+            random_centroid_index1, random_centroid_index2 = rand(RNG, keys(archive.individuals), 2)
         end
+        
+        return archive.individuals[random_centroid_index1], archive.individuals[random_centroid_index2]
     end
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Reproduction: Generate new individuals
-Reproduction = if METHOD == "default"
-    (population::Population, archive::Archive) -> Population([evaluator(mutate(select_random_elite(population, archive))) for _ in 1:N])
+Reproduction = if METHOD == "me"
+    (population::Population, archive::Archive) -> (Population([evaluator(mutate(crossover(select_random_elite(population, archive)))) for _ in 1:N]), archive)
 elseif METHOD == "abc"
     (population::Population, archive::Archive) -> ABC(population, archive)
 elseif METHOD == "de"
-    (population::Population, archive::Archive) -> DE(population)
+    (population::Population, archive::Archive) -> DE(population, archive)
 else
     error("Invalid method")
-
+    
     logger("ERROR", "Invalid method")
 
     exit(1)
@@ -165,51 +168,53 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Map Elites algorithm
 function map_elites()
-    global best_solution, vorn
+    global best_solution
 
     # Print the solutions
     indPrint = if FIT_NOISE
-        (ffn, ff, fb) -> begin
-            println("Now best: ", best_solution.genes)
-            println("Now noised best fitness: ", fitness(best_solution.benchmark[1]))
+        (ffn, ff) -> begin
+            println("Now best individual: ", best_solution.genes[1:min(10, length(best_solution.genes))])
+            println("Now best behavior:   ", best_solution.behavior)
+            println("Now noised    best fitness: ", fitness(best_solution.benchmark[1]))
             println("Now corrected best fitness: ", fitness(best_solution.benchmark[2]))
-            println("Now best behavior: ", best_solution.behavior)
             
-            println(ffn, fitness(best_solution.benchmark[1]))
-            println(ff, fitness(best_solution.benchmark[2]))
-            println(fb, best_solution.behavior)
+            println(ffn, best_solution.benchmark[1])
+            println(ff, best_solution.benchmark[2])
         end
     else
-        (ff, fb) -> begin
-            println("Now best: ", best_solution.genes)
-            println("Now best fitness: ", fitness(best_solution.benchmark[2]))
-            println("Now best behavior: ", best_solution.behavior)
+        (ffn, ff) -> begin
+            println("Now best individual: ", best_solution.genes[1:min(10, length(best_solution.genes))])
+            println("Now best behavior:   ", best_solution.behavior)
+            println("Now best fitness:    ", fitness(best_solution.benchmark[2]))
             
             println(ff, fitness(best_solution.benchmark[2]))
-            println(fb, best_solution.behavior)
         end
     end
     
-    # Initialize
-    logger("INFO", "Initialize")
+    #------ Initialize ------------------------------#
     
+    logger("INFO", "Initialize")
+
+    # Initialize the population
     population::Population = Population([evaluator(init_solution()) for _ in 1:N])
+
+    # Initialize the archive
     archive::Archive = if MAP_METHOD == "grid"
         Archive(zeros(Int64, GRID_SIZE, GRID_SIZE), zeros(Int64, GRID_SIZE, GRID_SIZE), Dict{Int64, Individual}())
     elseif MAP_METHOD == "cvt"
         init_CVT(population)
         Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
+    else
+        error("Invalid MAP method")
+
+        logger("ERROR", "Invalid MAP method")
+
+        exit(1)
     end
     
     # Open file
-    if FIT_NOISE
-        ffn = open("result/$METHOD/$OBJ_F/$F_FIT_N", "a")
-        ff  = open("result/$METHOD/$OBJ_F/$F_FITNESS", "a")
-        fb  = open("result/$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
-    else
-        ff = open("result/$METHOD/$OBJ_F/$F_FITNESS", "a")
-        fb = open("result/$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
-    end
+    ffn = open("$(output)$(METHOD)/$(OBJ_F)/$(F_FIT_N)", "a")
+    ff  = open("$(output)$(METHOD)/$(OBJ_F)/$(F_FITNESS)", "a")
 
     #------ Main loop ------------------------------#
 
@@ -227,40 +232,32 @@ function map_elites()
         archive = Mapping(population, archive)
         
         # Reproduction
-        population = Reproduction(population, archive)
-
+        population, archive = Reproduction(population, archive)
+        
         # Print the solutions
-        indPrint(ffn, ff, fb)
+        indPrint(ffn, ff)
         
         # Confirm the convergence
-        if best_solution.benchmark[fit_index] >= 1.0
-            if CONV_FLAG
+        if CONV_FLAG
+            if fitness(best_solution.benchmark[fit_index]) >= 1.0 || abs(sum(SOLUTION .- best_solution.genes)) < EPS
                 logger("INFO", "Convergence")
-
+                
                 break
+            elseif fitness(best_solution.benchmark[fit_index]) < 0.0
+                logger("ERROR", "Invalid fitness value")
             end
-        elseif iter >= MAXTIME
-            logger("INFO", "Time out")
-            
-            break
-        elseif best_solution.benchmark[fit_index] < 0.0
-            logger("ERROR", "Invalid fitness value")
         end
     end
-
+    
     finish_time = time()
+    
+    logger("INFO", "Time out")
 
-    #------ Main loop ------------------------------#
+    #------ Save data ------------------------------#
 
     # Close file
-    if FIT_NOISE
-        close(ffn)
-        close(ff)
-        close(fb)
-    else
-        close(ff)
-        close(fb)
-    end
+    close(ffn)
+    close(ff)
 
     return population, archive, (finish_time - begin_time)
 end

@@ -1,6 +1,6 @@
-services:{% for m in method %}{% for f in function %}
-  julia-run-{{ m }}-{{ f }}:
-    container_name: "julia-run-{{ m }}-{{ f }}"
+services:{% for rep in range(replica) %}{% for m in method %}{% for f in function %}{% for cup in cvt_update %}
+  julia-run-r{{ rep }}-{{ m }}-{{ cup }}-{{ f }}:
+    container_name: "julia-run-r{{ rep }}-{{ m }}-{{ cup }}-{{ f }}"
     tty: true
     build:
       context: .
@@ -14,14 +14,14 @@ services:{% for m in method %}{% for f in function %}
       - TZ=Asia/Tokyo
       - FUNCTION={{ f }}
       - METHOD={{ m }}
-      - D={{ dimention }}
+      - D={% if rep % 2 == 0 %}{% for D in dimention %}{{ D }} {% endfor %}{% else %}{% for D in dimention[::-1] %}{{ D }} {% endfor %}{% endif %}
       - LOOP={{ looprange }}
     deploy:
       resources:
         limits:
           cpus: 1.0
-          memory: 6G
-    command: ["sh", "-c", "for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d {{ m }} {{ map }} $$f; done; done; done"]{% endfor %}{% endfor %}
+          memory: 8G {% with sleeptime = loop.index * interbal * (rep + 1) %}
+    command: ["sh", "-c", "sleep {{ sleeptime }}; for i in $$LOOP; do echo $$i; for f in $$FUNCTION; do for d in $$D; do julia main.jl $$d {{ m }} {{ map }} $$f {{ cup }}; done; done; done"]{% endwith %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}
 
 networks:
   default:

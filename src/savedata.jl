@@ -21,7 +21,7 @@ include("logger.jl")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Make result directory and log file
 function MakeFiles()
-    open("result/$METHOD/$OBJ_F/$F_RESULT", "w") do fr
+    open("$(output)$METHOD/$OBJ_F/$F_RESULT", "w") do fr
         println(fr, "Date: ", DATE)
         println(fr, "Method: ", METHOD)
         if METHOD == "de"
@@ -44,7 +44,7 @@ function MakeFiles()
     end
 
     if FIT_NOISE
-        open("result/$METHOD/$OBJ_F/$F_FIT_N", "w") do ffn
+        open("$(output)$METHOD/$OBJ_F/$F_FIT_N", "w") do ffn
             println(ffn, "Date: ", DATE)
             println(ffn, "Method: ", METHOD)
             if METHOD == "de"
@@ -67,7 +67,7 @@ function MakeFiles()
         end
     end
 
-    open("result/$METHOD/$OBJ_F/$F_FITNESS", "w") do ff
+    open("$(output)$METHOD/$OBJ_F/$F_FITNESS", "w") do ff
         println(ff, "Date: ", DATE)
         println(ff, "Method: ", METHOD)
         if METHOD == "de"
@@ -89,7 +89,7 @@ function MakeFiles()
         println(ff, "===================================================================================")
     end
 
-    open("result/$METHOD/$OBJ_F/$F_BEHAVIOR", "w") do fb
+    open("$(output)$METHOD/$OBJ_F/$F_BEHAVIOR", "w") do fb
         println(fb, "Date: ", DATE)
         println(fb, "Method: ", METHOD)
         if METHOD == "DE"
@@ -121,29 +121,24 @@ function SaveResult(archive::Archive, iter_time::Float64, run_time::Float64)
 
     # Open file
     if FIT_NOISE
-        ffn = open("result/$METHOD/$OBJ_F/$F_FIT_N", "a")
-        fr  = open("result/$METHOD/$OBJ_F/$F_RESULT", "a")
-        ff  = open("result/$METHOD/$OBJ_F/$F_FITNESS", "a")
-        fb  = open("result/$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
+        ffn = open("$(output)$METHOD/$OBJ_F/$F_FIT_N", "a")
+        fr  = open("$(output)$METHOD/$OBJ_F/$F_RESULT", "a")
+        ff  = open("$(output)$METHOD/$OBJ_F/$F_FITNESS", "a")
+        fb  = open("$(output)$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
     else
-        fr = open("result/$METHOD/$OBJ_F/$F_RESULT", "a")
-        ff = open("result/$METHOD/$OBJ_F/$F_FITNESS", "a")
-        fb = open("result/$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
+        fr = open("$(output)$METHOD/$OBJ_F/$F_RESULT", "a")
+        ff = open("$(output)$METHOD/$OBJ_F/$F_FITNESS", "a")
+        fb = open("$(output)$METHOD/$OBJ_F/$F_BEHAVIOR", "a")
     end
 
     # Write result
     if FIT_NOISE
         println(ffn, "===================================================================================")
-        println(ffn, "End of Iteration.\n")
         println(ff, "===================================================================================")
-        println(ff, "End of Iteration.\n")
         println(fb, "===================================================================================")
-        println(fb, "End of Iteration.\n")
     else
         println(ff, "===================================================================================")
-        println(ff, "End of Iteration.\n")
         println(fb, "===================================================================================")
-        println(fb, "End of Iteration.\n")
     end
 
     if MAP_METHOD == "grid"
@@ -154,26 +149,24 @@ function SaveResult(archive::Archive, iter_time::Float64, run_time::Float64)
                         println(ffn, archive.individuals[archive.grid[i, j]].benchmark[1])
                         println(ff, archive.individuals[archive.grid[i, j]].benchmark[2])
                         println(fb, archive.individuals[archive.grid[i, j]].behavior)
-                        println(fr, archive.grid_update_counts[archive.grid[i, j]])
+                        println(fr, archive.grid_update_counts[i, j])
                     else
                         println(ff, archive.individuals[archive.grid[i, j]].benchmark[2])
                         println(fb, archive.individuals[archive.grid[i, j]].behavior)
-                        println(fr, archive.grid_update_counts[archive.grid[i, j]])
+                        println(fr, archive.grid_update_counts[i, j])
                     end
                 end
             end
         end
     elseif MAP_METHOD == "cvt"
-        for k in 1:k_max
-            if haskey(archive.individuals, k)
-                if FIT_NOISE
-                    println(ffn, archive.individuals[k].benchmark[1])
-                    println(ff, archive.individuals[k].benchmark[2])
-                    println(fb, archive.individuals[k].behavior)
-                else
-                    println(ff, archive.individuals[k].benchmark[2])
-                    println(fb, archive.individuals[k].behavior)
-                end
+        for (k, v) in archive.individuals
+            if FIT_NOISE
+                println(ffn, archive.individuals[k].benchmark[1])
+                println(ff, archive.individuals[k].benchmark[2])
+                println(fb, archive.individuals[k].behavior)
+            else
+                println(ff, archive.individuals[k].benchmark[2])
+                println(fb, archive.individuals[k].behavior)
             end
 
             println(fr, archive.grid_update_counts[k])
@@ -221,9 +214,9 @@ function SaveResult(archive::Archive, iter_time::Float64, run_time::Float64)
         exit(1)
     end
 
-    sort!(arch_list, by = x -> x.benchmark[fit_index], rev = true)
+    sort!(arch_list, by = x -> fitness(x.benchmark[fit_index]), rev = true)
 
-    open("result/$METHOD/$OBJ_F/$F_RESULT", "a") do fr
+    open("$(output)$METHOD/$OBJ_F/$F_RESULT", "a") do fr
         println(fr, "===================================================================================")
         println(fr, "End of Iteration.\n")
         println(fr, "Time of iteration: ", iter_time, " [sec]")
@@ -238,33 +231,22 @@ function SaveResult(archive::Archive, iter_time::Float64, run_time::Float64)
             println(fr, "Rank ", i, ": ")
             println(fr, "├── Solution:      ", arch_list[i].genes)
             if FIT_NOISE
-                println(fr, "├── Noisy Fitness: ", arch_list[i].benchmark[1])
-                println(fr, "├── True Fitness:  ", arch_list[i].benchmark[2])
+                println(fr, "├── Noisy Fitness: ", fitness(arch_list[i].benchmark[1]))
+                println(fr, "├── True Fitness:  ", fitness(arch_list[i].benchmark[2]))
             else
-                println(fr, "├── Fitness:       ", arch_list[i].benchmark[2])
+                println(fr, "├── Fitness:       ", fitness(arch_list[i].benchmark[2]))
             end
             println(fr, "└── Behavior:      ", arch_list[i].behavior)
         end
-
-        println(fr, "===================================================================================")
-        println(fr, "Best solution:      ", best_solution.genes)
-        if FIT_NOISE
-            println(fr, "Best noisy fitness: ", best_solution.benchmark[1])
-            println(fr, "Best true fitness:  ", best_solution.benchmark[2])
-        else
-            println(fr, "Best fitness:       ", best_solution.benchmark[2])
-        end
-        println(fr, "Best behavior:      ", best_solution.behavior)
-        println(fr, "===================================================================================")
     end
 
     println("===================================================================================")
     println("Best solution:      ", best_solution.genes)
     if FIT_NOISE
-        println("Best noisy fitness: ", best_solution.benchmark[1])
-        println("Best true fitness:  ", best_solution.benchmark[2])
+        println("Best noisy fitness: ", fitness(best_solution.benchmark[1]))
+        println("Best true fitness:  ", fitness(best_solution.benchmark[2]))
     else
-        println("Best fitness:       ", best_solution.benchmark[2])
+        println("Best fitness:       ", fitness(best_solution.benchmark[2]))
     end
     println("Best behavior:      ", best_solution.behavior)
     println("===================================================================================")

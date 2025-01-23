@@ -13,8 +13,8 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - FUNCTION=sphere rosenbrock rastrigin griewank schwefel ackley michalewicz
-      - METHOD=default de abc
-      - D=10 50 100 500
+      - METHOD=me de abc
+      - D=10 50 100
       - LOOP=1 2
     deploy:
       resources:
@@ -22,7 +22,6 @@ services:
           cpus: 2.0
           memory: 8G
     command: ["bash"]
-  
   julia-figure:
     container_name: julia-figure
     tty: true
@@ -38,16 +37,18 @@ services:
     environment:
       - TZ=Asia/Tokyo
       - FUNCTION=sphere rosenbrock rastrigin
-      - METHOD=default de abc
-      - D=10 50 100 500
-      - FILEDATE=2024-12-05-20-35
+      - METHOD=me de abc
+      - D=10 50 100
+      - CVT_UPDATE=3
     deploy:
       resources:
         limits:
           cpus: 2.0
           memory: 8G
-    # command: ["sh", "-c", "for m in $$METHOD; do for f in $$FUNCTION; do for d in $$D; do for fdate in $$FILEDATE; do julia make-plot.jl $$d $$m cvt $$f fitness; julia make-vorn.jl $$d $$m cvt $$f $$fdate; done; done; done; done"]
-    command: ["bash"]
+    # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f && for m in $$METHOD; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
+    # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f; done; done"]
+    command: ["julia", "make-table.jl"]
+    # command: ["julia", "make-vorn.jl", "10", "abc", "cvt", "rastrigin", "3"]
 networks:
   default:
     driver: bridge

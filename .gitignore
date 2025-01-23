@@ -27,8 +27,11 @@ Manifest.toml
 *0.dat
 *.log
 *.pdf
-src/result/*
+.DS_Store
+src/result*/*
 
 !src/result/testdata/
 !src/result/testdata/*
 !src/result/testdata/pdf/*.pdf
+
+ .julia/

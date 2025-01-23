@@ -8,17 +8,27 @@ using DelaunayTriangulation
 
 using CairoMakie
 
-#----------------------------------------------------------------------------------------------------#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-include("config.jl")
+dimention = ARGS[1]
+method_name = ARGS[2]
+map_name = ARGS[3]
+function_name = ARGS[4]
+cvtchange = ARGS[5]
 
-include("benchmark.jl")
-
-include("logger.jl")
+closeup, LOW, UPP = if function_name == "rastrigin"
+    0.25, -5.12, 5.12
+elseif function_name == "rosenbrock"
+    0.25, -5.0, 5.0
+elseif function_name == "sphere"
+    0.1, -5.12, 5.12
+end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-load_path = if ARGS[1] == "test"
+fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : abs(1.0 + x)
+
+load_path = if dimention == "test"
     global LOW, UPP = -5.12, 5.12
     dir = "./result/testdata/"
     if !isdir(dir)
@@ -27,207 +37,350 @@ load_path = if ARGS[1] == "test"
 
     [path for path in readdir(dir) if occursin("test-", path) && occursin("CVT-", path)]
 else
-    dir = "./result/$(ARGS[2])/$(ARGS[4])/"
+    dir = "./result/$(method_name)/$(function_name)/"
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
-
-    [path for path in readdir(dir) if occursin("CVT-", path) && occursin("$(ARGS[5])", path) && occursin("-$(ARGS[3])-", path) && occursin("-$(ARGS[4])-", path)]
+    [path for path in readdir(dir) if occursin("CVT-", path) && occursin("$(method_name)-$(map_name)-$(function_name)-$(dimention)", path)]
 end
 
 if isempty(load_path)
     error("No files found matching the criteria.")
+
+    exit(1)
+else
+    println("Found $(length(load_path[end])) files matching the criteria.")
 end
 
 loadpath = joinpath(dir, load_path[end])
 println(loadpath)
+
+m = match(r"CVT-(\d{4}-\d{2}-\d{2}-\d{2}-\d{2})", load_path[end])
+filedate = m !== nothing ? m.captures[1] : ""
+println("Extracted date: ", filedate)
+
 load_vorn = load(loadpath, "voronoi")
 
-Centroidal_polygon_list = DelaunayTriangulation.get_generators(load_vorn)
+individualData = Vector{Tuple{Float64, Float64}}()
+updateCountData = Vector{Int64}()
+fitnessData = Vector{Float64}()
+BestPoint = Vector{Tuple{Float64, Float64}}()
 
-filepath = if ARGS[1] == "test"
+filepath = if dimention == "test"
     dir = "./result/testdata/"
+
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
     
     [path for path in readdir(dir) if occursin("test-", path) && occursin("result-", path)]
 else
-    dir = "./result/$(ARGS[2])/$(ARGS[4])/"
+    dir = "./result/$(method_name)/$(function_name)/"
+    
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
 
-    [path for path in readdir(dir) if occursin("result-", path) && occursin("$(ARGS[5])", path)]
+    [path for path in readdir(dir) if occursin("result-$(method_name)-$(map_name)-$(function_name)-$(dimention)-$(filedate)", path)]
 end
 
-Data = Vector{Int64}()  # Change the type to Vector{Int64}
+if occursin(".dat", filepath[end])
+    println("Reading: ", joinpath(dir, filepath[end]))
+    
+    open(joinpath(dir, filepath[end]), "r") do io  # Use joinpath to construct the full path
+        reading_data = false # ボーダーライン検出用フラグ
+        border_count = 0  # ボーダーラインのカウント
+        
+        for (k, line) in enumerate(eachline(io)) # ファイルを1行ずつ読み込む
+            if occursin("=", line) # ボーダーラインを検出
+                border_count += 1
 
-for f in filepath
-    if occursin(".dat", f)
-        open(joinpath(dir, f), "r") do io  # Use joinpath to construct the full path
-            reading_data = false # ボーダーライン検出用フラグ
-            
-            for line in eachline(io) # ファイルを1行ずつ読み込む
-                if occursin("=", line) # ボーダーラインを検出
-                    if !reading_data # データ読み取り開始
-                        reading_data = true
-                        continue
-                    else # 2つ目のボーダーラインに到達したら終了
-                        break
-                    end
+                if border_count == 1 # 1つ目のボーダーラインに到達したらデータ読み取り開始
+                    reading_data = true
+
+                    continue
+                elseif border_count == 2
+                    reading_data = false
+
+                    continue
                 end
+            end
+            
+            if reading_data
+                parsed_value = tryparse(Int64, line)
                 
-                if reading_data
-                    parsed_value = tryparse(Int64, line)
+                if parsed_value !== nothing
+                    push!(updateCountData, parsed_value)  # Use push! to add elements to Data
+                end
+            elseif occursin("Best behavior:", line)
+                m = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)  # Use regex to extract two floats
 
-                    if parsed_value !== nothing && parsed_value >= 0
-                        push!(Data, parsed_value)  # Use push! to add elements to Data
-                    end
+                if m !== nothing
+                    push!(BestPoint, (parse(Float64, m.captures[1]), parse(Float64, m.captures[2])))
+
+                    break
                 end
             end
         end
     end
 end
 
-fig = Figure()  # Add this line to define fig
-
-ax = if ARGS[1] == "test"
-    Axis(
-        fig[1, 1],
-        limits = ((LOW, UPP), (LOW, UPP)),
-        xlabel = L"b_1",
-        ylabel = L"b_2",
-        title="Test data",
-        width=500,
-        height=500
-    )
+if isempty(updateCountData)
+    println("updateCountData is empty. Skipping color mapping and plotting.")
+    
+    exit(1)
 else
-    Axis(
-        fig[1, 1],
-        limits = ((LOW, UPP), (LOW, UPP)),
-        xlabel = L"b_1",
-        ylabel = L"b_2",
-        title="CVT Map and plotted behavior: $METHOD",
-        width=500,
-        height=500
-    )
+    println("updateCountData: ", length(updateCountData))
 end
 
-colormap = cgrad(:heat)
-colors = [colormap[round(Int, (d - minimum(Data)) / (maximum(Data) - minimum(Data)) * (length(colormap) - 1) + 1)] for d in Data]  # Normalize Data values to colormap indices
 
-Colorbar(
-    fig[1, 2],
-    limits = (0, maximum(Data)),
-    ticks=(0:maximum(Data)/4:maximum(Data), string.([0, "", "", "", maximum(Data)])),
-    colormap = :heat,
-    highclip = :red,
-    lowclip = :white,
-    label = "Update frequency"
-)
-
-voronoiplot!(
-    ax,
-    load_vorn,
-    color = colors,
-    strokewidth = 0.05,
-    show_generators = false,
-    clip = (LOW, UPP, LOW, UPP)
-)
-
-resize_to_layout!(fig)
-
-filepath = if ARGS[1] == "test"
+filepath = if dimention == "test"
     dir = "./result/testdata/"
+
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
     
     [path for path in readdir(dir) if occursin("test-", path) && occursin("behavior-", path)]
 else
-    dir = "./result/$(ARGS[2])/$(ARGS[4])/"
+    dir = "./result/$(method_name)/$(function_name)/"
+
     if !isdir(dir)
         error("Directory $dir does not exist.")
     end
 
-    [path for path in readdir(dir) if occursin("behavior-", path) && occursin("$(ARGS[5])", path)]
+    [path for path in readdir(dir) if occursin("behavior-$(method_name)-$(map_name)-$(function_name)-$(dimention)-$(filedate)", path)]
 end
 
-Data = Vector{Tuple{Float64, Float64}}()  # Change the type to Vector{Tuple{Float64, Float64}}
+if occursin(".dat", filepath[end])
+    println("Reading: ", joinpath(dir, filepath[end]))
 
-for (i, f) in enumerate(filepath) # Change this line to iterate over readdir(dir) directly
-    if occursin(".dat", f)
-        open(joinpath(dir, f), "r") do io  # Use joinpath to construct the full path
-            reading_data = false # ボーダーライン検出用フラグ
-            
-            for (k, line) in enumerate(eachline(io)) # ファイルを1行ずつ読み込む
-                if occursin("=", line) # ボーダーラインを検出
-                    if !reading_data # データ読み取り開始
-                        reading_data = true
-                        
-                        continue
-                    else # 2つ目のボーダーラインに到達したら終了
-                        break
-                    end
+    open(joinpath(dir, filepath[end]), "r") do io
+        reading_data = false
+        border_count = 0
+        
+        for (k, line) in enumerate(eachline(io))
+            if occursin("=", line)
+                border_count += 1
+
+                if border_count == 2
+                    reading_data = true
+
+                    continue
                 end
-                
-                if reading_data
-                    m = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)  # Use regex to extract two floats
-                    if m !== nothing
-                        x, y = parse(Float64, m.captures[1]), parse(Float64, m.captures[2])
+            end
+            
+            if reading_data
+                m = Base.match(r"\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]", line)  # Use regex to extract two floats
 
-                        push!(Data, (x, y))
-                    end
+                if m !== nothing
+                    push!(individualData, (parse(Float64, m.captures[1]), parse(Float64, m.captures[2])))
                 end
             end
         end
     end
 end
 
-for d in Data  # Change this line to iterate over Data
-    scatter!(ax, [d[1]], [d[2]], marker = 'x', markersize = 14, color = :blue)
-end
+if isempty(individualData)
+    println("individualData is empty. Skipping color mapping and plotting.")
 
-resize_to_layout!(fig)
-
-if ARGS[1] == "test"
-    println("Saved: result/testdata/pdf/testdata.pdf")
-    save("result/testdata/pdf/behavior-testdata.pdf", fig)
+    exit(1)
 else
-    println("Saved: result/$(ARGS[2])/$(ARGS[4])/pdf/$(ARGS[2])-$(ARGS[4])-$(ARGS[1])-$(ARGS[5]).pdf")
-    save("result/$(ARGS[2])/$(ARGS[4])/pdf/$(ARGS[2])-$(ARGS[4])-$(ARGS[1])-$(ARGS[5]).pdf", fig)
+    println("individualData: ", length(individualData))
 end
 
 
-# function load_voronoi_data(filepath::String)
-#     data = load(filepath)
+filepath = if dimention == "test"
+    dir = "./result/testdata/"
 
-#     return data["voronoi"]
-# end
+    if !isdir(dir)
+        error("Directory $dir does not exist.")
+    end
+    
+    [path for path in readdir(dir) if occursin("test-", path) && occursin("fitness-test-", path)]
+else
+    dir = "./result/$(method_name)/$(function_name)/"
 
-# # Voronoi図を生成する関数
-# function plot_voronoi(voronoi_data, output_path::String)
-#     fig = Figure()
-#     ax = Axis(fig[1, 1], limits = ((LOW, UPP), (LOW, UPP)), xlabel = L"b_1", ylabel = L"b_2", title = "Voronoi Diagram", width = 500, height = 500)
-#     voronoiplot!(ax, voronoi_data, colormap = :matter, strokewidth = 0.1, show_generators = false)
-#     resize_to_layout!(fig)
-#     save(output_path, fig)
-# end
+    if !isdir(dir)
+        error("Directory $dir does not exist.")
+    end
 
-# # メイン処理
-# function main()
-#     if length(ARGS) < 2
-#         println("Usage: julia make-vorn.jl <input_file> <output_file>")
+    [path for path in readdir(dir) if occursin("fitness-noise-$(method_name)-$(map_name)-$(function_name)-$(dimention)-$(filedate)", path)]
+end
 
-#         return 1
-#     end
+if occursin(".dat", filepath[end])
+    println("Reading: ", joinpath(dir, filepath[end]))
 
-#     input_file = ARGS[1]
-#     output_file = ARGS[2]
+    open(joinpath(dir, filepath[end]), "r") do io
+        reading_data = false
+        border_count = 0
+        
+        for (k, line) in enumerate(eachline(io))
+            if occursin("=", line)
+                border_count += 1
 
-#     voronoi_data = load_voronoi_data(input_file)
-#     plot_voronoi(voronoi_data, output_file)
-# end
+                if border_count == 2
+                    reading_data = true
 
-# main()
+                    continue
+                end
+            end
+            
+            if reading_data
+                parsed_value = tryparse(Float64, line)
+                
+                if parsed_value !== nothing
+                    push!(fitnessData, fitness(parsed_value))
+                end
+            end
+        end
+    end
+end
+
+if isempty(fitnessData)
+    println("fitnessData is empty. Skipping color mapping and plotting.")
+
+    exit(1)
+else
+    println("fitnessData: ", length(fitnessData))
+end
+
+
+for iter in ["FitnessValue"]
+    colormap = if iter == "UpdateFrequency"
+        cgrad(:heat)
+    else
+        cgrad(:viridis)
+    end
+
+    fig = CairoMakie.Figure(size = (700, 600), fontsize=24, px_per_unit=2)
+
+    ax = [Axis(
+        fig[1, 1],
+        limits = ((LOW, UPP), (LOW, UPP)),
+        xlabel = L"b_1",
+        xlabelsize = 18,
+        ylabel = L"b_2",
+        ylabelsize = 18,
+        width  = 500,
+        height = 500
+    ),
+    Axis(
+        fig[1, 3],
+        limits = ((LOW * closeup, UPP * closeup), (LOW * closeup, UPP * closeup)),
+        xlabel = L"b_1",
+        xlabelsize = 18,
+        ylabel = L"b_2",
+        ylabelsize = 18,
+        width  = 500,
+        height = 500
+    )]
+
+    voronoiplot!(
+        ax[1],
+        load_vorn,
+        color = :white,
+        strokewidth = 0.01,
+        show_generators = false,
+        clip = (LOW, UPP, LOW, UPP)
+    )
+    voronoiplot!(
+        ax[2],
+        load_vorn,
+        color = :white,
+        strokewidth = 0.06,
+        show_generators = false,
+        clip = (LOW * closeup, UPP * closeup, LOW * closeup, UPP * closeup)
+    )
+
+    resize_to_layout!(fig)
+
+    scatter!(
+        ax[1],
+        [d[1] for d in individualData],
+        [d[2] for d in individualData],
+        marker = :circle, 
+        markersize =  7, 
+        color = if iter == "UpdateFrequency"
+            [(colormap[clamp(round(Int, ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData))) * (length(colormap) - 1) + 1), 1, length(colormap))], 0.5 * ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)))^(1/2) + 0.4) for fit in updateCountData]
+        else
+            [(colormap[round(Int, fit * 255 + 1)], 0.5 * (fit^(1/2) + 0.4)) for fit in fitnessData]
+        end
+    )
+    scatter!(
+        ax[2], 
+        [d[1] for d in individualData],
+        [d[2] for d in individualData],
+        marker = :circle, 
+        markersize = 14, 
+        color = if iter == "UpdateFrequency"
+            [(colormap[clamp(round(Int, ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData))) * (length(colormap) - 1) + 1), 1, length(colormap))], 0.5 * ((fit - minimum(updateCountData)) / (maximum(updateCountData) - minimum(updateCountData)))^(1/2) + 0.4) for fit in updateCountData]
+        else
+            [(colormap[round(Int, fit * 255 + 1)], 0.5 * (fit^(1/2) + 0.4)) for fit in fitnessData]
+        end
+    )
+
+    scatter!(ax[1], BestPoint, marker = :star5, markersize = 15, color = :orange)
+    scatter!(ax[2], BestPoint, marker = :star5, markersize = 25, color = :orange)
+
+    Colorbar(
+        fig[1, 2],
+        limits = if iter == "UpdateFrequency"
+            (0, maximum(updateCountData))
+        else
+            (0.0, 1.0)
+        end,
+        ticks = if iter == "UpdateFrequency"
+            (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
+        else
+            (0:0.25:1.0, string.(["0.00", "0.25", "0.50", "0.75", "1.00"]))
+        end,
+        colormap = colormap,
+        label = if iter == "UpdateFrequency"
+            "Update frequency"
+        else
+            "Fitness value"
+        end
+    )
+    Colorbar(
+        fig[1, 4],
+        limits = if iter == "UpdateFrequency"
+            (0, maximum(updateCountData))
+        else
+            (0.0, 1.0)
+        end,
+        ticks = if iter == "UpdateFrequency"
+            (0:maximum(updateCountData)/4:maximum(updateCountData), string.([0, "", "", "", maximum(updateCountData)]))
+        else
+            (0:0.25:1.0, string.(["0.00", "0.25", "0.50", "0.75", "1.00"]))
+        end,
+        colormap = colormap,
+        label = if iter == "UpdateFrequency"
+            "Update frequency"
+        else
+            "Fitness value"
+        end
+    )
+
+    poly!(
+        ax[1], 
+        Rect(-UPP * closeup, -UPP * closeup, UPP * 2 * closeup, UPP * 2 * closeup),
+        strokecolor = :blue,
+        color = (:blue, 0.0),
+        strokewidth = 1.0
+    )
+
+    resize_to_layout!(fig)
+
+    if !isdir("result/pdf")
+        mkdir("result/pdf")
+    end
+
+    if dimention == "test"
+        println("Saved: result/testdata/pdf/cvt-testdata-$(iter).pdf")
+        save("result/testdata/pdf/cvt-testdata-$(iter).pdf", fig)
+    else
+        println("Saved: result/pdf/$(function_name)-$(method_name)-$(dimention)-$(iter).pdf")
+        save("result/pdf/$(function_name)-$(method_name)-$(dimention)-$(iter).pdf", fig)
+    end
+end
