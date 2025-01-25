@@ -2,15 +2,15 @@
 #       Fitness function                                                                             #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using Random
+using Random         # 乱数生成
 
-using Distributions
+using Distributions  # 確率分布
 
 #----------------------------------------------------------------------------------------------------#
 
-include("benchmark.jl")
+include("benchmark.jl")  # ベンチマーク関数
 
-include("config.jl")
+include("config.jl")     # 設定ファイル
 
 #----------------------------------------------------------------------------------------------------#
 # Noise setting
@@ -18,7 +18,7 @@ include("config.jl")
 const fit_index = FIT_NOISE ? 1 : 2
 
 # Constant of the noise. | Noise range is [-r_noise, r_noise]
-const σ = r_noise / 9.0
+const σ = r_noise / 4.0
 
 # Normal distribution for the noise.
 const N_noise = Normal(0.0, σ^(2.0))

@@ -2,9 +2,9 @@
 #       Benchmark                                                                                    #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-include("config.jl")
+include("config.jl")  # 設定ファイル
 
-include("logger.jl")
+include("logger.jl")  # ログ出力用のファイル
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Objective function
@@ -27,11 +27,13 @@ elseif OBJ_F == "schwefel"
     # Schwefel
     x::Vector{Float64} -> 418.9829 * length(x) - sum(x .* sin.(sqrt.(abs.(x))))
 else
-    logger("ERROR", "Objective function is invalid")
+    logger("ERROR", "Objective function is invalid")  # 目的関数が無効であることをエラーログに記録 -> 終了
 
     exit(1)
 end
 
+#----------------------------------------------------------------------------------------------------#
+# Objective function | Average of the objective function
 objective_function(x::Vector{Float64}) = sum(ObjFunction(x) for _ in 1:MEAN_GENE) / MEAN_GENE
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -55,7 +57,7 @@ elseif OBJ_F == "schwefel"
     # Schwefel
     [zeros(D), -500.0, 500.0]
 else
-    logger("ERROR", "Objective parameter is invalid")
+    logger("ERROR", "Objective parameter is invalid")  # 目的関数パラメータが無効であることをエラーログに記録 -> 終了
     
     exit(1)
 end
