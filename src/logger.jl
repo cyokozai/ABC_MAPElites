@@ -2,13 +2,13 @@
 #                                                                                                    #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using Dates
+using Dates   # 日付と時間
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-
+# Logger
 function logger(status::String, message::String)
-    open("log/$F_LOGFILE", "a") do fl
-        println(fl, Dates.format(now(), "yyyy-mm-dd HH:MM:SS"), "[", status, "] ", message)
+    open("log/$F_LOGFILE", "a") do fl # ログファイルを開く
+        println(fl, Dates.format(now(), "yyyy-mm-dd HH:MM:SS"), "[", status, "] ", message) # ログを出力
     end
 end
 
