@@ -28,11 +28,11 @@ function main()
     if D == 2
         logger("WARN", "Dimension is default value \"2\"")  # 次元がデフォルト値「2」であることを警告
     elseif D <= 0
-        logger("ERROR", "Dimension is invalid")             # 次元が無効であることをエラーログに記録 -> 終了
+        logger("ERROR", "Dimension is invalid")  # 次元が無効であることをエラーログに記録 -> 終了
 
         exit(1)
     else
-        logger("INFO", "Dimension is $D")                   # 次元を情報ログに記録
+        logger("INFO", "Dimension is $D")  # 次元を情報ログに記録
     end
     
     # Convergence mode check
