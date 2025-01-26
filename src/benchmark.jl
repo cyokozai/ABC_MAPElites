@@ -8,7 +8,7 @@ include("logger.jl")  # ログ出力用のファイル
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Objective function
-ObjFunction = if OBJ_F == "sphere"
+objective_function = if OBJ_F == "sphere"
     # Sphere
     x::Vector{Float64} -> sum(x .^ 2)
 elseif OBJ_F == "rosenbrock"
@@ -31,10 +31,6 @@ else
 
     exit(1)
 end
-
-#----------------------------------------------------------------------------------------------------#
-# Objective function | Average of the objective function
-objective_function(x::Vector{Float64}) = sum(ObjFunction(x) for _ in 1:MEAN_GENE) / MEAN_GENE
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Number of solution and bounds

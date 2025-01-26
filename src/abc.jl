@@ -26,8 +26,8 @@ trial_P = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ（個体群）
 trial_A = zeros(Int, k_max)        # 試行回数カウンタ（アーカイブ）
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Uniform distribution
-φ = () -> rand(RNG) * 2.0 - 1.0  # 一様分布
+# Uniform distribution | [-1, 1]
+φ = () -> rand(RNG) * 2.0 - 1.0  # 一様分布 [-1, 1]
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Greedy selection
@@ -37,17 +37,17 @@ function greedySelection(x::Vector{Float64}, v::Vector{Float64}, trial::Vector{I
     if fitness(v_b[fit_index]) > fitness(x_b[fit_index])  # 新しい解が良い場合
         trial[i] = 0  # 試行回数をリセット
         
-        return v  # 新しい解を返す
+        return v      # 新しい解を返す
     else
         trial[i] += 1  # 試行回数をインクリメント
         
-        return x  # 元の解を返す
+        return x       # 元の解を返す
     end
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Roulette selection | Population
-function roulleteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
+function rouletteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
     r = rand(RNG)  # 乱数を生成
     
     for i in 1:length(I)
@@ -61,16 +61,16 @@ end
 
 #----------------------------------------------------------------------------------------------------#
 # Roulette selection | Archive
-function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual})
+function rouletteSelection(cum_probs::Dict{Int64, Float64}, I::Vector{Int64})
     r = rand(RNG)  # 乱数を生成
-    
-    for (i, key) in enumerate(keys(I))
-        if cum_probs[i] > r  # 累積確率が乱数よりも大きい場合
+
+    for key in I
+        if cum_probs[key] > r  # 累積確率が乱数よりも大きい場合
             return key  # 選択されたキーを返す
         end
     end
     
-    return keys(I)[rand(RNG, keys(I))]  # ランダムなキーを返す
+    return rand(RNG, I)  # ランダムなキーを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -79,7 +79,7 @@ function employed_bee(population::Population, archive::Archive)
     I_P = population.individuals    # 個体群を取得
     v_P = zeros(Float64, D)         # 変異ベクトルを初期化
     j   = rand(RNG, 1:FOOD_SOURCE)  # ランダムなインデックスを生成
-    
+
     print(".")
     
     for i in 1:FOOD_SOURCE
@@ -109,20 +109,19 @@ function onlooker_bee(population::Population, archive::Archive)
     I_P, I_A = population.individuals, archive.individuals     # 個体群とアーカイブの個体を取得
     v_P, v_A = zeros(Float64, D), zeros(Float64, D)            # 変異ベクトルを初期化
     u_P, u_A = zeros(Float64, D), zeros(Float64, D)            # 交叉ベクトルを初期化
-    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_A))  # ランダムなインデックスを生成
+    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
     
     Σ_fit_p, Σ_fit_a = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))  # 適応度の合計を計算
-
-    cum_p_p, cum_p_a = cumsum([fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE]), cumsum([fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A)])  # 累積確率を計算
+    cum_p_p, cum_p_a = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE], Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))  # 累積確率を計算
 
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_P, u_A = I_P[roulleteSelection(cum_p_p, I_P)].genes, I_A[roulleteSelection(cum_p_a, I_A)].genes  # ルーレット選択を行う
+        u_P, u_A = I_P[rouletteSelection(cum_p_p, I_P)].genes, I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes  # ルーレット選択を行う
 
         for d in 1:D
             while true
-                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_A))  # ランダムなインデックスを生成
+                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
                 
                 if I_P[i].genes[d] != I_A[k].genes[d] && i != j
                     break 

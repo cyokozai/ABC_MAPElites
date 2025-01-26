@@ -29,7 +29,7 @@ fitness(x::Float64) = x >= 0 ?  1.0 / (1.0 + x) : 1.0 + abs(x)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Noise function with Gaussian function
-noise(gene::Vector{Float64}) = FIT_NOISE ? [x_d + rand(RNG, N_noise) for x_d in gene] : gene
+noise(gene::Vector{Float64}) = FIT_NOISE ? [sum(x + rand(RNG, N_noise) for _ in 1:MEAN_GENE) / MEAN_GENE for x in gene] : gene
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
