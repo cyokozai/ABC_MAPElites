@@ -22,9 +22,6 @@ include("logger.jl")     # ログ出力用のファイル
 # Trial counter | Population
 trial_P = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ（個体群）
 
-# Trial counter | Archive
-trial_A = zeros(Int, k_max)        # 試行回数カウンタ（アーカイブ）
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Uniform distribution | [-1, 1]
 φ = () -> rand(RNG) * 2.0 - 1.0  # 一様分布 [-1, 1]
@@ -136,15 +133,15 @@ function onlooker_bee(population::Population, archive::Archive)
             end
             
             # 変異ベクトルを計算
-            v_P[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d])
-            v_A[d] = u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])
+            v_P[d] = u_P[d] + φ() * (u_A[d] - I_P[j].genes[d])
+            v_A[d] = u_A[d] + φ() * (u_P[d] - I_A[k].genes[d])
         end
         
         # 変異ベクトルv_Pとv_Aの評価を比較
         population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)
             greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
         else
-            greedySelection(I_P[i].genes, v_A, trial_A, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
+            greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
         end
     end
     
@@ -156,7 +153,7 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
-    global trial_P, trial_A, cvt_vorn_data_update
+    global trial_P, cvt_vorn_data_update
     
     print(".")
     
@@ -172,13 +169,12 @@ function scout_bee(population::Population, archive::Archive)
                 logger("INFO", "Scout bee found a new food source")  # 新しい食料源を発見したことをログに記録
             end
         end
-
+        
         if cvt_vorn_data_update <= cvt_vorn_data_update_limit  # ボロノイデータ更新回数が上限値以下の場合
             init_CVT(population)  # CVTを初期化
             
             new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())  # 新しいアーカイブを生成
             archive     = deepcopy(cvt_mapping(population, new_archive))                               # アーカイブを更新
-            trial_A     = zeros(Int, k_max)                                                            # 試行回数カウンタをリセット
             
             logger("INFO", "Recreate Voronoi diagram")  # ボロノイ図を再作成したことをログに記録
         end
