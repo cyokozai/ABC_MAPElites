@@ -106,18 +106,25 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
-    I_P, I_A = population.individuals, archive.individuals     # 個体群とアーカイブの個体を取得
-    v_P, v_A = zeros(Float64, D), zeros(Float64, D)            # 変異ベクトルを初期化
-    u_P, u_A = zeros(Float64, D), zeros(Float64, D)            # 交叉ベクトルを初期化
+    I_P, I_A = population.individuals, archive.individuals              # 個体群とアーカイブの個体を取得
+    v_P, v_A = zeros(Float64, D), zeros(Float64, D)                     # 変異ベクトルを初期化
+    u_P, u_A = zeros(Float64, D), zeros(Float64, D)                     # 交叉ベクトルを初期化
     j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
     
-    Σ_fit_p, Σ_fit_a = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))  # 適応度の合計を計算
-    cum_p_p, cum_p_a = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE], Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))  # 累積確率を計算
+    # 適応度の合計を計算
+    Σ_fit_p = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE)
+    Σ_fit_a = sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))
+
+    # 累積確率を計算
+    cum_p_p = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE]
+    cum_p_a = Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))
 
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_P, u_A = I_P[rouletteSelection(cum_p_p, I_P)].genes, I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes  # ルーレット選択を行う
+        # ルーレット選択を行う
+        u_P = I_P[rouletteSelection(cum_p_p, I_P)].genes
+        u_A = I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes
 
         for d in 1:D
             while true
@@ -128,10 +135,13 @@ function onlooker_bee(population::Population, archive::Archive)
                 end
             end
             
-            v_P[d], v_A[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d]), u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])  # 変異ベクトルを計算
+            # 変異ベクトルを計算
+            v_P[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d])
+            v_A[d] = u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])
         end
-
-        population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)  # 変異ベクトルv_Pとv_Aの評価を比較
+        
+        # 変異ベクトルv_Pとv_Aの評価を比較
+        population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)
             greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
         else
             greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
