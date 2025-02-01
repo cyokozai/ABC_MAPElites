@@ -144,7 +144,7 @@ function onlooker_bee(population::Population, archive::Archive)
         population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)
             greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
         else
-            greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
+            greedySelection(I_P[i].genes, v_A, trial_A, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
         end
     end
     
