@@ -169,7 +169,7 @@ function scout_bee(population::Population, archive::Archive)
                 logger("INFO", "Scout bee found a new food source")  # 新しい食料源を発見したことをログに記録
             end
         end
-        
+
         if cvt_vorn_data_update <= cvt_vorn_data_update_limit  # ボロノイデータ更新回数が上限値以下の場合
             init_CVT(population)  # CVTを初期化
             
