@@ -89,7 +89,7 @@ end
 #----------------------------------------------------------------------------------------------------#
 # Noise parameter
 # Fitness noise | 'true' is available when you want to add the noise to the fitness.
-const FIT_NOISE = true
+const FIT_NOISE = false
 
 # Noise rate | Default: 0.01
 const r_noise   = 0.01
