@@ -7,7 +7,7 @@ using Distributions  # 分布関数
 using Random         # 乱数生成
 
 #----------------------------------------------------------------------------------------------------#
-
+　
 include("config.jl")     # 設定ファイル
 
 include("struct.jl")     # 構造体
@@ -21,6 +21,9 @@ include("logger.jl")     # ログ出力用のファイル
 #----------------------------------------------------------------------------------------------------#
 # Trial counter | Population
 trial_P = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ（個体群）
+
+# Trial counter | Archive
+trial_A = zeros(Int, k_max)        # 試行回数カウンタ（アーカイブ）
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Uniform distribution | [-1, 1]
@@ -103,25 +106,18 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
-    I_P, I_A = population.individuals, archive.individuals              # 個体群とアーカイブの個体を取得
-    v_P, v_A = zeros(Float64, D), zeros(Float64, D)                     # 変異ベクトルを初期化
-    u_P, u_A = zeros(Float64, D), zeros(Float64, D)                     # 交叉ベクトルを初期化
+    I_P, I_A = population.individuals, archive.individuals     # 個体群とアーカイブの個体を取得
+    v_P, v_A = zeros(Float64, D), zeros(Float64, D)            # 変異ベクトルを初期化
+    u_P, u_A = zeros(Float64, D), zeros(Float64, D)            # 交叉ベクトルを初期化
     j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
     
-    # 適応度の合計を計算
-    Σ_fit_p = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE)
-    Σ_fit_a = sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))
-
-    # 累積確率を計算
-    cum_p_p = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE]
-    cum_p_a = Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))
+    Σ_fit_p, Σ_fit_a = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))  # 適応度の合計を計算
+    cum_p_p, cum_p_a = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE], Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))  # 累積確率を計算
 
     print(".")
     
     for i in 1:FOOD_SOURCE
-        # ルーレット選択を行う
-        u_P = I_P[rouletteSelection(cum_p_p, I_P)].genes
-        u_A = I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes
+        u_P, u_A = I_P[rouletteSelection(cum_p_p, I_P)].genes, I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes  # ルーレット選択を行う
 
         for d in 1:D
             while true
@@ -132,13 +128,10 @@ function onlooker_bee(population::Population, archive::Archive)
                 end
             end
             
-            # 変異ベクトルを計算
-            v_P[d] = u_P[d] + φ() * (u_A[d] - I_P[j].genes[d])
-            v_A[d] = u_A[d] + φ() * (u_P[d] - I_A[k].genes[d])
+            v_P[d], v_A[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d]), u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])  # 変異ベクトルを計算
         end
-        
-        # 変異ベクトルv_Pとv_Aの評価を比較
-        population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)
+
+        population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)  # 変異ベクトルv_Pとv_Aの評価を比較
             greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
         else
             greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
@@ -153,7 +146,7 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
-    global trial_P, cvt_vorn_data_update
+    global trial_P, trial_A, cvt_vorn_data_update
     
     print(".")
     
@@ -175,6 +168,7 @@ function scout_bee(population::Population, archive::Archive)
             
             new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())  # 新しいアーカイブを生成
             archive     = deepcopy(cvt_mapping(population, new_archive))                               # アーカイブを更新
+            trial_A     = zeros(Int, k_max)                                                            # 試行回数カウンタをリセット
             
             logger("INFO", "Recreate Voronoi diagram")  # ボロノイ図を再作成したことをログに記録
         end
