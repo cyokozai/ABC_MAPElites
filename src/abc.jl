@@ -128,7 +128,7 @@ function onlooker_bee(population::Population, archive::Archive)
                 end
             end
             
-            v_P[d], v_A[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d]), u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])  # 変異ベクトルを計算
+            v_P[d], v_A[d] = u_P[d] + φ() * (u_P[d] - I_A[k].genes[d]), u_A[d] + φ() * (u_A[d] - I_P[j].genes[d])  # 変異ベクトルを計算
         end
 
         population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)  # 変異ベクトルv_Pとv_Aの評価を比較
