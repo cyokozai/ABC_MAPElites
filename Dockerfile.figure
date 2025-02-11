@@ -15,8 +15,7 @@ ENV TZ Asia/Tokyo
 ENV JULIA_NUM_THREADS 4
 
 WORKDIR /root
-
-COPY pkginstall.jl /root/
+COPY pkginstall.jl /root/pkginstall.jl
 
 RUN apt -y update && apt -y upgrade &&\
     julia pkginstall.jl figure &&\

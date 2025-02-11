@@ -5,9 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /root/src
+    working_dir: /root/
     volumes:
-      - ./src:/root/src
+      - ./src/result:/root/result
+      - ./src/log:/root/log
     networks:
       - default
     environment:
@@ -45,10 +46,7 @@ services:
         limits:
           cpus: 2.0
           memory: 8G
-    # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f && for m in $$METHOD; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
-    # command: ["sh", "-c", "for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f; done; done"]
-    command: ["julia", "make-table.jl"]
-    # command: ["julia", "make-vorn.jl", "10", "abc", "cvt", "rastrigin", "3"]
+    command: ["sh", "-c", "julia make-table.jl && for f in $$FUNCTION; do for d in $$D; do julia make-plot.jl $$d $$f && for m in $$METHOD; do for cup in $$CVT_UPDATE; do julia make-vorn.jl $$d $$m cvt $$f $$cup; done; done; done; done"]
 networks:
   default:
     driver: bridge

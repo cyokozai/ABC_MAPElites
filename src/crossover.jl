@@ -2,18 +2,18 @@
 #       Crossover                                                                                    #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using Random
+using Random  # 乱数生成
 
 #----------------------------------------------------------------------------------------------------#
 
-include("config.jl")
+include("config.jl")  # 設定ファイル
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Uniform crossover | DE/rand/1/bin
-crossover(x::Vector{Float64}, v::Vector{Float64}) = [rand(RNG) < CR ? v[d] : x[d] for d in 1:D]
+# Binominal crossover | DE/rand/1/bin
+crossover(x::Vector{Float64}, v::Vector{Float64}) = [d == rand(RNG, 1:D) || rand(RNG) < CR ? v[d] : x[d] for d in 1:D]
 
 #----------------------------------------------------------------------------------------------------#
-# Uniform crossover | MAP-Elites
+# Uniform crossover
 crossover(ind::Tuple{Individual, Individual}) = Individual(crossover(ind[1].genes, ind[2].genes), (0.0, 0.0), zeros(Float64, BD))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

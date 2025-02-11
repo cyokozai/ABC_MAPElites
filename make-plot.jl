@@ -21,45 +21,45 @@ using CairoMakie
 global MAXTIME = 100000
 
 dimension = ARGS[1]
-function_name  = ARGS[2]
+function_name = ARGS[2]
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 function MakeFigure()
-    fig = CairoMakie.Figure(size = (800, 600), fontsize=24, px_per_unit=2)
+    fig = CairoMakie.Figure(size=(800, 600), fontsize=24, px_per_unit=2)
     
     ax = if ARGS[1] == "test"
         [
         Axis(
             fig[1, 1],
-            limits = ((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
+            limits=((0-2000, MAXTIME), (1.0e-6, 1.0e+6)),
             xlabel=L"\mathrm{Generation} (\times 10^4)",
             ylabel=L"\mathrm{Function value}",
             title="Test data",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
-            xminorticks = IntervalsBetween(2),
+            xminorticks=IntervalsBetween(2),
             yscale=log10,
             yticks=(10.0 .^ (-6.0:2.0:6.0), string.(["1.0e-06", "1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
-            yminorticks = IntervalsBetween(5),
-            width = 720,
-            height = 560
+            yminorticks=IntervalsBetween(5),
+            width=720,
+            height=560
         )
         ]
     else
         [
         Axis(
             fig[1, 1],
-            limits = ((0-2000, MAXTIME), (1.0e-4, 1.0e+6)),
+            limits=((0-2000, MAXTIME), (1.0e-4, 1.0e+6)),
             xlabel=L"\text{Generation} \quad (\times 10^4)",
             ylabelsize=24,
             ylabel=L"\text{Function value}",
             xticks=(0:2*10^4:MAXTIME, string.([0, 2, 4, 6, 8, 10])),
-            xminorticks = IntervalsBetween(2),
+            xminorticks=IntervalsBetween(2),
             yscale=log10,
             yticks=(10.0 .^ (-4.0:2.0:6.0), string.(["1.0e-04", "1.0e-02", "1.0e+00", "1.0e+02", "1.0e+04", "1.0e+06"])),
-            yminorticks = IntervalsBetween(5),
-            width = 720,
-            height = 560
+            yminorticks=IntervalsBetween(5),
+            width=720,
+            height=560
         )
         ]
     end
@@ -105,7 +105,7 @@ function ReadData(dir::String)
                             
                             if reading_data
                                 parsed_value = tryparse(Float64, line)
-
+                                
                                 if parsed_value !== nothing
                                     data[i, j] = parsed_value
                                     
@@ -210,19 +210,12 @@ function PlotData(Data, fig, axis)
         push!(keys, key)
     end
 
-    # axislegend(
-    #     axis[1],
-    #     [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-    #     ["Default", "Default (Noised)", "DE", "DE (Noised)", "ABC", "ABC (Noised)"],
-    #     position=:cb, fontsize=20, orientation=:horizontal
-    # )
-
-    # Legend(
-    #     fig[1, 2],
-    #     [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
-    #     ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
-    #     fontsize=48, markersize=30
-    # )
+    Legend(
+        fig[1, 2],
+        [linedata["me"], linedata["me-noised"], linedata["de"], linedata["de-noised"], linedata["abc"], linedata["abc-noised"]],
+        ["ME", "ME (Noised)", "DME", "DME (Noised)", "ABCME", "ABCME (Noised)"],
+        fontsize=48, markersize=30
+    )
     
     resize_to_layout!(fig)
 end

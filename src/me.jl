@@ -2,59 +2,59 @@
 #       ME: Map Elites                                                                               #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using StableRNGs
+using StableRNGs  # 安定した乱数生成
 
-using Random
+using Random      # 乱数生成
 
 #----------------------------------------------------------------------------------------------------#
 
-include("struct.jl")
+include("struct.jl")     # 構造体
 
-include("config.jl")
+include("config.jl")     # 設定ファイル
 
-include("benchmark.jl")
+include("benchmark.jl")  # ベンチマーク関数
 
-include("fitness.jl")
+include("fitness.jl")    # 適応度
 
-include("crossover.jl")
+include("crossover.jl")  # 交叉
 
-include("cvt.jl")
+include("cvt.jl")        # CVT関連のファイル
 
-include("abc.jl")
+include("abc.jl")        # ABCアルゴリズム
 
-include("de.jl")
+include("de.jl")         # 差分進化アルゴリズム
 
-include("logger.jl")
+include("logger.jl")     # ログ出力用のファイル
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Devide gene
 function devide_gene(gene::Vector{Float64})
-    g_len = length(gene)
-    segment_length = div(g_len, BD)
-    behavior = Float64[]
-    
+    gene_len    = length(gene)       # 遺伝子の長さを取得
+    segment_len = div(gene_len, BD)  # セグメントの長さを計算
+    behavior    = Float64[]          # 行動ベクトルを初期化
+
     for i in 1:BD
-        start_idx = (i - 1) * segment_length + 1
-        end_idx = i == BD ? g_len : i * segment_length
+        start_idx = (i - 1) * segment_len + 1             # 開始インデックスを計算
+        end_idx   = i == BD ? gene_len : i * segment_len  # 終了インデックスを計算
         
-        push!(behavior, BD*sum(gene[start_idx:end_idx])/Float64(g_len))
+        push!(behavior, BD*sum(gene[start_idx:end_idx])/Float64(gene_len))  # 行動ベクトルに値を追加
     end
     
-    return behavior
+    return behavior  # 行動ベクトルを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Initialize the best solution
 function init_solution()
-    gene = rand(RNG, D) .* (UPP - LOW) .+ LOW
-    gene_noised = noise(gene)
+    gene = rand(RNG, D) .* (UPP - LOW) .+ LOW  # ランダムな遺伝子を生成
+    gene_noised = noise(gene)                  # ノイズを加える
 
-    return Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
+    return Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))  # 個体を生成して返す
 end
 
 #----------------------------------------------------------------------------------------------------#
 # Best solution
-best_solution = init_solution()
+best_solution = init_solution()  # 最良解を初期化
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Evaluator: Evaluation of the individual
@@ -62,18 +62,18 @@ function evaluator(individual::Individual)
     global best_solution
 
     # Objective function
-    gene_noised = noise(individual.genes)
-    individual.benchmark = (objective_function(gene_noised), objective_function(individual.genes))
+    gene_noised = noise(individual.genes)  # ノイズを加える
+    individual.benchmark = (objective_function(gene_noised), objective_function(individual.genes))  # ベンチマークを計算
     
     # Evaluate the behavior
-    individual.behavior = deepcopy(devide_gene(gene_noised))
+    individual.behavior = deepcopy(devide_gene(gene_noised))  # 行動を評価
 
     # Update the best solution
-    if individual.benchmark[fit_index] <= best_solution.benchmark[fit_index]
-        best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))
+    if individual.benchmark[fit_index] <= best_solution.benchmark[fit_index]  # 最良解より個体の評価が良い場合
+        best_solution = Individual(deepcopy(individual.genes), deepcopy(individual.benchmark), deepcopy(individual.behavior))  # 最良解を更新
     end
     
-    return individual
+    return individual  # 評価された個体を返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -81,26 +81,26 @@ end
 Mapping = if MAP_METHOD == "grid"
     (population::Population, archive::Archive) -> begin
         # The length of the grid
-        len = (UPP - LOW) / GRID_SIZE
+        len = (UPP - LOW) / GRID_SIZE  # グリッドの長さを計算
         
         # Mapping the individual to the archive
         for (index, ind) in enumerate(population.individuals)
-            idx = clamp.(ind.behavior, LOW, UPP)
+            idx = clamp.(ind.behavior, LOW, UPP)  # 行動をクランプ
             
             for i in 1:GRID_SIZE
                 for j in 1:GRID_SIZE
-                    if LOW + len * (i - 1) <= idx[1] && idx[1] < LOW + len * i && LOW + len * (j - 1) <= idx[2] && idx[2] < LOW + len * j # Save the individual to the grid
+                    if LOW + len * (i - 1) <= idx[1] && idx[1] < LOW + len * i && LOW + len * (j - 1) <= idx[2] && idx[2] < LOW + len * j  # グリッドに個体を保存
                         # Check the grid
-                        if archive.grid[i, j] > 0
-                            if fitness(ind.benchmark[fit_index]) > fitness(archive.individuals[archive.grid[i, j]].benchmark[fit_index])
-                                archive.grid[i, j] = index
-                                archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))
-                                archive.grid_update_counts[i, j] += 1
+                        if archive.grid[i, j] > 0  # グリッドに個体が存在する場合
+                            if fitness(ind.benchmark[fit_index]) > fitness(archive.individuals[archive.grid[i, j]].benchmark[fit_index])  # 評価が良い場合
+                                archive.grid[i, j] = index  # グリッドを更新
+                                archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))  # 個体を更新
+                                archive.grid_update_counts[i, j] += 1  # グリッドの更新回数を増やす
                             end
-                        else
-                            archive.grid[i, j] = index
-                            archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))
-                            archive.grid_update_counts[i, j] += 1
+                        else  # グリッドに個体が存在しない場合
+                            archive.grid[i, j] = index  # グリッドに個体を保存
+                            archive.individuals[index] = Individual(deepcopy(ind.genes), deepcopy(ind.benchmark), deepcopy(ind.behavior))  # 個体を保存
+                            archive.grid_update_counts[i, j] += 1  # グリッドの更新回数を増やす
                         end
                         
                         break
@@ -109,58 +109,58 @@ Mapping = if MAP_METHOD == "grid"
             end
         end
 
-        return archive
+        return archive  # 更新されたアーカイブを返す
     end
 elseif MAP_METHOD == "cvt"
-    (population::Population, archive::Archive) -> cvt_mapping(population, archive)
+    (population::Population, archive::Archive) -> cvt_mapping(population, archive)  # CVTマッピング
 else
-    error("Invalid MAP method")
+    error("Invalid MAP method")  # 無効なMAPメソッドエラー -> 終了
 
-    logger("ERROR", "Invalid MAP method")
+    logger("ERROR", "Invalid MAP method")  # ログ出力
     
     exit(1)
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Mutate: Mutation of the individual
-mutate(individual::Individual) = rand(RNG) < MUTANT_R ? individual : init_solution()
+mutate(individual::Individual) = rand(RNG) < MUTANT_R ? individual : init_solution()  # 突然変異
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Select random elite
 select_random_elite = if MAP_METHOD == "grid"
     (population::Population, archive::Archive) -> begin
         while true
-            i, j, k = rand(RNG, 1:GRID_SIZE, 3)
+            i, j, k = rand(RNG, 1:GRID_SIZE, 3)  # ランダムなインデックスを生成
             
             if archive.grid[i, j] > 0 && archive.grid[i, k] > 0 && j != k
-                return archive.individuals[archive.grid[i, j]], archive.individuals[archive.grid[i, k]]
+                return archive.individuals[archive.grid[i, j]], archive.individuals[archive.grid[i, k]]  # ランダムなエリートを選択
             end
         end
     end
 elseif MAP_METHOD == "cvt"
     (population::Population, archive::Archive) -> begin
-        random_centroid_index1, random_centroid_index2 = zeros(Int64, 2)
+        random_centroid_index1, random_centroid_index2 = zeros(Int64, 2)  # ランダムなインデックスを初期化
 
         while random_centroid_index1 == random_centroid_index2
-            random_centroid_index1, random_centroid_index2 = rand(RNG, keys(archive.individuals), 2)
+            random_centroid_index1, random_centroid_index2 = rand(RNG, keys(archive.individuals), 2)  # ランダムなインデックスを生成
         end
         
-        return archive.individuals[random_centroid_index1], archive.individuals[random_centroid_index2]
+        return archive.individuals[random_centroid_index1], archive.individuals[random_centroid_index2]  # ランダムなエリートを選択
     end
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Reproduction: Generate new individuals
-Reproduction = if METHOD == "me"
+Reproduction = if METHOD == "me"  # MAP-Elites
     (population::Population, archive::Archive) -> (Population([evaluator(mutate(crossover(select_random_elite(population, archive)))) for _ in 1:N]), archive)
-elseif METHOD == "abc"
+elseif METHOD == "abc"  # ABC MAP-Elites
     (population::Population, archive::Archive) -> ABC(population, archive)
-elseif METHOD == "de"
+elseif METHOD == "de"  # Differential MAP-Elites
     (population::Population, archive::Archive) -> DE(population, archive)
 else
-    error("Invalid method")
+    error("Invalid method")  # 無効なメソッドエラー -> 終了
     
-    logger("ERROR", "Invalid method")
+    logger("ERROR", "Invalid method")  # ログ出力
 
     exit(1)
 end
@@ -171,7 +171,7 @@ function map_elites()
     global best_solution
 
     # Print the solutions
-    indPrint = if FIT_NOISE
+    indPrint = if FIT_NOISE  # ノイズを考慮する場合
         (ffn, ff) -> begin
             println("Now best individual: ", best_solution.genes[1:min(10, length(best_solution.genes))])
             println("Now best behavior:   ", best_solution.behavior)
@@ -181,7 +181,7 @@ function map_elites()
             println(ffn, best_solution.benchmark[1])
             println(ff, best_solution.benchmark[2])
         end
-    else
+    else  # ノイズを考慮しない場合
         (ffn, ff) -> begin
             println("Now best individual: ", best_solution.genes[1:min(10, length(best_solution.genes))])
             println("Now best behavior:   ", best_solution.behavior)
@@ -196,18 +196,18 @@ function map_elites()
     logger("INFO", "Initialize")
 
     # Initialize the population
-    population::Population = Population([evaluator(init_solution()) for _ in 1:N])
+    population::Population = Population([evaluator(init_solution()) for _ in 1:N])  # 個体群を初期化
 
     # Initialize the archive
-    archive::Archive = if MAP_METHOD == "grid"
-        Archive(zeros(Int64, GRID_SIZE, GRID_SIZE), zeros(Int64, GRID_SIZE, GRID_SIZE), Dict{Int64, Individual}())
-    elseif MAP_METHOD == "cvt"
-        init_CVT(population)
-        Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
+    archive::Archive = if MAP_METHOD == "grid"  # グリッドマッピングの場合
+        Archive(zeros(Int64, GRID_SIZE, GRID_SIZE), zeros(Int64, GRID_SIZE, GRID_SIZE), Dict{Int64, Individual}())  # アーカイブを初期化
+    elseif MAP_METHOD == "cvt"  # CVTマッピングの場合
+        init_CVT(population)  # CVTを初期化
+        Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())  # アーカイブを初期化
     else
-        error("Invalid MAP method")
+        error("Invalid MAP method")  # 無効なMAPメソッドエラー -> 終了
 
-        logger("ERROR", "Invalid MAP method")
+        logger("ERROR", "Invalid MAP method")  # ログ出力
 
         exit(1)
     end
@@ -220,7 +220,7 @@ function map_elites()
 
     logger("INFO", "Start Iteration")
 
-    begin_time = time()
+    begin_time = time()  # 初期化後の開始時間を取得
 
     for iter in 1:MAXTIME
         println("Generation: ", iter)
@@ -238,18 +238,20 @@ function map_elites()
         indPrint(ffn, ff)
         
         # Confirm the convergence
-        if CONV_FLAG
-            if fitness(best_solution.benchmark[fit_index]) >= 1.0 || abs(sum(SOLUTION .- best_solution.genes)) < EPS
+        if CONV_FLAG  # 収束判定を行うか否か
+            if fitness(best_solution.benchmark[fit_index]) >= 1.0 || abs(sum(SOLUTION .- best_solution.genes)) < EPS  # 収束判定
                 logger("INFO", "Convergence")
                 
                 break
-            elseif fitness(best_solution.benchmark[fit_index]) < 0.0
-                logger("ERROR", "Invalid fitness value")
+            elseif fitness(best_solution.benchmark[fit_index]) < 0.0  # 適応度が負の場合
+                logger("ERROR", "Invalid fitness value")  # エラーを出力 -> 終了
+
+                exit(1)
             end
         end
     end
     
-    finish_time = time()
+    finish_time = time()  # 終了時間を取得
     
     logger("INFO", "Time out")
 
@@ -259,7 +261,7 @@ function map_elites()
     close(ffn)
     close(ff)
 
-    return population, archive, (finish_time - begin_time)
+    return population, archive, (finish_time - begin_time)  # 更新された個体群とアーカイブ、経過時間を返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

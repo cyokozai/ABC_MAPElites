@@ -2,16 +2,16 @@
 #       Config                                                                                       #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using StableRNGs
+using StableRNGs  # 乱数生成
 
-using Dates
+using Dates       # 日付と時間
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Method and Objective function
 # Method: me, abc, de
 const METHOD     = length(ARGS) > 1 ? ARGS[2] : "me"
 if METHOD != "me" && METHOD != "abc" && METHOD != "de"
-    println("Error: The method is not available.")
+    println("Error: The method is not available.")  # エラーログにメソッドが無効であることを記録 -> 終了
 
     exit(1)
 end
@@ -19,7 +19,7 @@ end
 # MAP Method: grid, cvt
 const MAP_METHOD = length(ARGS) > 2 ? ARGS[3] : "cvt"
 if MAP_METHOD != "grid" && MAP_METHOD != "cvt"
-    println("Error: The MAP method is not available.")
+    println("Error: The MAP method is not available.")  # エラーログにマップメソッドが無効であることを記録 -> 終了
 
     exit(1)
 end
@@ -27,7 +27,7 @@ end
 # Objective function: sphere, rosenbrock, rastrigin, griewank, ackley, schwefel, michalewicz
 const OBJ_F      = length(ARGS) > 3 ? ARGS[4] : "sphere"
 if OBJ_F != "sphere" && OBJ_F != "rosenbrock" && OBJ_F != "rastrigin" && OBJ_F != "griewank" && OBJ_F != "ackley" && OBJ_F != "schwefel" && OBJ_F != "michalewicz"
-    println("Error: The objective function is not available.")
+    println("Error: The objective function is not available.")  # エラーログに目的関数が無効であることを記録 -> 終了
 
     exit(1)
 end
@@ -58,9 +58,9 @@ const CONV_FLAG = false
 const EPS       = 1e-6
 
 # Number of max time | Default: 100000
-const MAXTIME   = if ARGS[1] == "test"
+const MAXTIME   = if ARGS[1] == "test"  # テストの場合
     1000
-elseif CONV_FLAG == false
+elseif CONV_FLAG == false  # 収束フラグが偽の場合
     100000
 elseif OBJ_F == "sphere"
     # Sphere
@@ -81,7 +81,7 @@ elseif OBJ_F == "schwefel"
     # Schwefel
     30000
 else
-    println("Error: The objective function is not available.")
+    println("Error: The objective function is not available.")  # エラーログに目的関数が無効であることを記録 -> 終了
 
     exit(1)
 end
@@ -89,7 +89,7 @@ end
 #----------------------------------------------------------------------------------------------------#
 # Noise parameter
 # Fitness noise | 'true' is available when you want to add the noise to the fitness.
-const FIT_NOISE = true
+const FIT_NOISE = false
 
 # Noise rate | Default: 0.01
 const r_noise   = 0.01

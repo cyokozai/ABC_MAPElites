@@ -2,145 +2,145 @@
 #       ABC: Artificial Bee Colony                                                                   #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-using Distributions
+using Distributions  # 分布関数
 
-using Random
+using Random         # 乱数生成
 
 #----------------------------------------------------------------------------------------------------#
+　
+include("config.jl")     # 設定ファイル
 
-include("config.jl")
+include("struct.jl")     # 構造体
 
-include("struct.jl")
+include("fitness.jl")    # 適応度
 
-include("fitness.jl")
+include("crossover.jl")  # 交叉
 
-include("crossover.jl")
-
-include("logger.jl")
+include("logger.jl")     # ログ出力用のファイル
 
 #----------------------------------------------------------------------------------------------------#
 # Trial counter | Population
-trial_P = zeros(Int, FOOD_SOURCE)
+trial_P = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ（個体群）
 
 # Trial counter | Archive
-trial_A = zeros(Int, k_max)
+trial_A = zeros(Int, k_max)        # 試行回数カウンタ（アーカイブ）
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# Uniform distribution
-φ = () -> rand(RNG) * 2.0 - 1.0
+# Uniform distribution | [-1, 1]
+φ = () -> rand(RNG) * 2.0 - 1.0  # 一様分布 [-1, 1]
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Greedy selection
 function greedySelection(x::Vector{Float64}, v::Vector{Float64}, trial::Vector{Int}, i::Int)
-    x_b, v_b = (objective_function(noise(x)), objective_function(x)), (objective_function(noise(v)), objective_function(v))
+    x_b, v_b = (objective_function(noise(x)), objective_function(x)), (objective_function(noise(v)), objective_function(v))  # ベンチマークを計算
     
-    if fitness(v_b[fit_index]) > fitness(x_b[fit_index])
-        trial[i] = 0
+    if fitness(v_b[fit_index]) > fitness(x_b[fit_index])  # 新しい解が良い場合
+        trial[i] = 0  # 試行回数をリセット
         
-        return v
+        return v      # 新しい解を返す
     else
-        trial[i] += 1
+        trial[i] += 1  # 試行回数をインクリメント
         
-        return x
+        return x       # 元の解を返す
     end
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Roulette selection | Population
-function roulleteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
-    r = rand(RNG)
+function rouletteSelection(cum_probs::Vector{Float64}, I::Vector{Individual})
+    r = rand(RNG)  # 乱数を生成
     
     for i in 1:length(I)
-        if cum_probs[i] > r
-            return i
+        if cum_probs[i] > r  # 累積確率が乱数よりも大きい場合
+            return i  # 選択されたインデックスを返す
         end
     end
 
-    return rand(RNG, 1:length(I))
+    return rand(RNG, 1:length(I))  # ランダムなインデックスを返す
 end
 
 #----------------------------------------------------------------------------------------------------#
 # Roulette selection | Archive
-function roulleteSelection(cum_probs::Vector{Float64}, I::Dict{Int64, Individual})
-    r = rand(RNG)
-    
-    for (i, key) in enumerate(keys(I))
-        if cum_probs[i] > r
-            return key
+function rouletteSelection(cum_probs::Dict{Int64, Float64}, I::Vector{Int64})
+    r = rand(RNG)  # 乱数を生成
+
+    for key in I
+        if cum_probs[key] > r  # 累積確率が乱数よりも大きい場合
+            return key  # 選択されたキーを返す
         end
     end
     
-    return keys(I)[rand(RNG, keys(I))]
+    return rand(RNG, I)  # ランダムなキーを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Employed bee phase
 function employed_bee(population::Population, archive::Archive)
-    I_P = population.individuals
-    v_P = zeros(Float64, D)
-    j   = rand(RNG, 1:FOOD_SOURCE)
-    
+    I_P = population.individuals    # 個体群を取得
+    v_P = zeros(Float64, D)         # 変異ベクトルを初期化
+    j   = rand(RNG, 1:FOOD_SOURCE)  # ランダムなインデックスを生成
+
     print(".")
     
     for i in 1:FOOD_SOURCE
         for d in 1:D
             while true
-                j = rand(RNG, 1:FOOD_SOURCE)
+                j = rand(RNG, 1:FOOD_SOURCE)  # ランダムなインデックスを生成
                 
                 if i != j
                     break 
                 end
             end
             
-            v_P[d] = I_P[i].genes[d] + φ() * (I_P[i].genes[d] - I_P[j].genes[d])
+            v_P[d] = I_P[i].genes[d] + φ() * (I_P[i].genes[d] - I_P[j].genes[d])  # 変異ベクトルを計算
         end
         
-        population.individuals[i].genes = deepcopy(greedySelection(I_P[i].genes, v_P, trial_P, i))
+        population.individuals[i].genes = deepcopy(greedySelection(I_P[i].genes, v_P, trial_P, i))  # 貪欲選択を行う
     end
     
     print(".")
     
-    return population, archive
+    return population, archive  # 更新された個体群とアーカイブを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Onlooker bee phase
 function onlooker_bee(population::Population, archive::Archive)
-    I_P, I_A = population.individuals, archive.individuals
-    v_P, v_A = zeros(Float64, D), zeros(Float64, D)
-    u_P, u_A = zeros(Float64, D), zeros(Float64, D)
-    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_A))
+    I_P, I_A = population.individuals, archive.individuals     # 個体群とアーカイブの個体を取得
+    v_P, v_A = zeros(Float64, D), zeros(Float64, D)            # 変異ベクトルを初期化
+    u_P, u_A = zeros(Float64, D), zeros(Float64, D)            # 交叉ベクトルを初期化
+    j, k     = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
     
-    Σ_fit_p, Σ_fit_a = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))
-    cum_p_p, cum_p_a = cumsum([fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE]), cumsum([fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A)])
+    Σ_fit_p, Σ_fit_a = sum(fitness(I_P[i].benchmark[fit_index]) for i in 1:FOOD_SOURCE), sum(fitness(I_A[i].benchmark[fit_index]) for i in keys(I_A))  # 適応度の合計を計算
+    cum_p_p, cum_p_a = [fitness(I_P[i].benchmark[fit_index]) / Σ_fit_p for i in 1:FOOD_SOURCE], Dict{Int64, Float64}(i => fitness(I_A[i].benchmark[fit_index]) / Σ_fit_a for i in keys(I_A))  # 累積確率を計算
 
     print(".")
     
     for i in 1:FOOD_SOURCE
-        u_P = I_P[roulleteSelection(cum_p_p, I_P)].genes
-        u_A = I_A[roulleteSelection(cum_p_a, I_A)].genes
+        u_P, u_A = I_P[rouletteSelection(cum_p_p, I_P)].genes, I_A[rouletteSelection(cum_p_a, collect(keys(I_A)))].genes  # ルーレット選択を行う
 
         for d in 1:D
             while true
-                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, keys(I_A))
+                j, k = rand(RNG, 1:FOOD_SOURCE), rand(RNG, collect(keys(I_A)))  # ランダムなインデックスを生成
                 
                 if I_P[i].genes[d] != I_A[k].genes[d] && i != j
                     break 
                 end
             end
             
-            v_P[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d])
-            v_A[d] = u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])
+            v_P[d], v_A[d] = u_P[d] + φ() * (u_P[d] - I_P[j].genes[d]), u_A[d] + φ() * (u_A[d] - I_A[k].genes[d])  # 変異ベクトルを計算
         end
-        
-        u_CR = crossover(v_P, v_A)
 
-        population.individuals[i].genes = deepcopy(greedySelection(I_P[j].genes, u_CR, trial_P, i))
+        population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)  # 変異ベクトルv_Pとv_Aの評価を比較
+            greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
+        else
+            greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
+        end
     end
     
     print(".")
 
-    return population, archive
+    return population, archive  # 更新された個体群とアーカイブを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -150,54 +150,54 @@ function scout_bee(population::Population, archive::Archive)
     
     print(".")
     
-    if maximum(trial_P) > TC_LIMIT
+    if maximum(trial_P) > TC_LIMIT  # 試行回数が上限を超えた場合
         for i in 1:FOOD_SOURCE
-            if trial_P[i] > TC_LIMIT
-                gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW
-                gene_noised = noise(gene)
+            if trial_P[i] > TC_LIMIT  # 試行回数が上限を超えた場合
+                gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW  # 新しい遺伝子を生成
+                gene_noised = noise(gene)  # ノイズを加える
                 
-                population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))
-                trial_P[i] = 0
+                population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))  # 新しい個体を生成
+                trial_P[i] = 0  # 試行回数をリセット
                 
-                logger("INFO", "Scout bee found a new food source")
+                logger("INFO", "Scout bee found a new food source")  # 新しい食料源を発見したことをログに記録
             end
         end
 
-        if cvt_vorn_data_update <= cvt_vorn_data_update_limit
-            init_CVT(population)
+        if cvt_vorn_data_update <= cvt_vorn_data_update_limit  # ボロノイデータ更新回数が上限値以下の場合
+            init_CVT(population)  # CVTを初期化
             
-            new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())
-            archive     = deepcopy(cvt_mapping(population, new_archive))
-            trial_A     = zeros(Int, k_max)
+            new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())  # 新しいアーカイブを生成
+            archive     = deepcopy(cvt_mapping(population, new_archive))                               # アーカイブを更新
+            trial_A     = zeros(Int, k_max)                                                            # 試行回数カウンタをリセット
             
-            logger("INFO", "Recreate Voronoi diagram")
+            logger("INFO", "Recreate Voronoi diagram")  # ボロノイ図を再作成したことをログに記録
         end
     end
     
     print(".")
     
-    return population, archive
+    return population, archive  # 更新された個体群とアーカイブを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # ABC algorithm
 function ABC(population::Population, archive::Archive)
-    # Employee bee phase
+    # Employee bee phase | 収穫蜂フェーズ
     print("Employed bee phase ")
     population, archive = employed_bee(population, archive)
     println(". Done")
     
-    # Onlooker bee phase
+    # Onlooker bee phase | 追従蜂フェーズ
     print("Onlooker bee phase ")
     population, archive = onlooker_bee(population, archive)
     println(". Done")
 
-    # Scout bee phase
-    print("Scout    bee phase ")
+    # Scout bee phase | 偵察蜂フェーズ
+    print("Scout bee phase    ")
     population, archive = scout_bee(population, archive)
     println(". Done")
     
-    return population, archive
+    return population, archive  # 更新された個体群とアーカイブを返す
 end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
