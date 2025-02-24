@@ -23,3 +23,4 @@ RUN apt -y update && apt -y upgrade &&\
     rm -rf pkginstall.jl
 
 WORKDIR /root/${dir}
+COPY ./${dir}/*.jl /root/${dir}
