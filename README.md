@@ -1,6 +1,6 @@
 # ABC MAP-Elites
 
-## 品質多様性アルゴリズム ABC MEAP-Elitesについて
+## 品質多様性アルゴリズム ABC MAP-Elitesについて
 
 ## How to use this program
 
