@@ -7,7 +7,7 @@ using Distributions  # 分布関数
 using Random         # 乱数生成
 
 #----------------------------------------------------------------------------------------------------#
-　
+
 include("config.jl")     # 設定ファイル
 
 include("struct.jl")     # 構造体
@@ -20,10 +20,7 @@ include("logger.jl")     # ログ出力用のファイル
 
 #----------------------------------------------------------------------------------------------------#
 # Trial counter | Population
-trial_P = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ（個体群）
-
-# Trial counter | Archive
-trial_A = zeros(Int, k_max)        # 試行回数カウンタ（アーカイブ）
+trial = zeros(Int, FOOD_SOURCE)  # 試行回数カウンタ
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Uniform distribution | [-1, 1]
@@ -95,7 +92,7 @@ function employed_bee(population::Population, archive::Archive)
             v_P[d] = I_P[i].genes[d] + φ() * (I_P[i].genes[d] - I_P[j].genes[d])  # 変異ベクトルを計算
         end
         
-        population.individuals[i].genes = deepcopy(greedySelection(I_P[i].genes, v_P, trial_P, i))  # 貪欲選択を行う
+        population.individuals[i].genes = deepcopy(greedySelection(I_P[i].genes, v_P, trial, i))  # 貪欲選択を行う
     end
     
     print(".")
@@ -132,9 +129,9 @@ function onlooker_bee(population::Population, archive::Archive)
         end
 
         population.individuals[i].genes = if objective_function(v_P) < objective_function(v_A)  # 変異ベクトルv_Pとv_Aの評価を比較
-            greedySelection(I_P[i].genes, v_P, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
+            greedySelection(I_P[i].genes, v_P, trial, i)  # 個体I_P[i]と変異ベクトルv_Pとで貪欲選択を行う
         else
-            greedySelection(I_P[i].genes, v_A, trial_P, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
+            greedySelection(I_P[i].genes, v_A, trial, i)  # 個体I_P[i]と変異ベクトルv_Aとで貪欲選択を行う
         end
     end
     
@@ -146,18 +143,18 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 # Scout bee phase
 function scout_bee(population::Population, archive::Archive)
-    global trial_P, trial_A, cvt_vorn_data_update
+    global trial, cvt_vorn_data_update
     
     print(".")
     
-    if maximum(trial_P) > TC_LIMIT  # 試行回数が上限を超えた場合
+    if maximum(trial) > TC_LIMIT  # 試行回数が上限を超えた場合
         for i in 1:FOOD_SOURCE
-            if trial_P[i] > TC_LIMIT  # 試行回数が上限を超えた場合
+            if trial[i] > TC_LIMIT  # 試行回数が上限を超えた場合
                 gene        = rand(Float64, D) .* (UPP - LOW) .+ LOW  # 新しい遺伝子を生成
                 gene_noised = noise(gene)  # ノイズを加える
                 
                 population.individuals[i] = Individual(deepcopy(gene_noised), (objective_function(gene_noised), objective_function(gene)), devide_gene(gene_noised))  # 新しい個体を生成
-                trial_P[i] = 0  # 試行回数をリセット
+                trial[i] = 0  # 試行回数をリセット
                 
                 logger("INFO", "Scout bee found a new food source")  # 新しい食料源を発見したことをログに記録
             end
@@ -168,7 +165,6 @@ function scout_bee(population::Population, archive::Archive)
             
             new_archive = Archive(zeros(Int64, 0, 0), zeros(Int64, k_max), Dict{Int64, Individual}())  # 新しいアーカイブを生成
             archive     = deepcopy(cvt_mapping(population, new_archive))                               # アーカイブを更新
-            trial_A     = zeros(Int, k_max)                                                            # 試行回数カウンタをリセット
             
             logger("INFO", "Recreate Voronoi diagram")  # ボロノイ図を再作成したことをログに記録
         end
