@@ -59,27 +59,43 @@ const EPS       = 1e-6
 
 # Number of max time | Default: 100000
 const MAXTIME   = if ARGS[1] == "test"  # テストの場合
+
     1000
+
 elseif CONV_FLAG == false  # 収束フラグが偽の場合
+
     100000
+
 elseif OBJ_F == "sphere"
+
     # Sphere
     30000
+
 elseif OBJ_F == "rosenbrock"
+
     # Rosenbrock
     60000
+
 elseif OBJ_F == "rastrigin"
+
     # Rastrigin
     50000
+
 elseif OBJ_F == "griewank"
+
     # Griewank
     30000
+
 elseif OBJ_F == "ackley"
+
     # Ackley
     30000
+
 elseif OBJ_F == "schwefel"
+
     # Schwefel
     30000
+
 else
     println("Error: The objective function is not available.")  # エラーログに目的関数が無効であることを記録 -> 終了
 
@@ -120,21 +136,37 @@ const MUTANT_R  = 0.90
 # DE parameter
 # The crossover probability / The differentiation (mutation) scaling factor | Default: 0.80 / 0.90
 const CR, F = if METHOD != "de"
+
     [0.50, 0.00]
+
 elseif OBJ_F == "sphere"
+
     [0.20, 0.40]
+
 elseif OBJ_F == "rosenbrock"
+
     [0.70, 0.80]
+
 elseif OBJ_F == "rastrigin"
+
     [0.50, 0.60]
+
 elseif OBJ_F == "griewank"
+
     [0.40, 0.50]
+
 elseif OBJ_F == "ackley"
+    
     [0.20, 0.50]
+    
 elseif OBJ_F == "schwefel"
+
     [0.20, 0.50]
+
 else
+    
     [0.80, 0.90]
+
 end
 
 #----------------------------------------------------------------------------------------------------#
