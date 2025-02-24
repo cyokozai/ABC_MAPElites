@@ -91,29 +91,28 @@ end
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #       Run                                                                                          #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-main()  # メイン関数を実行
 
-# try
-#     global exit_code = 0
+try
+    global exit_code = 0
 
-#     logger("INFO", "Start")  # 開始ログを記録
-#     println("Start")         # 開始メッセージを出力
+    logger("INFO", "Start")  # 開始ログを記録
+    println("Start")         # 開始メッセージを出力
     
-#     main()  # メイン関数を実行
+    main()  # メイン関数を実行
 
-#     logger("INFO", "Success! :)")  # 成功ログを記録
-#     println("Success! :)")         # 成功メッセージを出力
-# catch e
-#     global exit_code = 1  # エラー発生時にexit_codeを1に設定
+    logger("INFO", "Success! :)")  # 成功ログを記録
+    println("Success! :)")         # 成功メッセージを出力
+catch e
+    global exit_code = 1  # エラー発生時にexit_codeを1に設定
 
-#     logger("ERROR", "An error occurred! :(\n$e")  # エラーログを記録
-#     println("An error occurred! :(\n$e")          # エラーメッセージを出力
-# finally
-#     logger("INFO", "Finish")  # 終了ログを記録
-#     println("Finish")         # 終了メッセージを出力
+    logger("ERROR", "An error occurred! :(\n$e")  # エラーログを記録
+    println("An error occurred! :(\n$e")          # エラーメッセージを出力
+finally
+    logger("INFO", "Finish")  # 終了ログを記録
+    println("Finish")         # 終了メッセージを出力
 
-#     exit(exit_code)  # プログラムを終了
-# end
+    exit(exit_code)  # プログラムを終了
+end
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                                                    #
