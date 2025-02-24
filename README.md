@@ -152,7 +152,6 @@
 
 - Open `./src/make-plot.jl`
 
-
 ### Sample graphs
 
 - `fitness-testdata.pdf`
